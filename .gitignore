@@ -7,3 +7,7 @@
 # Db backups
 data/db-backups/*
 !data/db-backups/.gitkeep
+
+# Src folder for project
+src/*
+!src/.gitkeep
