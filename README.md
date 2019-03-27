@@ -4,11 +4,9 @@
 * [Upload](#site-src) upload project files
 * [Check](#db-backups) db backup files
 * Install VirtualBox on you machine from. See [virtualbox.org](https://www.virtualbox.org/) for installation package.
-* Vagrant Box init wih ubuntu/trusty64 box. Before start vagrant check for box last version `vagrant box update`
-* Install plugin vagrant-vbguest `vagrant plugin install vagrant-vbguest`
+* Install plugin vagrant-vbguest `vagrant plugin install vagrant-vbguest` *temp
 * Run vagrant `vagrant up`
 * Add to hosts `192.168.56.123  vagrant-common.loc wwww.vagrant.loc`
-* Note! After installation complete [update](#update-db-links) db links.
 
 #### Site src
 * Copy project files and put it's to src folder
@@ -18,4 +16,11 @@
 * Create database backup and put it to `data/db-backups/` folder
 * Rename db backup file to `db.sql`
 
-
+### Useful Vagrant commands
+* Init new vagrant config -  `vagrant init`
+* Run vagrant machine -  `vagrant up`
+* Run vagrant machine with provision -  `vagrant up --provision`
+* Check box update - `vagrant box update`
+* Remove old version of vagrant boxes - `vagrant box prune`
+* Connect to vagrant machine via ssh - `vagrant ssh`
+* Remove vagrant machine - `vagrant destroy --force`
