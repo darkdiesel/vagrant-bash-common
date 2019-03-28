@@ -3,7 +3,7 @@
 . /lib/lsb/init-functions
 
 # only official box names
-VAGRANT_OS="ubuntu/trusty64"
+VAGRANT_OS="ubuntu/trusty"
 
 source /vagrant/settings.conf
 
@@ -38,3 +38,4 @@ source ${VAGRANT_SCRIPTS}/apache2.sh
 source ${VAGRANT_SCRIPTS}/nginx.sh
 
 # db
+source ${VAGRANT_SCRIPTS}/mariadb.${MARIADB_VERSION}.sh
