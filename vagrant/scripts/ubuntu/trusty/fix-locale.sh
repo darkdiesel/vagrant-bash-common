@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-. /lib/lsb/init-functions
-
-
 log_begin_msg "Fixing locale"
 sudo chmod 777 /etc/default/locale
 echo 'LANGUAGE=en_US.UTF-8' > /etc/default/locale

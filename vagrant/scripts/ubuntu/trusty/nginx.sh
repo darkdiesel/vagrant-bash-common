@@ -2,7 +2,7 @@
 
 if [ $(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     log_begin_msg "Installing nginx"
-    sudo apt-get install nginx -y > /dev/null
+    sudo apt-get install nginx -y > /dev/null 2>&1
 
     if [[ $? > 0 ]]; then
         log_end_msg 1
@@ -27,7 +27,7 @@ if [ -d "$MAIN_SITE_PATH" ]; then
 
     if [ ! -f "${VAGRANT_CONFIGS}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_bundle.crt" ]; then
         if [ ! -f "${VAGRANT_CONFIGS}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_private.key" ]; then
-            sudo openssl req -new -newkey rsa:1024 -nodes -keyout ${VAGRANT_CONFIGS}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_private.key -x509 -days 500 -subj /C=RU/ST=Grodno/L=Grodno/O=Companyname/OU=User/CN=${MAIN_SITE_DOMAIN}/emailAddress=admin@${MAIN_SITE_DOMAIN} -out ${VAGRANT_CONFIGS}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_bundle.crt > /dev/null
+            sudo openssl req -new -newkey rsa:1024 -nodes -keyout ${VAGRANT_CONFIGS}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_private.key -x509 -days 500 -subj /C=RU/ST=Grodno/L=Grodno/O=Companyname/OU=User/CN=${MAIN_SITE_DOMAIN}/emailAddress=admin@${MAIN_SITE_DOMAIN} -out ${VAGRANT_CONFIGS}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_bundle.crt > /dev/null 2>&1
         fi
     fi
 fi
@@ -35,17 +35,17 @@ log_end_msg 0
 
 
 log_action_msg "Remove nginx default hosts"
-sudo rm -rf /etc/nginx/sites-enabled/* > /dev/null
+sudo rm -rf /etc/nginx/sites-enabled/* > /dev/null 2>&1
 
 
 log_action_msg "Backup nginx config"
 if [ ! -f "/etc/nginx/nginx.conf.bak" ]; then
-    sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak > /dev/null
+    sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
 fi
 
 
 log_action_msg "Copy nginx configs"
-sudo cp -R ${VAGRANT_CONFIGS}/etc/nginx/* /etc/nginx/ > /dev/null
+sudo cp -R ${VAGRANT_CONFIGS}/etc/nginx/* /etc/nginx/
 
 
 log_begin_msg "Create links for nginx hosts"

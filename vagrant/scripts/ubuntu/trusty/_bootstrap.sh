@@ -39,3 +39,9 @@ source ${VAGRANT_SCRIPTS}/nginx.sh
 
 # db
 source ${VAGRANT_SCRIPTS}/mariadb.${MARIADB_VERSION}.sh
+source ${VAGRANT_SCRIPTS}/db-setup.sh
+
+source ${VAGRANT_SCRIPTS}/php5.sh
+source ${VAGRANT_SCRIPTS}/sendmail.sh
+source ${VAGRANT_SCRIPTS}/phpmyadmin.sh
+source ${VAGRANT_SCRIPTS}/mailcatcher.sh
