@@ -20,10 +20,10 @@ Check [Vagrant settings](#vagrant-settings) section for more detail of each para
 * Run vagrant `vagrant up`
 * Add to hosts `192.168.56.123  vagrant-common.loc wwww.vagrant-common.loc`
 
-## Site src
+## Where put site sources?
 * Copy project files and put it's to `./src` folder
 
-## Db backups
+## Where put db backups files?
 * db backup files ignored by git 
 * Create database backup and put it to `./data/db-backups/` folder
 * Rename db backup file to *`db.sql`*
