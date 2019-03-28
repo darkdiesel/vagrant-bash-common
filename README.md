@@ -5,7 +5,7 @@
 - [Useful Vagrant commands](#useful-vagrant-commands)
 
 ## Install
-* [Upload](#site-src) upload project files
+* [Upload](#site-src) project files
 * [Put](#db-backups) db backup files
 * Install VirtualBox on you machine from. See [virtualbox.org](https://www.virtualbox.org/) for installation package.
 * Install plugin vagrant-vbguest `vagrant plugin install vagrant-vbguest` *temp
@@ -13,11 +13,11 @@
 * Add to hosts `192.168.56.123  vagrant-common.loc wwww.vagrant-common.loc`
 
 ## Site src
-* Copy project files and put it's to src folder
+* Copy project files and put it's to `./src` folder
 
 ## Db backups
 * db backup files ignored by git 
-* Create database backup and put it to `data/db-backups/` folder
+* Create database backup and put it to `./data/db-backups/` folder
 * Rename db backup file to `db.sql`
 
 ## Useful vagrant commands
