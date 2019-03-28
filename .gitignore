@@ -4,8 +4,8 @@
 # Vagrant Files
 .vagrant
 
-vagrant/configs/etc/nginx/ssl/*
-!vagrant/configs/etc/nginx/ssl/.gitkeep
+vagrant/configs/**/etc/nginx/ssl/*
+!vagrant/configs/**/etc/nginx/ssl/.gitkeep
 
 # Db backups
 data/db-backups/*

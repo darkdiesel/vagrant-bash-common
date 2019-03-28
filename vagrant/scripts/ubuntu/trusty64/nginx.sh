@@ -16,12 +16,11 @@ else
 fi
 
 log_begin_msg "Generate ssl certs for nginx"
-
 if [ ! -d /etc/nginx/ssl ]; then
     sudo mkdir /etc/nginx/ssl
 fi
 
-if [ -d "$MAIN_SITE_DIR" ]; then
+if [ -d "$MAIN_SITE_PATH" ]; then
     if [ ! -d ${VAGRANT_CONFIGS}"/etc/nginx/ssl" ]; then
         sudo mkdir ${VAGRANT_CONFIGS}/etc/nginx/ssl
     fi
@@ -32,21 +31,28 @@ if [ -d "$MAIN_SITE_DIR" ]; then
         fi
     fi
 fi
-
 log_end_msg 0
 
 
-log_begin_msg "Remove nginx default hosts"
+log_action_msg "Remove nginx default hosts"
 sudo rm -rf /etc/nginx/sites-enabled/* > /dev/null
-log_end_msg 0
 
 
-log_begin_msg "Copy nginx configs"
+log_action_msg "Backup nginx config"
+if [ ! -f "/etc/nginx/nginx.conf.bak" ]; then
+    sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak > /dev/null
+fi
+
+
+log_action_msg "Copy nginx configs"
 sudo cp -R ${VAGRANT_CONFIGS}/etc/nginx/* /etc/nginx/ > /dev/null
-log_end_msg 0
+
 
 log_begin_msg "Create links for nginx hosts"
-if [ -d "$MAIN_SITE_DIR" ]; then
+if [ -d "$MAIN_SITE_PATH" ]; then
+    sudo cp /etc/nginx/sites-available/vagrant-site-ssl.conf /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
+    sudo sed -i "s,{SITE_DOMAIN},${MAIN_SITE_DOMAIN},g" /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
+    sudo sed -i "s,{SITE_DIR},${MAIN_SITE_DIR},g" /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
     sudo ln -s /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf /etc/nginx/sites-enabled/ > /dev/null
 fi
 log_end_msg 0

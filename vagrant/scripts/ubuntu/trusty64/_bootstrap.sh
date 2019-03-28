@@ -2,6 +2,9 @@
 
 . /lib/lsb/init-functions
 
+# only official box names
+VAGRANT_OS="ubuntu/trusty64"
+
 source /vagrant/settings.conf
 
 log_begin_msg "Update packages"
@@ -30,7 +33,8 @@ source ${VAGRANT_SCRIPTS}/htop.sh
 source ${VAGRANT_SCRIPTS}/git.sh
 source ${VAGRANT_SCRIPTS}/vim.sh
 
-# web server
+# web servers
+source ${VAGRANT_SCRIPTS}/apache2.sh
 source ${VAGRANT_SCRIPTS}/nginx.sh
 
 # db

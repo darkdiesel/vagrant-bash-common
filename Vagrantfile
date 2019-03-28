@@ -5,6 +5,9 @@ VAGRANTFILE_API_VERSION = "2"
 
 OS_BOX = "ubuntu/trusty64"
 
+# Official OS name. used for locate correspond scripts for operation system
+OFF_OS_NAME = "ubuntu/trusty64"
+
 MACHINE_IP = "192.168.56.123"
 
 OS_NAME = "vagrant-ubuntu-14"
@@ -106,7 +109,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #   apt-get install -y apache2
   # SHELL
   
-  config.vm.provision "shell", path: "./vagrant/bootstrap.sh"
+  config.vm.provision "shell", path: "./vagrant/scripts/"+OFF_OS_NAME+"/_bootstrap.sh"
 
   # Start mailcatcher service when vagrant machine started
   # config.vm.provision "shell", inline: '/usr/bin/env mailcatcher --http-ip=0.0.0.0', privileged: false, run: "always"
