@@ -1,17 +1,21 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+require 'yaml'
+
+settings = YAML.load_file 'settings.yml'
+
 VAGRANTFILE_API_VERSION = "2"
 
-OS_BOX = "ubuntu/trusty64"
+OS_BOX = settings['vagrant']['box']
 
 # Official OS name. used for locate correspond scripts for operation system
-OFF_OS_NAME = "ubuntu/trusty64"
+OFF_OS_NAME =  settings['vagrant']['os_name']
 
-MACHINE_IP = "192.168.56.123"
+MACHINE_IP = settings['vagrant']['ip']
 
-OS_NAME = "vagrant-ubuntu-14"
-MACHINE_NAME = "vagrant-common.loc"
+OS_NAME = settings['project']['os_name']
+MACHINE_NAME = settings['project']['main_domain']
 BASE_DOMAIN = "vagrant.dev"
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure

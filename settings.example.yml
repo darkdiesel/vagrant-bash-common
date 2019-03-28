@@ -1,0 +1,7 @@
+vagrant:
+  box: ubuntu/trusty64
+  os_name: ubuntu/trusty
+  ip: 192.168.56.2
+project:
+  main_domain: vagrant-common.loc
+  os_name: vagrant-ubuntu-14
