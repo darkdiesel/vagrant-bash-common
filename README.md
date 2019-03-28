@@ -18,6 +18,7 @@ Check [Vagrant settings](#vagrant-settings) section for more detail of each para
 * Install VirtualBox on you machine from. See [virtualbox.org](https://www.virtualbox.org/) for installation package.
 * Install plugin vagrant-vbguest `vagrant plugin install vagrant-vbguest` *temp
 * Run vagrant `vagrant up`
+* Required plugins should be installed automatically. If not check [vagrant plugins requirements](#vagrant-plugins-requirements) section
 * Add to hosts `192.168.56.123  vagrant-common.loc wwww.vagrant-common.loc`
 
 ## Where put site sources?
@@ -47,6 +48,10 @@ project:
 - **`project`**: 
     - **`main_domain`**: Main domain of project
     - **`os_name`**: Operation system name. Used for naming folder of machine in *.vagrant/machines* directory
+
+## Vagrant plugins requirements
+Required plugins should be installed automatically. If not run manually command `vagrant plugin install <plugin name>` for each next plugins:
+ - [vagrant-hostmanager](https://github.com/devopsgroup-io/vagrant-hostmanager)
 
 ## Useful vagrant commands
 * Init new vagrant config -  `vagrant init`

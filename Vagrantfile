@@ -10,13 +10,17 @@ VAGRANTFILE_API_VERSION = "2"
 OS_BOX = settings['vagrant']['box']
 
 # Official OS name. used for locate correspond scripts for operation system
-OFF_OS_NAME =  settings['vagrant']['os_name']
+OS_NAME =  settings['vagrant']['os_name']
 
 MACHINE_IP = settings['vagrant']['ip']
 
-OS_NAME = settings['project']['os_name']
 MACHINE_NAME = settings['project']['main_domain']
-BASE_DOMAIN = "vagrant.dev"
+BASE_DOMAIN = "vagrant"
+
+required_plugins = %w( vagrant-hostmanager )
+required_plugins.each do |plugin|
+  system "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
+end
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -86,23 +90,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # View the documentation for the provider you are using for more
   # information on available options.
 
-    config.vm.define MACHINE_NAME + "." + OS_NAME do |machine|
+  config.vm.define MACHINE_NAME + "." + BASE_DOMAIN do |machine|
+    machine.vm.hostname = MACHINE_NAME
 
-      machine.vm.hostname = MACHINE_NAME + "." + BASE_DOMAIN
+    machine.vm.provider "virtualbox" do |vb|
+      # Display the VirtualBox GUI when booting the machine
+      vb.gui = true
 
-      machine.vm.provider "virtualbox" do |vb|
-        # Display the VirtualBox GUI when booting the machine
-        vb.gui = true
+      # Customize the amount of memory on the VM:
+      vb.memory = "1024"
 
-        # Customize the amount of memory on the VM:
-        vb.memory = "1024"
+      # Vagrant Machine Name
+      vb.name = MACHINE_NAME + "." + BASE_DOMAIN
 
-        # Vagrant Machine Name
-        vb.name = MACHINE_NAME + "." + BASE_DOMAIN
-
-        vb.customize ["modifyvm", :id, "--memory", "1024"]
-        vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-      end
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+      vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    end
   end
 
   # Enable provisioning with a shell script. Additional provisioners such as
@@ -113,8 +116,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #   apt-get install -y apache2
   # SHELL
   
-  config.vm.provision "shell", path: "./vagrant/scripts/"+OFF_OS_NAME+"/_bootstrap.sh"
+  config.vm.provision "shell", path: "./vagrant/scripts/"+OS_NAME+"/_bootstrap.sh"
 
   # Start mailcatcher service when vagrant machine started
   # config.vm.provision "shell", inline: '/usr/bin/env mailcatcher --http-ip=0.0.0.0', privileged: false, run: "always"
+
+  # vagrant hostmanager plugin
+  if Vagrant.has_plugin?("vagrant-hostmanager")
+    config.hostmanager.enabled = true
+    config.hostmanager.manage_host = true
+    config.hostmanager.manage_guest = false
+    config.hostmanager.ignore_private_ip = false
+    config.hostmanager.include_offline = true
+    config.hostmanager.aliases = ["www.#{MACHINE_NAME}", "pma.#{MACHINE_NAME}", "mailcatcher.#{MACHINE_NAME}"]
+  else
+    raise 'some-plugin is not installed!'
+  end
 end
