@@ -34,20 +34,18 @@ Detail list of vagrant configuration file. **settings.example.yml**:
 ```yml
 vagrant:
   box: ubuntu/trusty64
-  os_name: ubuntu/trusty
+  os: ubuntu/trusty
   ip: 192.168.56.2
 project:
   main_domain: vagrant-common.loc
-  os_name: vagrant-ubuntu-14
 ```
 
 - **`vagrant`**: section for vagrant settings
     - **`box`**: Vagrant box name. Visit [public catalog of Vagrant boxes](https://app.vagrantup.com/boxes/search) to find more boxes.
-    - **`os_name`**: Official operation system name. Format: *`<linux distribution name>/<release code name>`*.
+    - **`os`**: Official operation system name. Format: *`<linux distribution name>/<release code name>`*.
     - **`ip`**: Ip address of vagrant machine
 - **`project`**: 
     - **`main_domain`**: Main domain of project
-    - **`os_name`**: Operation system name. Used for naming folder of machine in *.vagrant/machines* directory
 
 ## Vagrant plugins requirements
 Required plugins should be installed automatically. If not run manually command `vagrant plugin install <plugin name>` for each next plugins:
