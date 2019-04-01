@@ -27,7 +27,7 @@ fi
 
 
 log_action_msg "Copping apache2 configs"
-sudo cp -R ${VAGRANT_CONFIGS}/etc/apache2/* /etc/apache2/ > /dev/null 2>&1
+sudo cp -R ${VAGRANT_OS_CONFIGS_DIR}/etc/apache2/* /etc/apache2/ > /dev/null 2>&1
 
 
 log_action_msg "Creating links for apache2 hosts"

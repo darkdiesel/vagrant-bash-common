@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-source ${VAGRANT_SCRIPTS}/build-essential.sh
-source ${VAGRANT_SCRIPTS}/ruby-dev.sh
-source ${VAGRANT_SCRIPTS}/sqlite3.sh
-source ${VAGRANT_SCRIPTS}/libsqlite3-dev.sh
+source ${VAGRANT_OS_SCRIPTS_DIR}/build-essential.sh
+source ${VAGRANT_OS_SCRIPTS_DIR}/ruby-dev.sh
+source ${VAGRANT_OS_SCRIPTS_DIR}/sqlite3.sh
+source ${VAGRANT_OS_SCRIPTS_DIR}/libsqlite3-dev.sh
 
 log_begin_msg "Installing mailcatcher and gems for ruby"
 

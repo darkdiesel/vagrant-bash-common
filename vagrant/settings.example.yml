@@ -1,0 +1,6 @@
+VAGRANT:
+  BOX: ubuntu/trusty64
+  OS: ubuntu/trusty
+  IP: 192.168.56.2
+MAIN_SITE:
+  DOMAIN: vagrant-common.loc

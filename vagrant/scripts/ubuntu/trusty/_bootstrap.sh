@@ -2,46 +2,56 @@
 
 . /lib/lsb/init-functions
 
-# only official box names
-VAGRANT_OS="ubuntu/trusty"
+source /vagrant/configs/constants.conf
 
-source /vagrant/settings.conf
+source ${VAGRANT_SCRIPTS_DIR}/variables.sh
 
 log_begin_msg "Update packages"
 sudo apt-get update > /dev/null 2>&1
 log_end_msg 0
 
-source ${VAGRANT_SCRIPTS}/dos2unix.sh
+source ${VAGRANT_OS_SCRIPTS_DIR}/dos2unix.sh
 
-log_begin_msg "Update privileges for scripts"
-sudo chmod +x ${VAGRANT_SCRIPTS}/*.sh
-log_end_msg 0
-
-log_begin_msg "Convert to unix format scripts"
-sudo dos2unix ${VAGRANT_FOLDER}/bootstrap.sh  > /dev/null 2>&1
-sudo dos2unix ${VAGRANT_SCRIPTS}/*.sh  > /dev/null 2>&1
-log_end_msg 0
-
-log_begin_msg "Convert to unix format configs"
-sudo find ${VAGRANT_CONFIGS} -type f -print0 | sudo xargs -0 dos2unix > /dev/null 2>&1
+log_begin_msg "Convert files to unix format"
+sudo find ${VAGRANT_DIR} -type f -print0 | sudo xargs -0 dos2unix > /dev/null 2>&1
 log_end_msg 0
 
 # run scripts
-source ${VAGRANT_SCRIPTS}/fix-locale.sh
-source ${VAGRANT_SCRIPTS}/mc.sh
-source ${VAGRANT_SCRIPTS}/htop.sh
-source ${VAGRANT_SCRIPTS}/git.sh
-source ${VAGRANT_SCRIPTS}/vim.sh
+source ${VAGRANT_OS_SCRIPTS_DIR}/fix-locale.sh
+if [ "PACKAGES_MC" == "YES" ]; then
+    source ${VAGRANT_OS_SCRIPTS_DIR}/mc.sh
+fi
+
+if [ "PACKAGES_HTOP" == "YES" ]; then
+    source ${VAGRANT_OS_SCRIPTS_DIR}/htop.sh
+fi
+
+if [ "PACKAGES_GIT" == "YES" ]; then
+    source ${VAGRANT_OS_SCRIPTS_DIR}/git.sh
+fi
+
+if [ "PACKAGES_VIM" == "YES" ]; then
+    source ${VAGRANT_OS_SCRIPTS_DIR}/vim.sh
+fi
 
 # web servers
-source ${VAGRANT_SCRIPTS}/apache2.sh
-source ${VAGRANT_SCRIPTS}/nginx.sh
+source ${VAGRANT_OS_SCRIPTS_DIR}/apache2.sh
+source ${VAGRANT_OS_SCRIPTS_DIR}/nginx.sh
 
 # db
-source ${VAGRANT_SCRIPTS}/mariadb.${MARIADB_VERSION}.sh
-source ${VAGRANT_SCRIPTS}/db-setup.sh
+source ${VAGRANT_OS_SCRIPTS_DIR}/mariadb.${DB_MARIADB_VERSION}.sh
+source ${VAGRANT_OS_SCRIPTS_DIR}/db-setup.sh
 
-source ${VAGRANT_SCRIPTS}/php5.sh
-source ${VAGRANT_SCRIPTS}/sendmail.sh
-source ${VAGRANT_SCRIPTS}/phpmyadmin.sh
-source ${VAGRANT_SCRIPTS}/mailcatcher.sh
+source ${VAGRANT_OS_SCRIPTS_DIR}/php5.sh
+
+if [ "PACKAGES_SENDMAIL" == "YES" ]; then
+    source ${VAGRANT_OS_SCRIPTS_DIR}/sendmail.sh
+fi
+
+if [ "PACKAGES_PHPMYADMIN" == "YES" ]; then
+    source ${VAGRANT_OS_SCRIPTS_DIR}/phpmyadmin.sh
+fi
+
+if [ "PACKAGES_MAILCATCHER" == "YES" ]; then
+    source ${VAGRANT_OS_SCRIPTS_DIR}/mailcatcher.sh
+fi

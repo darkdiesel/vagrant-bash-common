@@ -1,20 +1,26 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Load settings from yml configs
 require 'yaml'
 
-settings = YAML.load_file 'settings.yml'
+settings = YAML.load_file './vagrant/default.yml'
+
+if File.exist?("./vagrant/settings.yml")
+  user_settings = YAML.load_file './vagrant/settings.yml'
+  settings.merge!(user_settings)
+end
 
 VAGRANTFILE_API_VERSION = "2"
 
-OS_BOX = settings['vagrant']['box']
+OS_BOX = settings['VAGRANT']['BOX']
 
 # Official OS name. used for locate correspond scripts for operation system
-OS_NAME =  settings['vagrant']['os']
+OS_NAME =  settings['VAGRANT']['OS']
 
-MACHINE_IP = settings['vagrant']['ip']
+MACHINE_IP = settings['VAGRANT']['IP']
 
-MACHINE_NAME = settings['project']['main_domain']
+MACHINE_NAME = settings['MAIN_SITE']['DOMAIN']
 BASE_DOMAIN = "vagrant"
 
 required_plugins = %w( vagrant-hostmanager )

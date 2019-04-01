@@ -2,7 +2,6 @@
 
 . /lib/lsb/init-functions
 
-# only official box names
-VAGRANT_OS="ubuntu/bionic"
+source /vagrant/configs/constants.conf
 
-source /vagrant/settings.conf
+source ${VAGRANT_SCRIPTS_DIR}/variables.sh

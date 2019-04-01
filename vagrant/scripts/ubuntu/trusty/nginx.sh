@@ -21,13 +21,13 @@ if [ ! -d /etc/nginx/ssl ]; then
 fi
 
 if [ -d "$MAIN_SITE_PATH" ]; then
-    if [ ! -d ${VAGRANT_CONFIGS}"/etc/nginx/ssl" ]; then
-        sudo mkdir ${VAGRANT_CONFIGS}/etc/nginx/ssl
+    if [ ! -d ${VAGRANT_OS_CONFIGS_DIR}"/etc/nginx/ssl" ]; then
+        sudo mkdir ${VAGRANT_OS_CONFIGS_DIR}/etc/nginx/ssl
     fi
 
-    if [ ! -f "${VAGRANT_CONFIGS}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_bundle.crt" ]; then
-        if [ ! -f "${VAGRANT_CONFIGS}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_private.key" ]; then
-            sudo openssl req -new -newkey rsa:1024 -nodes -keyout ${VAGRANT_CONFIGS}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_private.key -x509 -days 500 -subj /C=RU/ST=Grodno/L=Grodno/O=Companyname/OU=User/CN=${MAIN_SITE_DOMAIN}/emailAddress=admin@${MAIN_SITE_DOMAIN} -out ${VAGRANT_CONFIGS}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_bundle.crt > /dev/null 2>&1
+    if [ ! -f "${VAGRANT_OS_CONFIGS_DIR}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_bundle.crt" ]; then
+        if [ ! -f "${VAGRANT_OS_CONFIGS_DIR}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_private.key" ]; then
+            sudo openssl req -new -newkey rsa:1024 -nodes -keyout ${VAGRANT_OS_CONFIGS_DIR}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_private.key -x509 -days 500 -subj /C=RU/ST=Grodno/L=Grodno/O=Companyname/OU=User/CN=${MAIN_SITE_DOMAIN}/emailAddress=admin@${MAIN_SITE_DOMAIN} -out ${VAGRANT_OS_CONFIGS_DIR}/etc/nginx/ssl/${MAIN_SITE_DOMAIN}_bundle.crt > /dev/null 2>&1
         fi
     fi
 fi
@@ -45,7 +45,7 @@ fi
 
 
 log_action_msg "Copy nginx configs"
-sudo cp -R ${VAGRANT_CONFIGS}/etc/nginx/* /etc/nginx/
+sudo cp -R ${VAGRANT_OS_CONFIGS_DIR}/etc/nginx/* /etc/nginx/
 
 
 log_begin_msg "Create links for nginx hosts"

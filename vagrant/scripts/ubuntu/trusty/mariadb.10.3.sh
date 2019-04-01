@@ -2,7 +2,7 @@
 
 MARIADB_LIST="mariadb.list"
 MARIADB_APT_SOURCE_LIST="/etc/apt/sources.list.d/"${MARIADB_LIST}
-VAGRANT_APT_SOURCE=${VAGRANT_CONFIGS}"/etc/apt/sources.list.d/mariadb.10.3.list"
+VAGRANT_APT_SOURCE=${VAGRANT_OS_CONFIGS_DIR}"/etc/apt/sources.list.d/mariadb.10.3.list"
 
 log_begin_msg "Adding mariadb sources list"
 if [ -f $MARIADB_APT_SOURCE_LIST ]; then
@@ -25,8 +25,8 @@ log_end_msg 0
 
 log_action_msg "Installing additional required packages"
 
-source ${VAGRANT_SCRIPTS}/software-properties-common.sh
-#source ${VAGRANT_SCRIPTS}/dirmngr.sh
+source ${VAGRANT_OS_SCRIPTS_DIR}/software-properties-common.sh
+#source ${VAGRANT_OS_SCRIPTS_DIR}/dirmngr.sh
 
 log_begin_msg "Adding mariadb key"
 sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db > /dev/null 2>&1

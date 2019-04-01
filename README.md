@@ -8,7 +8,7 @@
 
 ## Setup
 Before running vagrant machine create  config file.
-Create a copy of the file`settings.example.yml` and put near `Vagrantfile` with `settings.yml` name.
+Create a copy of the file`./vagrant/settings.example.yml` and put in `vagrant` folder with `settings.yml` name.
 
 Check [Vagrant settings](#vagrant-settings) section for more detail of each param.
 
@@ -32,20 +32,20 @@ Check [Vagrant settings](#vagrant-settings) section for more detail of each para
 ## Vagrant settings
 Detail list of vagrant configuration file. **settings.example.yml**:
 ```yml
-vagrant:
-  box: ubuntu/trusty64
-  os: ubuntu/trusty
-  ip: 192.168.56.2
-project:
-  main_domain: vagrant-common.loc
+VAGRANT:
+  BOX: ubuntu/trusty64
+  OS: ubuntu/trusty
+  IP: 192.168.56.2
+MAIN_SITE:
+  DOMAIN: vagrant-common.loc
 ```
 
-- **`vagrant`**: section for vagrant settings
-    - **`box`**: Vagrant box name. Visit [public catalog of Vagrant boxes](https://app.vagrantup.com/boxes/search) to find more boxes.
-    - **`os`**: Official operation system name. Format: *`<linux distribution name>/<release code name>`*.
-    - **`ip`**: Ip address of vagrant machine
-- **`project`**: 
-    - **`main_domain`**: Main domain of project
+- **`VAGRANT`**: section for vagrant settings
+    - **`BOX`**: Vagrant box name. Visit [public catalog of Vagrant boxes](https://app.vagrantup.com/boxes/search) to find more boxes.
+    - **`OS`**: Official operation system name. Format: *`<linux distribution name>/<release code name>`*.
+    - **`IP`**: Ip address of vagrant machine
+- **`MAIN_SITE`**: 
+    - **`DOMAIN`**: Main domain of project
 
 ## Vagrant plugins requirements
 Required plugins should be installed automatically. If not - run manually installation by command `vagrant plugin install <plugin name>` for each of next plugins:

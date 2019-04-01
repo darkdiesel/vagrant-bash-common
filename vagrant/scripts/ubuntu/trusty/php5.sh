@@ -6,7 +6,7 @@ log_end_msg 0
 
 
 log_action_msg "Copping php5 configs"
-sudo cp -R ${VAGRANT_CONFIGS}/etc/php5/* /etc/php5/ > /dev/null 2>&1
+sudo cp -R ${VAGRANT_OS_CONFIGS_DIR}/etc/php5/* /etc/php5/ > /dev/null 2>&1
 
 
 if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
