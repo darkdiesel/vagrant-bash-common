@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
 
-. /lib/lsb/init-functions
-
 source /vagrant/configs/constants.conf
-
-source ${VAGRANT_SCRIPTS_DIR}/variables.sh
+source ${VAGRANT_UBUNTU_COMMON_SCRIPTS_PATH}/_bootstrap.sh

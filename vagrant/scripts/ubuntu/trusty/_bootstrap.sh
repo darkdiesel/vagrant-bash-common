@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 
-. /lib/lsb/init-functions
-
 source /vagrant/configs/constants.conf
-
-source ${VAGRANT_SCRIPTS_DIR}/variables.sh
+source ${VAGRANT_UBUNTU_COMMON_SCRIPTS_PATH}/_bootstrap.sh
 
 log_begin_msg "Update packages"
 sudo apt-get update > /dev/null 2>&1
@@ -13,11 +10,12 @@ log_end_msg 0
 source ${VAGRANT_OS_SCRIPTS_DIR}/dos2unix.sh
 
 log_begin_msg "Convert files to unix format"
-sudo find ${VAGRANT_DIR} -type f -print0 | sudo xargs -0 dos2unix > /dev/null 2>&1
+sudo find ${VAGRANT_PATH} -type f -print0 | sudo xargs -0 dos2unix > /dev/null 2>&1
 log_end_msg 0
 
 # run scripts
 source ${VAGRANT_OS_SCRIPTS_DIR}/fix-locale.sh
+
 if [ "PACKAGES_MC" == "YES" ]; then
     source ${VAGRANT_OS_SCRIPTS_DIR}/mc.sh
 fi
@@ -43,6 +41,10 @@ source ${VAGRANT_OS_SCRIPTS_DIR}/mariadb.${DB_MARIADB_VERSION}.sh
 source ${VAGRANT_OS_SCRIPTS_DIR}/db-setup.sh
 
 source ${VAGRANT_OS_SCRIPTS_DIR}/php5.sh
+
+if [ "PACKAGES_COMPOSER" == "YES" ]; then
+    source ${VAGRANT_OS_SCRIPTS_DIR}/composer.sh
+fi
 
 if [ "PACKAGES_SENDMAIL" == "YES" ]; then
     source ${VAGRANT_OS_SCRIPTS_DIR}/sendmail.sh

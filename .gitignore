@@ -4,8 +4,8 @@
 # Vagrant Files
 .vagrant
 
-vagrant/configs/**/etc/nginx/ssl/*
-!vagrant/configs/**/etc/nginx/ssl/.gitkeep
+vagrant/configs/ubuntu/common/etc/nginx/ssl/*
+!vagrant/configs/ubuntu/common/etc/nginx/ssl/.gitkeep
 
 # Vagrant configuration
 vagrant/settings.yml
