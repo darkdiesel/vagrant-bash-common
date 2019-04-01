@@ -48,7 +48,7 @@ project:
     - **`main_domain`**: Main domain of project
 
 ## Vagrant plugins requirements
-Required plugins should be installed automatically. If not run manually command `vagrant plugin install <plugin name>` for each next plugins:
+Required plugins should be installed automatically. If not - run manually installation by command `vagrant plugin install <plugin name>` for each of next plugins:
  - [vagrant-hostmanager](https://github.com/devopsgroup-io/vagrant-hostmanager)
 
 ## Useful vagrant commands
