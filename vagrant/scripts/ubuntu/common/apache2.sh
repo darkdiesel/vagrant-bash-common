@@ -2,7 +2,7 @@
 
 if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     log_begin_msg "Installing apache2"
-    sudo apt-get update > /dev/null 2>&1 && sudo apt-get install -y apache2 > /dev/null 2>&1
+    sudo apt-get install -y apache2 > /dev/null 2>&1
 
     if [[ $? > 0 ]]; then
         log_end_msg 1

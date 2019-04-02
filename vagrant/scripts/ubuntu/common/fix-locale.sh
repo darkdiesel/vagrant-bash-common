@@ -2,7 +2,7 @@
 
 log_begin_msg "Fixing locale"
 sudo chmod 777 /etc/default/locale
-echo 'LANGUAGE=en_US.UTF-8' > /etc/default/locale
+echo 'LANGUAGE=en_US.UTF-8' >> /etc/default/locale
 echo 'LC_ALL=en_US.UTF-8' >> /etc/default/locale
 echo 'LANG=en_US.UTF-8' >> /etc/default/locale
 echo 'LC_TYPE=en_US.UTF-8' >> /etc/default/locale

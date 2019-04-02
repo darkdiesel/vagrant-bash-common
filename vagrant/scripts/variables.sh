@@ -17,7 +17,7 @@ function parse_yaml {
    }'
 }
 
-eval $(parse_yaml ${VAGRANT_PATH}/default.yml)
+eval $(parse_yaml /vagrant/default.yml)
 
 if [ -f "${VAGRANT_PATH}/settings.yml" ]; then
     eval $(parse_yaml ${VAGRANT_PATH}/settings.yml)

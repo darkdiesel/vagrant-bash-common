@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 
+source ${VAGRANT_OS_SCRIPTS_PATH}/zip.sh
+source ${VAGRANT_OS_SCRIPTS_PATH}/unzip.sh
 
-apt-get install zip unzip -y > /dev/null 2>&1
+log_begin_msg "Installing drush via composer"
+sudo -H -u vagrant bash -c 'composer global require drush/drush' > /dev/null 2>&1
+log_end_msg 0
 
-composer global require drush/drush > /dev/null 2>&1
+sudo chmod 777 /home/vagrant/.bashrc
 
-sudo chmod 777 /etc/default/locale
+log_begin_msg "Update .bashrc with drush path"
+sudo echo '#path for Drush' >> /home/vagrant/.bashrc
+sudo echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> /home/vagrant/.bashrc
+log_end_msg 0
 
-
-echo "#path for Drush\nexport PATH='$HOME/.composer/vendor/bin:$PAT'\n" > ~/.bashrc
+source .bashrc > /dev/null 2>&1

@@ -41,7 +41,7 @@ MAIN_SITE:
 ```
 
 - **`VAGRANT`**: section for vagrant settings
-    - **`BOX`**: Vagrant box name. Visit [public catalog of Vagrant boxes](https://app.vagrantup.com/boxes/search) to find more boxes.
+    - **`BOX`**: Vagrant box name. Visit [public catalog of Vagrant boxes](https://app.vagrantup.com/boxes/search) to find more boxes. Check [Supported OS](#supported-os) section for find supporting boxes.
     - **`OS`**: Official operation system name. Format: *`<linux distribution name>/<release code name>`*.
     - **`IP`**: Ip address of vagrant machine
 - **`MAIN_SITE`**: 
@@ -59,3 +59,7 @@ Required plugins should be installed automatically. If not - run manually instal
 * Remove old version of vagrant boxes - `vagrant box prune`
 * Connect to vagrant machine via ssh - `vagrant ssh`
 * Remove vagrant machine - `vagrant destroy --force`
+
+## Supported OS
+* ubuntu/trusty
+* ubuntu/bionic

@@ -2,4 +2,4 @@
 
 . /lib/lsb/init-functions
 
-source ${VAGRANT_SCRIPTS_PATH}/variables.sh
+source /vagrant/scripts/variables.sh
