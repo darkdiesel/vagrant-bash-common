@@ -1,0 +1,4 @@
+# MariaDB 10.2 repository list - created 2018-04-24 09:43 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+deb [arch=amd64,i386] http://mirrors.nav.ro/mariadb/repo/10.2/ubuntu trusty main
+deb-src http://mirrors.nav.ro/mariadb/repo/10.2/ubuntu trusty main

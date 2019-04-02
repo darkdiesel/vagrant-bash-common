@@ -1,0 +1,4 @@
+# MariaDB 10.2 repository list - created 2019-04-02 11:58 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+deb [arch=amd64,arm64,ppc64el] http://mirror.hosting90.cz/mariadb/repo/10.2/ubuntu bionic main
+deb-src http://mirror.hosting90.cz/mariadb/repo/10.2/ubuntu bionic main

@@ -1,0 +1,4 @@
+# MariaDB 10.3 repository list - created 2019-03-28 11:31 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+deb [arch=amd64,i386,ppc64el] http://mirror.hosting90.cz/mariadb/repo/10.3/ubuntu trusty main
+deb-src http://mirror.hosting90.cz/mariadb/repo/10.3/ubuntu trusty main
