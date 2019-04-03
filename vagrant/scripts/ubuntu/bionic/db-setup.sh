@@ -34,7 +34,7 @@ fi
 log_action_msg "Create DBs User"
 
 if [ -d "$MAIN_SITE_PATH" ] && [ "$DB_MAIN_EXIST" == "NO" ]; then
-    sudo mysql -u$DB_USER -p$DB_PASS -e 'CREATE USER "'$DB_MAIN_USER'"@"localhost" IDENTIFIED BY "'$DB_MAIN_USER_PASS'";'
+    sudo mysql -u$DB_USER -p$DB_PASS -e 'CREATE USER "'$DB_MAIN_USER'"@"localhost" IDENTIFIED BY "'$DB_MAIN_PASS'";'
     sudo mysql -u$DB_USER -p$DB_PASS -e 'GRANT ALL PRIVILEGES ON `'$DB_MAIN_NAME'`.* TO "'$DB_MAIN_USER'"@"localhost";'
 
     log_success_msg "User for DB $DB_MAIN_NAME created"
