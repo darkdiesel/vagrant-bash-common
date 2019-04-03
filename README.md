@@ -16,10 +16,9 @@ Check [Vagrant settings](#vagrant-settings) section for more detail of each para
 * [Upload](#site-src) project files
 * [Put](#db-backups) db backup files
 * Install VirtualBox on you machine from. See [virtualbox.org](https://www.virtualbox.org/) for installation package.
-* Install plugin vagrant-vbguest `vagrant plugin install vagrant-vbguest` *temp
 * Run vagrant `vagrant up`
 * Required plugins should be installed automatically. If not check [vagrant plugins requirements](#vagrant-plugins-requirements) section
-* Add to hosts `192.168.56.123  vagrant-common.loc wwww.vagrant-common.loc`
+* Hosts should be updated automatically but if not add it's manually `<machine_ip> <main_site_domain> pma.<main_site_domain> mailcatcher.<main_site_domain>` 
 
 ## Where put site sources?
 * Copy project files and put it's to `./src` folder
@@ -38,6 +37,31 @@ VAGRANT:
   IP: 192.168.56.2
 MAIN_SITE:
   DOMAIN: vagrant-common.loc
+  DIR: ${MAIN_SITE_DOMAIN}
+  PATH: /var/www/${MAIN_SITE_DOMAIN}/
+DB:
+  USER: root
+  PASS: 123456q
+  MARIADB_VERSION: 10.2
+  MAIN:
+    NAME: vagrant
+    USER: vagrant_usr
+    PASS: 123456q
+    PROVISION_RESET: YES
+PACKAGES:
+  MC: YES
+  HTOP: YES
+  GIT: YES
+  VIM: YES
+  APACHE2: YES
+  NGINX: YES
+  MARIADB: YES
+  PHP: YES
+  COMPOSER: YES
+  SENDMAIL: YES
+  PHPMYADMIN: YES
+  MAILCATCHER: YES
+  DRUSH: YES
 ```
 
 - **`VAGRANT`**: section for vagrant settings
