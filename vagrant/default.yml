@@ -13,7 +13,7 @@ VAGRANT:
 MAIN_SITE:
   DOMAIN: vagrant-common.loc
   DIR: ${MAIN_SITE_DOMAIN}
-  PATH: /var/www/${MAIN_SITE_DOMAIN}
+  PATH: /var/www/${MAIN_SITE_DOMAIN}/
 PHP:
   VERSION: 5.6
 DB:

@@ -4,6 +4,17 @@ VAGRANT:
   IP: 192.168.56.2
 MAIN_SITE:
   DOMAIN: vagrant-common.loc
+  DIR: ${MAIN_SITE_DOMAIN}
+  PATH: /var/www/${MAIN_SITE_DOMAIN}/
+DB:
+  USER: root
+  PASS: 123456q
+  MARIADB_VERSION: 10.2
+  MAIN:
+    NAME: vagrant
+    USER: vagrant_usr
+    PASS: 123456q
+    PROVISION_RESET: YES
 PACKAGES:
   MC: YES
   HTOP: YES
