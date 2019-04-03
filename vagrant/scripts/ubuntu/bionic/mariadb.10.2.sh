@@ -73,7 +73,5 @@ fi
 
 DEBIAN_SYS_MAINT_PASS=$(grep 'password' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
 
-echo "Password for mysql debian-sys-maint is: $DEBIAN_SYS_MAINT_PASS"
-
 sudo mysql -u$DB_USER -p$DB_PASS -e 'GRANT ALL PRIVILEGES ON *.* TO "debian-sys-maint"@"localhost" IDENTIFIED BY "'$DEBIAN_SYS_MAINT_PASS'";'
 sudo mysql -u$DB_USER -p$DB_PASS -e "FLUSH PRIVILEGES;"

@@ -52,7 +52,7 @@ log_begin_msg "Create links for nginx hosts"
 if [ -d "$MAIN_SITE_PATH" ]; then
     sudo cp /etc/nginx/sites-available/vagrant-site-ssl.conf /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
     sudo sed -i "s,{SITE_DOMAIN},${MAIN_SITE_DOMAIN},g" /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
-    sudo sed -i "s,{SITE_DIR},${MAIN_SITE_DIR},g" /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
+    sudo sed -i "s,{SITE_PATH},${MAIN_SITE_PATH},g" /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
     sudo ln -s /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf /etc/nginx/sites-enabled/ > /dev/null
 fi
 log_end_msg 0

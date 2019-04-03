@@ -34,7 +34,7 @@ log_action_msg "Creating links for apache2 hosts"
 if [ -d "$MAIN_SITE_PATH" ]; then
     sudo cp /etc/apache2/sites-available/vagrant-site-default.conf /etc/apache2/sites-available/${MAIN_SITE_DOMAIN}.conf
     sudo sed -i "s,{SITE_DOMAIN},${MAIN_SITE_DOMAIN},g" /etc/apache2/sites-available/${MAIN_SITE_DOMAIN}.conf
-    sudo sed -i "s,{SITE_DIR},${MAIN_SITE_DIR},g" /etc/apache2/sites-available/${MAIN_SITE_DOMAIN}.conf
+    sudo sed -i "s,{SITE_PATH},${MAIN_SITE_PATH},g" /etc/apache2/sites-available/${MAIN_SITE_DOMAIN}.conf
     sudo a2ensite ${MAIN_SITE_DOMAIN}.conf > /dev/null 2>&1
 fi
 
