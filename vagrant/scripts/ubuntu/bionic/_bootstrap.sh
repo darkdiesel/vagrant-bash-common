@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-#source /vagrant/configs/constants.conf
 source /vagrant/scripts/ubuntu/common/_bootstrap.sh
 
 log_begin_msg "Update packages"

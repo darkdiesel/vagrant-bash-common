@@ -9,6 +9,8 @@ settings = YAML.load_file './vagrant/default.yml'
 if File.exist?("./vagrant/settings.yml")
   user_settings = YAML.load_file './vagrant/settings.yml'
   settings.merge!(user_settings)
+else
+  abort "WARNING! Before running the machine you should create copy of ./vagrant/settings.example.yml  and put in ./vagrant folder with settings.yml name."
 end
 
 VAGRANTFILE_API_VERSION = "2"
@@ -31,7 +33,7 @@ if not plugins_to_install.empty?
     if system "vagrant plugin install #{plugins_to_install.join(' ')}"
       exec "vagrant #{ARGV.join(' ')}"
     else
-      abort "Installation of one or more plugins has failed. Aborting."
+      abort "ERROR! Installation of one or more plugins has failed. Aborting."
     end
 end
 
@@ -142,8 +144,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostmanager.manage_guest = false
     config.hostmanager.ignore_private_ip = false
     config.hostmanager.include_offline = true
-    config.hostmanager.aliases = ["www.#{MACHINE_NAME}", "pma.#{MACHINE_NAME}", "mailcatcher.#{MACHINE_NAME}"]
+
+    # build hosts array
+    hosts_arr = ["www.#{MACHINE_NAME}"]
+      if settings['PACKAGES']['PHPMYADMIN']
+        hosts_arr.push("pma.#{MACHINE_NAME}")
+      end
+
+      if settings['PACKAGES']['MAILCATCHER']
+        hosts_arr.push("mailcatcher.#{MACHINE_NAME}")
+      end
+
+    config.hostmanager.aliases = hosts_arr
   else
-    abort "Error! Vagrant plugin vagrant-hostmanager is not installed!"
+    abort "ERROR! Vagrant plugin vagrant-hostmanager is not installed!"
   end
 end
