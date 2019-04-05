@@ -22,7 +22,7 @@ OS_NAME =  settings['VAGRANT']['OS']
 
 MACHINE_IP = settings['VAGRANT']['IP']
 
-MACHINE_NAME = settings['MAIN_SITE']['DOMAIN']
+MACHINE_NAME = settings['SITES']['BASE_DOMAIN']
 BASE_DOMAIN = "vagrant"
 
 required_plugins = %w( vagrant-hostmanager )
@@ -86,7 +86,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.synced_folder "../data", "/vagrant_data"
   config.vm.synced_folder "./vagrant", "/vagrant", type: "virtualbox"
   config.vm.synced_folder "./data", "/vagrant_data", type: "virtualbox"
-  config.vm.synced_folder "./src", "/var/www/" + MACHINE_NAME, type: "virtualbox",
+  config.vm.synced_folder "./src", "/var/www/", type: "virtualbox",
     owner: "vagrant",
     group: "www-data",
     mount_options: ["dmode=755,fmode=664"]

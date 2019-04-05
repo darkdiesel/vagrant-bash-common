@@ -2,10 +2,14 @@ VAGRANT:
   BOX: ubuntu/trusty64
   OS: ubuntu/trusty
   IP: 192.168.56.2
-MAIN_SITE:
-  DOMAIN: vagrant-common.loc
-  DIR: ${MAIN_SITE_DOMAIN}
-  PATH: /var/www/${MAIN_SITE_DOMAIN}/
+SITES:
+  COUNT: 1
+  BASE_DOMAIN: vagrant-common.loc
+  BASE_PATH: /var/www/
+  SITE_1:
+    DOMAIN: ${BASE_DOMAIN}
+    DIR: ${SITES_1_DOMAIN}
+    PATH: ${BASE_PATH}${SITES_1_DOMAIN}/
 DB:
   USER: root
   PASS: 123456q

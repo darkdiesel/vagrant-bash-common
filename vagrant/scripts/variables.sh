@@ -24,3 +24,22 @@ if [ -f "${VAGRANT_PATH}/settings.yml" ]; then
 fi
 
 eval $(parse_yaml ${VAGRANT_PATH}/relative.yml)
+
+#for i in `seq 1 ${SITES_COUNT}`;
+#do
+#    eval VAGRANT_SITE_DOMAIN='$'SITES_SITE_"$i"_DOMAIN
+#    eval VAGRANT_SITE_DIR='$'SITES_SITE_"$i"_DIR
+#    eval VAGRANT_SITE_PATH='$'SITES_SITE_"$i"_PATH
+#
+#    echo ${VAGRANT_SITE_DOMAIN}
+#    echo ${VAGRANT_SITE_DIR}
+#    echo ${VAGRANT_SITE_PATH}
+#
+#    if [ -d "$VAGRANT_SITE_PATH" ]; then
+#        echo "----TRUE----"
+#    else
+#        echo "----FALSE----"
+#    fi
+#done
+#
+#exit 1

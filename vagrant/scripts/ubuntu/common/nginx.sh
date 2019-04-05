@@ -49,12 +49,28 @@ sudo cp -R ${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/* /etc/nginx/
 
 
 log_begin_msg "Create links for nginx hosts"
-if [ -d "$MAIN_SITE_PATH" ]; then
-    sudo cp /etc/nginx/sites-available/vagrant-site-ssl.conf /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
-    sudo sed -i "s,{SITE_DOMAIN},${MAIN_SITE_DOMAIN},g" /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
-    sudo sed -i "s,{SITE_PATH},${MAIN_SITE_PATH},g" /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
-    sudo ln -s /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf /etc/nginx/sites-enabled/ > /dev/null
-fi
+for i in `seq 1 ${SITES_COUNT}`;
+do
+    eval VAGRANT_SITE_DOMAIN='$'SITES_SITE_"$i"_DOMAIN
+    eval VAGRANT_SITE_DIR='$'SITES_SITE_"$i"_DIR
+    eval VAGRANT_SITE_PATH='$'SITES_SITE_"$i"_PATH
+
+    if [ -d "$VAGRANT_SITE_PATH" ]; then
+        sudo cp /etc/nginx/sites-available/vagrant-site-ssl.conf /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf
+        sudo sed -i "s,{SITE_DOMAIN},${VAGRANT_SITE_DOMAIN},g" /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf
+        sudo sed -i "s,{SITE_PATH},${VAGRANT_SITE_PATH},g" /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf
+        sudo ln -s /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf /etc/nginx/sites-enabled/ > /dev/null
+
+        log_action_msg "Add nginx host for ${VAGRANT_SITE_DOMAIN}"
+    fi
+done
+
+#if [ -d "$MAIN_SITE_PATH" ]; then
+#    sudo cp /etc/nginx/sites-available/vagrant-site-ssl.conf /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
+#    sudo sed -i "s,{SITE_DOMAIN},${MAIN_SITE_DOMAIN},g" /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
+#    sudo sed -i "s,{SITE_PATH},${MAIN_SITE_PATH},g" /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
+#    sudo ln -s /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf /etc/nginx/sites-enabled/ > /dev/null
+#fi
 log_end_msg 0
 
 log_begin_msg "Update privileges for nginx logs"

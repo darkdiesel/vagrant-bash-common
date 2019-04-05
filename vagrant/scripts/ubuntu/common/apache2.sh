@@ -31,12 +31,28 @@ sudo cp -R ${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}/etc/apache2/* /etc/apache2/ > /
 
 
 log_action_msg "Creating links for apache2 hosts"
-if [ -d "$MAIN_SITE_PATH" ]; then
-    sudo cp /etc/apache2/sites-available/vagrant-site-default.conf /etc/apache2/sites-available/${MAIN_SITE_DOMAIN}.conf
-    sudo sed -i "s,{SITE_DOMAIN},${MAIN_SITE_DOMAIN},g" /etc/apache2/sites-available/${MAIN_SITE_DOMAIN}.conf
-    sudo sed -i "s,{SITE_PATH},${MAIN_SITE_PATH},g" /etc/apache2/sites-available/${MAIN_SITE_DOMAIN}.conf
-    sudo a2ensite ${MAIN_SITE_DOMAIN}.conf > /dev/null 2>&1
-fi
+for i in `seq 1 ${SITES_COUNT}`;
+do
+    eval VAGRANT_SITE_DOMAIN='$'SITES_SITE_"$i"_DOMAIN
+    eval VAGRANT_SITE_DIR='$'SITES_SITE_"$i"_DIR
+    eval VAGRANT_SITE_PATH='$'SITES_SITE_"$i"_PATH
+
+    if [ -d "$VAGRANT_SITE_PATH" ]; then
+        sudo cp /etc/apache2/sites-available/vagrant-site-default.conf /etc/apache2/sites-available/${VAGRANT_SITE_DOMAIN}.conf
+        sudo sed -i "s,{SITE_DOMAIN},${VAGRANT_SITE_DOMAIN},g" /etc/apache2/sites-available/${VAGRANT_SITE_DOMAIN}.conf
+        sudo sed -i "s,{SITE_PATH},${VAGRANT_SITE_PATH},g" /etc/apache2/sites-available/${VAGRANT_SITE_DOMAIN}.conf
+        sudo a2ensite ${VAGRANT_SITE_DOMAIN}.conf > /dev/null 2>&1
+
+        log_action_msg "Add apache2 host for ${VAGRANT_SITE_DOMAIN}"
+    fi
+done
+
+#if [ -d "$MAIN_SITE_PATH" ]; then
+#    sudo cp /etc/apache2/sites-available/vagrant-site-default.conf /etc/apache2/sites-available/${MAIN_SITE_DOMAIN}.conf
+#    sudo sed -i "s,{SITE_DOMAIN},${MAIN_SITE_DOMAIN},g" /etc/apache2/sites-available/${MAIN_SITE_DOMAIN}.conf
+#    sudo sed -i "s,{SITE_PATH},${MAIN_SITE_PATH},g" /etc/apache2/sites-available/${MAIN_SITE_DOMAIN}.conf
+#    sudo a2ensite ${MAIN_SITE_DOMAIN}.conf > /dev/null 2>&1
+#fi
 
 log_begin_msg "Enable apache mods"
 sudo a2enmod rewrite > /dev/null 2>&1
