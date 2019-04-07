@@ -155,6 +155,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         hosts_arr.push("mailcatcher.#{MACHINE_NAME}")
       end
 
+      for i in 1..settings['SITES']['COUNT']
+        cur_site_domain = settings['SITES']["SITE_#{i}"]['DOMAIN']
+
+        hosts_arr.push(cur_site_domain)
+        hosts_arr.push("www.#{cur_site_domain}")
+      end
+
     config.hostmanager.aliases = hosts_arr
   else
     abort "ERROR! Vagrant plugin vagrant-hostmanager is not installed!"

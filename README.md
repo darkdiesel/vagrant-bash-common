@@ -7,7 +7,7 @@
 - [Useful vagrant commands](#useful-vagrant-commands)
 
 ## Setup
-Before running vagrant machine create  config file.
+Before running vagrant machine create config file.
 Create a copy of the file`./vagrant/settings.example.yml` and put in `vagrant` folder with `settings.yml` name.
 
 Check [Vagrant settings](#vagrant-settings) section for more detail of each param.

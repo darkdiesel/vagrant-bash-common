@@ -26,7 +26,7 @@ if [ ! -f "/etc/apache2/ports.conf.bak" ]; then
 fi
 
 
-log_action_msg "Copping apache2 configs"
+log_action_msg "Copying apache2 configs"
 sudo cp -R ${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}/etc/apache2/* /etc/apache2/ > /dev/null 2>&1
 
 

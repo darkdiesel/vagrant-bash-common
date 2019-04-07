@@ -7,29 +7,29 @@ SITES:
   BASE_DOMAIN: vagrant-common.loc
   BASE_PATH: /var/www/
   SITE_1:
-    DOMAIN: ${BASE_DOMAIN}
-    DIR: ${SITES_1_DOMAIN}
-    PATH: ${BASE_PATH}${SITES_1_DOMAIN}/
+    DOMAIN: vagrant-common.loc
+    DIR: ${SITES_SITE_1_DOMAIN}
+    PATH: ${SITES_BASE_PATH}${SITES_SITE_1_DOMAIN}/
+    DB:
+      NAME: vagrant
+      USER: vagrant_usr
+      PASS: 123456q
+      PROVISION_RESET: YES
 DB:
   USER: root
   PASS: 123456q
   MARIADB_VERSION: 10.2
-  MAIN:
-    NAME: vagrant
-    USER: vagrant_usr
-    PASS: 123456q
-    PROVISION_RESET: YES
 PACKAGES:
-  MC: YES
-  HTOP: YES
-  GIT: YES
-  VIM: YES
+  MC: NO
+  HTOP: NO
+  GIT: NO
+  VIM: NO
   APACHE2: YES
   NGINX: YES
   MARIADB: YES
   PHP: YES
-  COMPOSER: YES
+  COMPOSER: NO
   SENDMAIL: YES
   PHPMYADMIN: YES
   MAILCATCHER: YES
-  DRUSH: YES
+  DRUSH: NO
