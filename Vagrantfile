@@ -25,7 +25,7 @@ MACHINE_IP = settings['VAGRANT']['IP']
 MACHINE_NAME = settings['SITES']['BASE_DOMAIN']
 BASE_DOMAIN = "vagrant"
 
-required_plugins = %w( vagrant-hostmanager )
+required_plugins = %w( vagrant-hostmanager vagrant-vbguest )
 
 plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
 if not plugins_to_install.empty?
@@ -84,12 +84,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  config.vm.synced_folder "./vagrant", "/vagrant", type: "virtualbox"
-  config.vm.synced_folder "./data", "/vagrant_data", type: "virtualbox"
-  config.vm.synced_folder "./src", "/var/www/", type: "virtualbox",
-    owner: "vagrant",
-    group: "www-data",
-    mount_options: ["dmode=755,fmode=664"]
+  if File.directory?(File.expand_path("./vagrant"))
+    config.vm.synced_folder "./vagrant", "/vagrant", type: "virtualbox"
+  else
+      puts "WARNING! ./vagrant folder does not exist!"
+  end
+  if File.directory?(File.expand_path("./data"))
+    config.vm.synced_folder "./data", "/vagrant_data", type: "virtualbox"
+  else
+      puts "WARNING! ./data folder does not exist!"
+  end
+
+  if File.directory?(File.expand_path("./src"))
+      config.vm.synced_folder "./src", "/var/www/", type: "virtualbox",
+        owner: "vagrant",
+        group: "www-data",
+        mount_options: ["dmode=755,fmode=664"]
+  else
+    puts "WARNING! ./src folder does not exist!"
+  end
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
