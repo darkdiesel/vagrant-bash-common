@@ -27,15 +27,15 @@ fi
 
 
 log_action_msg "Copying apache2 configs"
-sudo cp -R ${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}/etc/apache2/* /etc/apache2/ > /dev/null 2>&1
+sudo cp -R ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/apache2/* /etc/apache2/ > /dev/null 2>&1
 
 
 log_action_msg "Creating links for apache2 hosts"
-for i in `seq 1 ${SITES_COUNT}`;
+for i in `seq 1 ${SITES__COUNT}`;
 do
-    eval VAGRANT_SITE_DOMAIN='$'SITES_SITE_"$i"_DOMAIN
-    eval VAGRANT_SITE_DIR='$'SITES_SITE_"$i"_DIR
-    eval VAGRANT_SITE_PATH='$'SITES_SITE_"$i"_PATH
+    eval VAGRANT_SITE_DOMAIN='$'SITES__SITE_"$i"__DOMAIN
+    eval VAGRANT_SITE_DIR='$'SITES__SITE_"$i"__DIR
+    eval VAGRANT_SITE_PATH='$'SITES__SITE_"$i"__PATH
 
     if [ -d "$VAGRANT_SITE_PATH" ]; then
         sudo cp /etc/apache2/sites-available/vagrant-site-default.conf /etc/apache2/sites-available/${VAGRANT_SITE_DOMAIN}.conf

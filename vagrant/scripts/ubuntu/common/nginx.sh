@@ -24,14 +24,14 @@ if [ ! -f "/etc/nginx/nginx.conf.bak" ]; then
 fi
 
 log_action_msg "Copying nginx configs"
-sudo cp -R ${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/* /etc/nginx/
+sudo cp -R ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/* /etc/nginx/
 
 log_action_msg "Start creating links for nginx hosts"
-for i in `seq 1 ${SITES_COUNT}`;
+for i in `seq 1 ${SITES__COUNT}`;
 do
-    eval VAGRANT_SITE_DOMAIN='$'SITES_SITE_"$i"_DOMAIN
-    eval VAGRANT_SITE_DIR='$'SITES_SITE_"$i"_DIR
-    eval VAGRANT_SITE_PATH='$'SITES_SITE_"$i"_PATH
+    eval VAGRANT_SITE_DOMAIN='$'SITES__SITE_"$i"__DOMAIN
+    eval VAGRANT_SITE_DIR='$'SITES__SITE_"$i"__DIR
+    eval VAGRANT_SITE_PATH='$'SITES__SITE_"$i"__PATH
 
     if [ -d "$VAGRANT_SITE_PATH" ]; then
         sudo cp /etc/nginx/sites-available/vagrant-site-ssl.conf /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf
@@ -45,18 +45,18 @@ do
             sudo mkdir /etc/nginx/ssl
         fi
 
-        if [ ! -d ${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}"/etc/nginx/ssl" ]; then
-            sudo mkdir ${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl
+        if [ ! -d ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}"/etc/nginx/ssl" ]; then
+            sudo mkdir ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl
         fi
 
-        if [ ! -f "${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_bundle.crt" ]; then
-            if [ ! -f "${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_private.key" ]; then
-                sudo openssl req -new -newkey rsa:1024 -nodes -keyout ${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_private.key -x509 -days 500 -subj /C=RU/ST=Grodno/L=Grodno/O=Companyname/OU=User/CN=${VAGRANT_SITE_DOMAIN}/emailAddress=admin@${VAGRANT_SITE_DOMAIN} -out ${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_bundle.crt > /dev/null 2>&1
+        if [ ! -f "${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_bundle.crt" ]; then
+            if [ ! -f "${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_private.key" ]; then
+                sudo openssl req -new -newkey rsa:1024 -nodes -keyout ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_private.key -x509 -days 500 -subj /C=RU/ST=Grodno/L=Grodno/O=Companyname/OU=User/CN=${VAGRANT_SITE_DOMAIN}/emailAddress=admin@${VAGRANT_SITE_DOMAIN} -out ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_bundle.crt > /dev/null 2>&1
             fi
         fi
 
-        sudo cp  ${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_private.key /etc/nginx/ssl/
-        sudo cp  ${VAGRANT_UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_bundle.crt /etc/nginx/ssl/
+        sudo cp  ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_private.key /etc/nginx/ssl/
+        sudo cp  ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_bundle.crt /etc/nginx/ssl/
 
         log_action_msg "Generated ssl nginx certs for ${VAGRANT_SITE_DOMAIN}"
     fi

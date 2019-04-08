@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-source ${VAGRANT_UBUNTU_COMMON_SCRIPTS_PATH}/phpmyadmin.sh
+source ${VAGRANT__UBUNTU_COMMON_SCRIPTS_PATH}/phpmyadmin.sh

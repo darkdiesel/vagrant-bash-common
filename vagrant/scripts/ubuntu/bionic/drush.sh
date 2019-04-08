@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-source ${VAGRANT_OS_SCRIPTS_PATH}/zip.sh
-source ${VAGRANT_OS_SCRIPTS_PATH}/unzip.sh
+source ${VAGRANT__OS_SCRIPTS_PATH}/zip.sh
+source ${VAGRANT__OS_SCRIPTS_PATH}/unzip.sh
 
 log_begin_msg "Installing drush via composer"
 sudo -H -u vagrant bash -c 'composer global require drush/drush' > /dev/null 2>&1

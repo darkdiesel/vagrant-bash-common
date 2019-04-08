@@ -8,8 +8,8 @@ SITES:
   BASE_PATH: /var/www/
   SITE_1:
     DOMAIN: vagrant-common.loc
-    DIR: ${SITES_SITE_1_DOMAIN}
-    PATH: ${SITES_BASE_PATH}${SITES_SITE_1_DOMAIN}/
+    DIR: ${SITES__SITE_1_DOMAIN}
+    PATH: ${SITES__BASE_PATH}${SITES__SITE_1_DOMAIN}/
     DB:
       NAME: vagrant
       USER: vagrant_usr
