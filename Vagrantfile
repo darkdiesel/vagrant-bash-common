@@ -147,20 +147,40 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # build hosts array
     hosts_arr = ["www.#{MACHINE_NAME}"]
-      if settings['PACKAGES']['PHPMYADMIN']
-        hosts_arr.push("pma.#{MACHINE_NAME}")
+
+    for i in 1..settings['SITES']['COUNT']
+      cur_site_domain = settings['SITES']["SITE_#{i}"]['DOMAIN']
+
+      bash_var = cur_site_domain.match(/^\W{2}\w+\W{1}$/)
+
+      if !bash_var.nil?
+        bash_var_arr = bash_var[0][2..-2].split('__')
+
+        bash_var_val = settings
+        bash_var_arr.each do |i|
+            bash_var_val = bash_var_val["#{i}"]
+        end
+
+        cur_site_domain = bash_var_val
       end
 
-      if settings['PACKAGES']['MAILCATCHER']
-        hosts_arr.push("mailcatcher.#{MACHINE_NAME}")
+      if cur_site_domain != MACHINE_NAME
+          hosts_arr.push(cur_site_domain)
+          hosts_arr.push("www.#{cur_site_domain}")
       end
+    end
 
-      for i in 1..settings['SITES']['COUNT']
-        cur_site_domain = settings['SITES']["SITE_#{i}"]['DOMAIN']
+    if settings['PACKAGES']['PHPMYADMIN']
+      hosts_arr.push("pma.#{MACHINE_NAME}")
+    end
 
-        hosts_arr.push(cur_site_domain)
-        hosts_arr.push("www.#{cur_site_domain}")
-      end
+    if settings['PACKAGES']['MAILHOG']
+      hosts_arr.push("mailhog.#{MACHINE_NAME}")
+    end
+
+    if settings['PACKAGES']['MAILCATCHER']
+      hosts_arr.push("mailcatcher.#{MACHINE_NAME}")
+    end
 
     config.hostmanager.aliases = hosts_arr
   else

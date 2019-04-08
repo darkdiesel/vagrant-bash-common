@@ -44,6 +44,10 @@ if [ ${PACKAGES__PHPMYADMIN} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/phpmyadmin.sh
 fi
 
+if [ ${PACKAGES__MAILHOG} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/mailhog.sh
+fi
+
 if [ ${PACKAGES__MAILCATCHER} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/mailcatcher.sh
 fi
