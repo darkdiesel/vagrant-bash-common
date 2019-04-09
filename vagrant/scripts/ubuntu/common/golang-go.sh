@@ -7,9 +7,10 @@ if [ $(dpkg-query -W -f='${Status}' golang-go 2>/dev/null | grep -c "ok installe
     if [[ $? > 0 ]]; then
         log_end_msg 1
     else
+        log_action_msg "Update .profile with GOPATH"
         mkdir gocode
         echo "export GOPATH=$HOME/gocode" >> ~/.profile
-        source ~/.profile
+        source ~/.profile > /dev/null 2>&1
 
         log_end_msg 0
     fi
