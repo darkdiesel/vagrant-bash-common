@@ -71,7 +71,8 @@ else
     log_end_msg 0
 fi
 
+DEBIAN_SYS_MAINT_USER=$(grep 'user' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
 DEBIAN_SYS_MAINT_PASS=$(grep 'password' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
 
-sudo mysql -u$DB__USER -p$DB__PASS -e 'GRANT ALL PRIVILEGES ON *.* TO "debian-sys-maint"@"localhost" IDENTIFIED BY "'$DEBIAN_SYS_MAINT_PASS'";'
+sudo mysql -u$DB__USER -p$DB__PASS -e 'GRANT ALL PRIVILEGES ON *.* TO "'$DEBIAN_SYS_MAINT_USER'"@"localhost" IDENTIFIED BY "'$DEBIAN_SYS_MAINT_PASS'";'
 sudo mysql -u$DB__USER -p$DB__PASS -e "FLUSH PRIVILEGES;"

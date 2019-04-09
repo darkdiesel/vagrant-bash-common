@@ -14,6 +14,7 @@ log_end_msg 0
 
 # run scripts
 source ${VAGRANT__OS_SCRIPTS_PATH}/fix-locale.sh
+source ${VAGRANT__OS_SCRIPTS_PATH}/curl.sh
 
 if [ ${PACKAGES__MC} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/mc.sh
@@ -23,35 +24,40 @@ if [ ${PACKAGES__GIT} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/git.sh
 fi
 
-## web servers
+# web servers
 source ${VAGRANT__OS_SCRIPTS_PATH}/apache2.sh
 source ${VAGRANT__OS_SCRIPTS_PATH}/nginx.sh
 
-## db
-#source ${VAGRANT__OS_SCRIPTS_PATH}/mariadb.${DB__MARIADB_VERSION}.sh
-#source ${VAGRANT__OS_SCRIPTS_PATH}/db-setup.sh
-#
-#source ${VAGRANT__OS_SCRIPTS_PATH}/php7.2-fpm.sh
-#
-#if [ ${PACKAGES__COMPOSER} == "YES" ]; then
-#    source ${VAGRANT__OS_SCRIPTS_PATH}/composer.sh
-#fi
-#if [ ${PACKAGES__SENDMAIL} == "YES" ]; then
-#    source ${VAGRANT__OS_SCRIPTS_PATH}/sendmail.sh
-#fi
-#
-#if [ ${PACKAGES__PHPMYADMIN} == "YES" ]; then
-#    source ${VAGRANT__OS_SCRIPTS_PATH}/phpmyadmin.sh
-#fi
-#
-#if [ ${PACKAGES__MAILHOG} == "YES" ]; then
-#    source ${VAGRANT__OS_SCRIPTS_PATH}/mailhog.sh
-#fi
-#
+# db
+if [ ${PACKAGES__MARIADB__INSTALL} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/mariadb.${PACKAGES__MARIADB__VERSION}.sh
+    source ${VAGRANT__OS_SCRIPTS_PATH}/db-setup.sh
+fi
+
+if [ ${PACKAGES__PHP__INSTALL} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/php7.0-fpm.sh
+fi
+
+if [ ${PACKAGES__COMPOSER} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/composer.sh
+fi
+
+if [ ${PACKAGES__SENDMAIL} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/sendmail.sh
+fi
+
+if [ ${PACKAGES__PHPMYADMIN} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/phpmyadmin.sh
+fi
+
+if [ ${PACKAGES__MAILHOG} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/mailhog.sh
+fi
+
 #if [ ${PACKAGES__MAILCATCHER} == "YES" ]; then
 #    source ${VAGRANT__OS_SCRIPTS_PATH}/mailcatcher.sh
 #fi
-#
-#if [ ${PACKAGES__DRUSH} == "YES" ]; then
-#    source ${VAGRANT__OS_SCRIPTS_PATH}/drush.sh
-#fi
+
+if [ ${PACKAGES__DRUSH__INSTALL} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/drush.sh
+fi

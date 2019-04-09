@@ -22,13 +22,13 @@ do
 
     log_action_msg "Checking existing databases..."
 
-    RESULT=`mysqlshow --user=$DB__USER --password=$DB__PASS $VAGRANT_DB_NAME | grep -v Wildcard | grep -o $VAGRANT_DB_NAME`
-    if [ "$RESULT" == "$VAGRANT_DB_NAME" ]; then
+    VAGRANT_DB_EXIST="NO"
+
+    if [ -d "/var/lib/mysql/$VAGRANT_DB_NAME" ] ; then
         VAGRANT_DB_EXIST="YES"
-        log_warning_msg "DB $VAGRANT_DB_NAME exist"
+        log_warning_msg "DB ${VAGRANT_DB_NAME} exist!"
     else
-        VAGRANT_DB_EXIST="NO"
-        log_success_msg "DB $VAGRANT_DB_NAME not exist"
+        log_success_msg "DB ${VAGRANT_DB_NAME} not exist!"
     fi
 
     #log_progress_msg "$VAGRANT_DB_NAME exist: $VAGRANT_DB_EXIST."
@@ -40,7 +40,7 @@ do
         log_success_msg "DB $VAGRANT_DB_NAME created"
     else
         log_failure_msg "DB $VAGRANT_DB_NAME not created"
-        log_warning_msg "$VAGRANT_DB_NAME already exist or site folder not founded"
+        log_warning_msg "$DB $VAGRANT_DB_NAME already exist or site folder $VAGRANT_SITE_PATH not founded"
     fi
 
     log_action_msg "Create DBs User"
@@ -52,7 +52,7 @@ do
         log_success_msg "User for DB $VAGRANT_DB_NAME created"
     else
         log_failure_msg "User for DB $VAGRANT_DB_NAME not created"
-        log_warning_msg "$VAGRANT_DB_NAME already exist or site folder not founded"
+        log_warning_msg "$DB $VAGRANT_DB_NAME already exist or site folder $VAGRANT_SITE_PATH not founded"
     fi
 
     log_begin_msg "Flush mysql privileges"
@@ -72,7 +72,7 @@ do
             log_failure_msg "Script not founded for DB $VAGRANT_DB_NAME "
         fi
     else
-        log_failure_msg "Script not executed for DB $VAGRANT_DB_NAME not created"
-        log_warning_msg "$VAGRANT_DB_NAME already exist or site folder not founded"
+        log_failure_msg "Script not executed for DB $VAGRANT_DB_NAME"
+        log_warning_msg "$DB $VAGRANT_DB_NAME already exist or site folder $VAGRANT_SITE_PATH not founded"
     fi
 done

@@ -42,7 +42,7 @@ log_action_msg "Enabling apache2 php7.2-fpm conf"
 sudo a2enconf php7.2-fpm > /dev/null 2>&1
 
 log_action_msg "Copping php7.2 configs"
-sudo cp -R ${VAGRANT__OS_CONFIGS_PATH}/etc/php/7.2/* /etc/php/7.2/ > /dev/null 2>&1
+sudo cp -R ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/php/7.2/* /etc/php/7.2/ > /dev/null 2>&1
 
 
 if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed") -eq 1 ]; then

@@ -14,6 +14,7 @@ log_end_msg 0
 
 # run scripts
 source ${VAGRANT__OS_SCRIPTS_PATH}/fix-locale.sh
+source ${VAGRANT__OS_SCRIPTS_PATH}/curl.sh
 
 if [ ${PACKAGES__MC} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/mc.sh
@@ -36,10 +37,14 @@ source ${VAGRANT__OS_SCRIPTS_PATH}/apache2.sh
 source ${VAGRANT__OS_SCRIPTS_PATH}/nginx.sh
 
 # db
-source ${VAGRANT__OS_SCRIPTS_PATH}/mariadb.${DB__MARIADB_VERSION}.sh
-source ${VAGRANT__OS_SCRIPTS_PATH}/db-setup.sh
+if [ ${PACKAGES__MARIADB__INSTALL} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/mariadb.${PACKAGES__MARIADB__VERSION}.sh
+    source ${VAGRANT__OS_SCRIPTS_PATH}/db-setup.sh
+fi
 
-source ${VAGRANT__OS_SCRIPTS_PATH}/php5.sh
+if [ ${PACKAGES__PHP__INSTALL} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/php5.sh
+fi
 
 if [ ${PACKAGES__COMPOSER} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/composer.sh

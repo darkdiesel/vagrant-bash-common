@@ -85,5 +85,16 @@ Required plugins should be installed automatically. If not - run manually instal
 * Remove vagrant machine - `vagrant destroy --force`
 
 ## Supported OS
-* ubuntu/trusty
-* ubuntu/bionic
+* `ubuntu/trusty`
+* `ubuntu/bionic`
+* `debian/stretch`
+
+## Avalable Packages Version
+* `php`: `5.6`, `7.0`, `7.1`, `7.2`
+* `mariadb`: `10.2`, `10.3`
+* `drush`: `All` - [check package page](https://packagist.org/packages/drush/drush) add [drupal compatibility](https://docs.drush.org/en/master/install/#drupal-compatibility) 
+
+## Packages Requirements 
+* `mailhog`: `git`, `golang-go`
+* `drush`: `composer`
+* `composer`: `php`
