@@ -164,17 +164,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     for i in 1..settings['SITES']['COUNT']
       cur_site_domain = settings['SITES']["SITE_#{i}"]['DOMAIN']
 
-      bash_var = cur_site_domain.match(/\W{2}\w+\W{1}/)
+      bash_var = cur_site_domain.to_enum(:scan, /\W{2}\w+\W{1}/).map { Regexp.last_match }
 
-      if !bash_var.nil?
-        bash_var_arr = bash_var[0][2..-2].split('__')
-
+      bash_var.each do |tmp|
+        bash_var_arr = tmp[0][2..-2].split('__')
         bash_var_val = settings
+
         bash_var_arr.each do |i|
             bash_var_val = bash_var_val["#{i}"]
         end
 
-        cur_site_domain = bash_var_val
+        cur_site_domain.sub!(tmp.to_s, bash_var_val)
       end
 
       if cur_site_domain != MACHINE_HOSTNAME
