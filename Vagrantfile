@@ -22,7 +22,7 @@ OS_NAME =  settings['VAGRANT']['OS']
 
 MACHINE_IP = settings['VAGRANT']['IP']
 
-MACHINE_NAME = settings['SITES']['BASE_DOMAIN']
+MACHINE_HOSTNAME = settings['SITES']['BASE_DOMAIN']
 BASE_DOMAIN = "vagrant"
 
 required_plugins = %w( vagrant-hostmanager vagrant-vbguest )
@@ -119,8 +119,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # View the documentation for the provider you are using for more
   # information on available options.
 
-  config.vm.define MACHINE_NAME + "." + BASE_DOMAIN do |machine|
-    machine.vm.hostname = MACHINE_NAME
+  config.vm.define MACHINE_HOSTNAME + "." + BASE_DOMAIN do |machine|
+    machine.vm.hostname = MACHINE_HOSTNAME
 
     machine.vm.provider "virtualbox" do |vb|
       # Display the VirtualBox GUI when booting the machine
@@ -130,7 +130,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.memory = "1024"
 
       # Vagrant Machine Name
-      vb.name = MACHINE_NAME + "." + BASE_DOMAIN
+      vb.name = MACHINE_HOSTNAME + "." + BASE_DOMAIN
 
       vb.customize ["modifyvm", :id, "--memory", "1024"]
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
@@ -159,12 +159,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostmanager.include_offline = true
 
     # build hosts array
-    hosts_arr = ["www.#{MACHINE_NAME}"]
+    hosts_arr = ["www.#{MACHINE_HOSTNAME}"]
 
     for i in 1..settings['SITES']['COUNT']
       cur_site_domain = settings['SITES']["SITE_#{i}"]['DOMAIN']
 
-      bash_var = cur_site_domain.match(/^\W{2}\w+\W{1}$/)
+      bash_var = cur_site_domain.match(/\W{2}\w+\W{1}/)
 
       if !bash_var.nil?
         bash_var_arr = bash_var[0][2..-2].split('__')
@@ -177,22 +177,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         cur_site_domain = bash_var_val
       end
 
-      if cur_site_domain != MACHINE_NAME
+      if cur_site_domain != MACHINE_HOSTNAME
           hosts_arr.push(cur_site_domain)
           hosts_arr.push("www.#{cur_site_domain}")
       end
     end
 
     if settings['PACKAGES']['PHPMYADMIN']
-      hosts_arr.push("pma.#{MACHINE_NAME}")
+      hosts_arr.push("pma.#{MACHINE_HOSTNAME}")
     end
 
     if settings['PACKAGES']['MAILHOG']
-      hosts_arr.push("mailhog.#{MACHINE_NAME}")
+      hosts_arr.push("mailhog.#{MACHINE_HOSTNAME}")
     end
 
     if settings['PACKAGES']['MAILCATCHER']
-      hosts_arr.push("mailcatcher.#{MACHINE_NAME}")
+      hosts_arr.push("mailcatcher.#{MACHINE_HOSTNAME}")
     end
 
     config.hostmanager.aliases = hosts_arr
