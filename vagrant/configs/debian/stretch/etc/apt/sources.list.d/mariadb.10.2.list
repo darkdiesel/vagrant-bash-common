@@ -1,0 +1,4 @@
+# MariaDB 10.2 repository list - created 2019-04-09 08:50 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+deb [arch=amd64,i386,ppc64el] http://mirror.hosting90.cz/mariadb/repo/10.2/debian stretch main
+deb-src http://mirror.hosting90.cz/mariadb/repo/10.2/debian stretch main

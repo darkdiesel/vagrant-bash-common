@@ -9,6 +9,8 @@ settings = YAML.load_file './vagrant/default.yml'
 if File.exist?("./vagrant/settings.yml")
   user_settings = YAML.load_file './vagrant/settings.yml'
   settings.merge!(user_settings)
+else
+  abort "WARNING! Before running the machine you should create copy of ./vagrant/settings.example.yml  and put in ./vagrant folder with settings.yml name."
 end
 
 VAGRANTFILE_API_VERSION = "2"
@@ -20,10 +22,10 @@ OS_NAME =  settings['VAGRANT']['OS']
 
 MACHINE_IP = settings['VAGRANT']['IP']
 
-MACHINE_NAME = settings['MAIN_SITE']['DOMAIN']
+MACHINE_HOSTNAME = settings['SITES']['BASE_DOMAIN']
 BASE_DOMAIN = "vagrant"
 
-required_plugins = %w( vagrant-hostmanager )
+required_plugins = %w( vagrant-hostmanager vagrant-vbguest )
 
 plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
 if not plugins_to_install.empty?
@@ -31,7 +33,7 @@ if not plugins_to_install.empty?
     if system "vagrant plugin install #{plugins_to_install.join(' ')}"
       exec "vagrant #{ARGV.join(' ')}"
     else
-      abort "Installation of one or more plugins has failed. Aborting."
+      abort "ERROR! Installation of one or more plugins has failed. Aborting."
     end
 end
 
@@ -82,12 +84,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  config.vm.synced_folder "./vagrant", "/vagrant", type: "virtualbox"
-  config.vm.synced_folder "./data", "/vagrant_data", type: "virtualbox"
-  config.vm.synced_folder "./src", "/var/www/" + MACHINE_NAME, type: "virtualbox",
-    owner: "vagrant",
-    group: "www-data",
-    mount_options: ["dmode=755,fmode=664"]
+  if File.directory?(File.expand_path("./vagrant"))
+    config.vm.synced_folder "./vagrant", "/vagrant", type: "virtualbox"
+  else
+      puts "WARNING! ./vagrant folder does not exist!"
+  end
+  if File.directory?(File.expand_path("./data"))
+    config.vm.synced_folder "./data", "/vagrant_data", type: "virtualbox"
+  else
+      puts "WARNING! ./data folder does not exist!"
+  end
+
+  if File.directory?(File.expand_path("./src"))
+      config.vm.synced_folder "./src", "/var/www/", type: "virtualbox",
+        owner: "vagrant",
+        group: "www-data",
+        mount_options: ["dmode=755,fmode=664"]
+  else
+    puts "WARNING! ./src folder does not exist!"
+  end
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -104,8 +119,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # View the documentation for the provider you are using for more
   # information on available options.
 
-  config.vm.define MACHINE_NAME + "." + BASE_DOMAIN do |machine|
-    machine.vm.hostname = MACHINE_NAME
+  config.vm.define MACHINE_HOSTNAME + "." + BASE_DOMAIN do |machine|
+    machine.vm.hostname = MACHINE_HOSTNAME
 
     machine.vm.provider "virtualbox" do |vb|
       # Display the VirtualBox GUI when booting the machine
@@ -115,7 +130,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.memory = "1024"
 
       # Vagrant Machine Name
-      vb.name = MACHINE_NAME + "." + BASE_DOMAIN
+      vb.name = MACHINE_HOSTNAME + "." + BASE_DOMAIN
 
       vb.customize ["modifyvm", :id, "--memory", "1024"]
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
@@ -142,8 +157,46 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostmanager.manage_guest = false
     config.hostmanager.ignore_private_ip = false
     config.hostmanager.include_offline = true
-    config.hostmanager.aliases = ["www.#{MACHINE_NAME}", "pma.#{MACHINE_NAME}", "mailcatcher.#{MACHINE_NAME}"]
+
+    # build hosts array
+    hosts_arr = ["www.#{MACHINE_HOSTNAME}"]
+
+    for i in 1..settings['SITES']['COUNT']
+      cur_site_domain = settings['SITES']["SITE_#{i}"]['DOMAIN']
+
+      bash_var = cur_site_domain.to_enum(:scan, /\W{2}\w+\W{1}/).map { Regexp.last_match }
+
+      bash_var.each do |tmp|
+        bash_var_arr = tmp[0][2..-2].split('__')
+        bash_var_val = settings
+
+        bash_var_arr.each do |i|
+            bash_var_val = bash_var_val["#{i}"]
+        end
+
+        cur_site_domain.sub!(tmp.to_s, bash_var_val)
+      end
+
+      if cur_site_domain != MACHINE_HOSTNAME
+          hosts_arr.push(cur_site_domain)
+          hosts_arr.push("www.#{cur_site_domain}")
+      end
+    end
+
+    if settings['PACKAGES']['PHPMYADMIN']
+      hosts_arr.push("pma.#{MACHINE_HOSTNAME}")
+    end
+
+    if settings['PACKAGES']['MAILHOG']
+      hosts_arr.push("mailhog.#{MACHINE_HOSTNAME}")
+    end
+
+    if settings['PACKAGES']['MAILCATCHER']
+      hosts_arr.push("mailcatcher.#{MACHINE_HOSTNAME}")
+    end
+
+    config.hostmanager.aliases = hosts_arr
   else
-    abort "Error! Vagrant plugin vagrant-hostmanager is not installed!"
+    abort "ERROR! Vagrant plugin vagrant-hostmanager is not installed!"
   end
 end

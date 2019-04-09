@@ -2,30 +2,40 @@ VAGRANT:
   BOX: ubuntu/trusty64
   OS: ubuntu/trusty
   IP: 192.168.56.2
-MAIN_SITE:
-  DOMAIN: vagrant-common.loc
-  DIR: ${MAIN_SITE_DOMAIN}
-  PATH: /var/www/${MAIN_SITE_DOMAIN}/
+SITES:
+  COUNT: 1
+  BASE_DOMAIN: vagrant-common.loc
+  BASE_PATH: /var/www/
+  SITE_1:
+    DOMAIN: ${SITES__BASE_DOMAIN}
+    DIR: ${SITES__SITE_1__DOMAIN}
+    PATH: ${SITES__BASE__PATH}${SITES__SITE_1__DOMAIN}/
+    DB:
+      NAME: vagrant
+      USER: vagrant_usr
+      PASS: 123456q
+      PROVISION_RESET: YES
 DB:
   USER: root
   PASS: 123456q
-  MARIADB_VERSION: 10.2
-  MAIN:
-    NAME: vagrant
-    USER: vagrant_usr
-    PASS: 123456q
-    PROVISION_RESET: YES
 PACKAGES:
-  MC: YES
-  HTOP: YES
+  MC: NO
+  HTOP: NO
   GIT: YES
-  VIM: YES
+  VIM: NO
   APACHE2: YES
   NGINX: YES
-  MARIADB: YES
-  PHP: YES
-  COMPOSER: YES
+  MARIADB:
+    INSTALL: YES
+    VERSION: 10.2
+  PHP:
+    INSTALL: YES
+    VERSION: 7.2
+  COMPOSER: NO
   SENDMAIL: YES
   PHPMYADMIN: YES
-  MAILCATCHER: YES
-  DRUSH: YES
+  MAILHOG: YES
+  MAILCATCHER: NO
+  DRUSH:
+    INSTALL: NO
+    VERSION: 9
