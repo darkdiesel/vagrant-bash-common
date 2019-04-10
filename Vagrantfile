@@ -8,7 +8,7 @@ settings = YAML.load_file './vagrant/default.yml'
 
 if File.exist?("./vagrant/settings.yml")
   user_settings = YAML.load_file './vagrant/settings.yml'
-  settings.merge!(user_settings)
+  settings.deep_merge!(user_settings)
 else
   abort "WARNING! Before running the machine you should create copy of ./vagrant/settings.example.yml  and put in ./vagrant folder with settings.yml name."
 end
