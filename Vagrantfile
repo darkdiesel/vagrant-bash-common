@@ -21,6 +21,8 @@ OS_BOX = settings['VAGRANT']['BOX']
 OS_NAME =  settings['VAGRANT']['OS']
 
 MACHINE_IP = settings['VAGRANT']['IP']
+MACHINE_CPU = settings['VAGRANT']['CPU']
+MACHINE_MEMORY = settings['VAGRANT']['MEMORY']
 
 MACHINE_HOSTNAME = settings['SITES']['BASE_DOMAIN']
 BASE_DOMAIN = "vagrant"
@@ -126,13 +128,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Display the VirtualBox GUI when booting the machine
       vb.gui = true
 
+      # Customize the count of cpus on the VM:
+      vb.cpus = MACHINE_CPU
+
       # Customize the amount of memory on the VM:
-      vb.memory = "1024"
+      vb.memory = MACHINE_MEMORY
 
       # Vagrant Machine Name
       vb.name = MACHINE_HOSTNAME + "." + BASE_DOMAIN
 
-      vb.customize ["modifyvm", :id, "--memory", "1024"]
+      vb.customize ["modifyvm", :id, "--memory", MACHINE_MEMORY]
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     end
   end
