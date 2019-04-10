@@ -11,27 +11,42 @@ do
     eval VAGRANT_DB_PASS='$'SITES__SITE_"$i"__DB__PASS
     eval VAGRANT_DB_PROVISION_RESET='$'SITES__SITE_"$i"__DB__PROVISION_RESET
 
-
-    if [ "$VAGRANT_DB_PROVISION_RESET" == "YES" ]; then
-        log_action_msg "Remove databases on provision"
-        sudo mysql -u$DB__USER -p$DB__PASS -e 'DROP DATABASE IF EXISTS `'.$VAGRANT_DB_NAME.'`;' > /dev/null 2>&1
-        log_success_msg "DB $VAGRANT_DB_NAME dropped"
-        sudo mysql -u$DB__USER -p$DB__PASS -e 'DROP USER IF EXISTS "'.$VAGRANT_DB_USER.'"@"localhost";' > /dev/null 2>&1
-        log_success_msg "User $VAGRANT_DB_USER dropped"
+    if [ ! -n "$VAGRANT_DB_NAME" ]; then
+        log_warning_msg "DB__NAME not setupped for site ${VAGRANT_SITE_DOMAIN}"
+        continue
     fi
 
-    log_action_msg "Checking existing databases..."
+    if [ ! -n "$VAGRANT_DB_PROVISION_RESET" ]; then
+      log_warning_msg "DB ${VAGRANT_DB_NAME} don't has personal provision settings we will get global"
+
+      if [ ! -n "$DB__PROVISION_RESET" ]; then
+        VAGRANT_DB_PROVISION_RESET=DB__PROVISION_RESET
+      fi
+    fi
+
+    if [ "$VAGRANT_DB_PROVISION_RESET" == "YES" ]; then
+        log_action_msg "Removing DB on provision if exist"
+        sudo mysql -u$DB__USER -p$DB__PASS -e 'DROP DATABASE IF EXISTS `'.$VAGRANT_DB_NAME.'`;'
+        log_success_msg "DB $VAGRANT_DB_NAME dropped"
+
+        if [ -n "$VAGRANT_DB_USER" ]; then
+            log_action_msg "Removing ${VAGRANT_DB_USER} on provision if exist"
+            sudo mysql -u$DB__USER -p$DB__PASS -e 'DROP USER IF EXISTS "'.$VAGRANT_DB_USER.'"@"localhost";'
+            log_success_msg "User $VAGRANT_DB_USER dropped"
+        fi
+    fi
+
+    log_action_msg "Checking existing DB ${VAGRANT_DB_NAME}"
 
     VAGRANT_DB_EXIST="NO"
 
     if [ -d "/var/lib/mysql/$VAGRANT_DB_NAME" ] ; then
         VAGRANT_DB_EXIST="YES"
-        log_warning_msg "DB ${VAGRANT_DB_NAME} exist!"
+        log_warning_msg "DB ${VAGRANT_DB_NAME} already exist!"
+        continue
     else
         log_success_msg "DB ${VAGRANT_DB_NAME} not exist!"
     fi
-
-    #log_progress_msg "$VAGRANT_DB_NAME exist: $VAGRANT_DB_EXIST."
 
     log_action_msg  "Creating DB $VAGRANT_DB_NAME"
 
@@ -40,19 +55,27 @@ do
         log_success_msg "DB $VAGRANT_DB_NAME created"
     else
         log_failure_msg "DB $VAGRANT_DB_NAME not created"
-        log_warning_msg "$DB $VAGRANT_DB_NAME already exist or site folder $VAGRANT_SITE_PATH not founded"
+        log_warning_msg "DB ${VAGRANT_DB_NAME} already exist or site folder ${VAGRANT_SITE_PATH} not founded"
     fi
 
-    log_action_msg "Create DBs User"
+    if [ -n "$VAGRANT_DB_USER" ]; then
+        if [ -n "$VAGRANT_DB_PASS" ]; then
+            log_action_msg "Create DB USER ${VAGRANT_DB_USER}"
 
-    if [ -d "$VAGRANT_SITE_PATH" ] && [ "$VAGRANT_DB_EXIST" == "NO" ]; then
-        sudo mysql -u$DB__USER -p$DB__PASS -e 'CREATE USER "'$VAGRANT_DB_USER'"@"localhost" IDENTIFIED BY "'$VAGRANT_DB_PASS'";'
-        sudo mysql -u$DB__USER -p$DB__PASS -e 'GRANT ALL PRIVILEGES ON `'$VAGRANT_DB_NAME'`.* TO "'$VAGRANT_DB_USER'"@"localhost";'
+            if [ -d "$VAGRANT_SITE_PATH" ] && [ "$VAGRANT_DB_EXIST" == "NO" ]; then
+                sudo mysql -u$DB__USER -p$DB__PASS -e 'CREATE USER "'$VAGRANT_DB_USER'"@"localhost" IDENTIFIED BY "'$VAGRANT_DB_PASS'";'
+                sudo mysql -u$DB__USER -p$DB__PASS -e 'GRANT ALL PRIVILEGES ON `'$VAGRANT_DB_NAME'`.* TO "'$VAGRANT_DB_USER'"@"localhost";'
 
-        log_success_msg "User for DB $VAGRANT_DB_NAME created"
+                log_success_msg "User ${VAGRANT_DB_USER} for DB ${VAGRANT_DB_NAME} created"
+            else
+                log_failure_msg "User ${VAGRANT_DB_USER} for DB ${VAGRANT_DB_NAME} not created"
+                log_warning_msg "DB ${VAGRANT_DB_NAME} already exist or site folder ${VAGRANT_SITE_PATH} not founded"
+            fi
+        else
+            log_warning_msg "DB_PASS for ${VAGRANT_DB_USER} not setupped in DB: ${VAGRANT_DB_NAME}. USER NOT CREATED"
+        fi
     else
-        log_failure_msg "User for DB $VAGRANT_DB_NAME not created"
-        log_warning_msg "$DB $VAGRANT_DB_NAME already exist or site folder $VAGRANT_SITE_PATH not founded"
+        log_warning_msg "DB_USER not setupped in DB: ${VAGRANT_DB_NAME}. USER NOT CREATED"
     fi
 
     log_begin_msg "Flush mysql privileges"
@@ -73,6 +96,6 @@ do
         fi
     else
         log_failure_msg "Script not executed for DB $VAGRANT_DB_NAME"
-        log_warning_msg "$DB $VAGRANT_DB_NAME already exist or site folder $VAGRANT_SITE_PATH not founded"
+        log_warning_msg "DB ${VAGRANT_DB_NAME} already exist or site folder ${VAGRANT_SITE_PATH} not founded"
     fi
 done
