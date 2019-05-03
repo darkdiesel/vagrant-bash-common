@@ -32,9 +32,15 @@ do
     eval VAGRANT_SITE_DOMAIN='$'SITES__SITE_"$i"__DOMAIN
     eval VAGRANT_SITE_DIR='$'SITES__SITE_"$i"__DIR
     eval VAGRANT_SITE_PATH='$'SITES__SITE_"$i"__PATH
+    eval VAGRANT_SITE_DRUPAL='$'SITES__SITE_"$i"__DRUPAL
 
     if [ -d "$VAGRANT_SITE_PATH" ]; then
         sudo cp /etc/nginx/sites-available/vagrant-site-ssl.conf /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf
+
+        if [ -n "$VAGRANT_SITE_DRUPAL" ] && [ "$VAGRANT_SITE_DRUPAL" == "YES" ]; then
+            sudo cp /etc/nginx/sites-available/vagrant-site-drupal-ssl.conf /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf
+        fi;
+
         sudo sed -i "s,{SITE_DOMAIN},${VAGRANT_SITE_DOMAIN},g" /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf
         sudo sed -i "s,{SITE_PATH},${VAGRANT_SITE_PATH},g" /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf
         sudo ln -s /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf /etc/nginx/sites-enabled/ > /dev/null
