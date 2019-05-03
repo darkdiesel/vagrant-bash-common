@@ -22,6 +22,7 @@ SITES:
     DOMAIN: ${SITES__BASE_DOMAIN}
     DIR: ${SITES__SITE_1__DOMAIN}
     PATH: ${SITES__BASE_PATH}${SITES__SITE_1__DOMAIN}/
+    DRUPAL: NO
     DB:
       NAME: vagrant
       USER: vagrant_usr
