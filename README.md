@@ -92,7 +92,8 @@ Required plugins should be installed automatically. If not - run manually instal
 ## Avalable Packages Version
 * `php`: `5.6`, `7.0`, `7.1`, `7.2`
 * `mariadb`: `10.2`, `10.3`
-* `drush`: `All` - [check package page](https://packagist.org/packages/drush/drush) add [drupal compatibility](https://docs.drush.org/en/master/install/#drupal-compatibility) 
+* `drush`: `All` - go [package page](https://packagist.org/packages/drush/drush) and [drupal compatibility](https://docs.drush.org/en/master/install/#drupal-compatibility)
+* `nodejs`: [4](https://deb.nodesource.com/setup_4.x) - [12](https://deb.nodesource.com/setup_12.x). Go [repo](https://deb.nodesource.com/) for more info
 
 ## Packages Requirements 
 * `mailhog`: `git`, `golang-go`
