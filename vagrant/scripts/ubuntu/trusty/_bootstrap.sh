@@ -50,6 +50,10 @@ if [ ${PACKAGES__COMPOSER} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/composer.sh
 fi
 
+if [ ${PACKAGES__NODEJS__INSTALL} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/nodejs.sh
+fi
+
 if [ ${PACKAGES__SENDMAIL} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/sendmail.sh
 fi
