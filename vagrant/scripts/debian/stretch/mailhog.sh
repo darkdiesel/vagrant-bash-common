@@ -15,12 +15,22 @@ go get github.com/mailhog/MailHog
 go get github.com/mailhog/mhsendmail
 log_end_msg 0
 
-log_begin_msg "Create links"
-sudo ln  ~/gocode/bin/mhsendmail /usr/local/bin/mhsendmail
-sudo ln  ~/gocode/bin/mhsendmail /usr/local/bin/sendmail
-sudo ln  ~/gocode/bin/mhsendmail /usr/local/bin/mail
+log_begin_msg "Create mail links"
+if [ ! -f "/usr/local/bin/mhsendmail" ]; then
+    sudo ln  ~/gocode/bin/mhsendmail /usr/local/bin/mhsendmail > /dev/null 2>&1
+fi
 
-sudo ln  ~/gocode/bin/MailHog /usr/local/bin/mailhog
+if [ ! -f "/usr/local/bin/sendmail" ]; then
+    sudo ln  ~/gocode/bin/mhsendmail /usr/local/bin/sendmail > /dev/null 2>&1
+fi
+
+if [ ! -f "/usr/local/bin/mail" ]; then
+    sudo ln  ~/gocode/bin/mhsendmail /usr/local/bin/mail > /dev/null 2>&1
+fi
+
+if [ ! -f "/usr/local/bin/mailhog" ]; then
+    sudo ln  ~/gocode/bin/MailHog /usr/local/bin/mailhog > /dev/null 2>&1
+fi
 log_end_msg 0
 
 if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
