@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 # before installation highcharts-export-server you need to install nodejs
-#source ${VAGRANT__UBUNTU_COMMON_SCRIPTS_PATH}/nodejs.sh
-
+source ${VAGRANT__UBUNTU_COMMON_SCRIPTS_PATH}/nodejs.sh
 
 log_begin_msg "Installing node-export-server"
 git clone https://github.com/highcharts/node-export-server > /dev/null 2>&1
