@@ -46,6 +46,10 @@ if [ ${PACKAGES__NODEJS__INSTALL} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/nodejs.sh
 fi
 
+if [ ${PACKAGES__HIGHCHARTS_EXPORT_SERVER__INSTALL} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/highcharts-export-server.sh
+fi
+
 if [ ${PACKAGES__SENDMAIL} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/sendmail.sh
 fi
