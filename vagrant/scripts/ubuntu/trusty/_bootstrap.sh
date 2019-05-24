@@ -65,3 +65,7 @@ fi
 if [ ${PACKAGES__MAILCATCHER} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/mailcatcher.sh
 fi
+
+if [ ${PACKAGES__WP_CLI} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/wp-cli.sh
+fi

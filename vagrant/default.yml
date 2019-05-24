@@ -61,3 +61,4 @@ PACKAGES:
   DRUSH:
     INSTALL: NO
     VERSION: 7.x
+  WP_CLI: NO
