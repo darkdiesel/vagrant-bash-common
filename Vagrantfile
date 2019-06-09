@@ -1,30 +1,37 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+VAGRANT_ROOT = File.dirname(__FILE__)
+
 # Load settings from yml configs
 require 'yaml'
 
-settings = YAML.load_file './vagrant/default.yml'
+SETTINGS = YAML.load_file("#{VAGRANT_ROOT}/vagrant/default.yml")
 
-if File.exist?("./vagrant/settings.yml")
-  user_settings = YAML.load_file './vagrant/settings.yml'
-  settings.deep_merge!(user_settings)
+if File.exist?(VAGRANT_ROOT+"/vagrant/settings.yml")
+  USER_SETTINGS = YAML.load_file("#{VAGRANT_ROOT}/vagrant/settings.yml")
+
+  if (not SETTINGS.empty?) || (not USER_SETTINGS.empty?)
+    SETTINGS.deep_merge!(USER_SETTINGS)
+  end
 else
-  abort "WARNING! Before running the machine you should create copy of ./vagrant/settings.example.yml  and put in ./vagrant folder with settings.yml name."
+  abort "WARNING! Before running the machine you should create copy of #{VAGRANT_ROOT}/vagrant/settings.example.yml  and put in #{VAGRANT_ROOT}/vagrant folder with settings.yml name."
 end
+
+abort SETTINGS['VAGRANT']['IP']
 
 VAGRANTFILE_API_VERSION = "2"
 
-OS_BOX = settings['VAGRANT']['BOX']
+OS_BOX = SETTINGS['VAGRANT']['BOX']
 
 # Official OS name. used for locate correspond scripts for operation system
-OS_NAME =  settings['VAGRANT']['OS']
+OS_NAME =  SETTINGS['VAGRANT']['OS']
 
-MACHINE_IP = settings['VAGRANT']['IP']
-MACHINE_CPU = settings['VAGRANT']['CPU']
-MACHINE_MEMORY = settings['VAGRANT']['MEMORY']
+MACHINE_IP = SETTINGS['VAGRANT']['IP']
+MACHINE_CPU = SETTINGS['VAGRANT']['CPU']
+MACHINE_MEMORY = SETTINGS['VAGRANT']['MEMORY']
 
-MACHINE_HOSTNAME = settings['SITES']['BASE_DOMAIN']
+MACHINE_HOSTNAME = SETTINGS['SITES']['BASE_DOMAIN']
 BASE_DOMAIN = "vagrant"
 
 required_plugins = %w( vagrant-hostmanager vagrant-vbguest )
@@ -166,14 +173,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # build hosts array
     hosts_arr = ["www.#{MACHINE_HOSTNAME}"]
 
-    for i in 1..settings['SITES']['COUNT']
-      cur_site_domain = settings['SITES']["SITE_#{i}"]['DOMAIN']
+    for i in 1..SETTINGS['SITES']['COUNT']
+      cur_site_domain = SETTINGS['SITES']["SITE_#{i}"]['DOMAIN']
 
       bash_var = cur_site_domain.to_enum(:scan, /\W{2}\w+\W{1}/).map { Regexp.last_match }
 
       bash_var.each do |tmp|
         bash_var_arr = tmp[0][2..-2].split('__')
-        bash_var_val = settings
+        bash_var_val = SETTINGS
 
         bash_var_arr.each do |i|
             bash_var_val = bash_var_val["#{i}"]
@@ -188,15 +195,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
     end
 
-    if settings['PACKAGES']['PHPMYADMIN']
+    if SETTINGS['PACKAGES']['PHPMYADMIN']
       hosts_arr.push("pma.#{MACHINE_HOSTNAME}")
     end
 
-    if settings['PACKAGES']['MAILHOG']
+    if SETTINGS['PACKAGES']['MAILHOG']
       hosts_arr.push("mailhog.#{MACHINE_HOSTNAME}")
     end
 
-    if settings['PACKAGES']['MAILCATCHER']
+    if SETTINGS['PACKAGES']['MAILCATCHER']
       hosts_arr.push("mailcatcher.#{MACHINE_HOSTNAME}")
     end
 
