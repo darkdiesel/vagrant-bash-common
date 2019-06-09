@@ -6,16 +6,28 @@ VAGRANT_ROOT = File.dirname(__FILE__)
 # Load settings from yml configs
 require 'yaml'
 
-SETTINGS = YAML.load_file("#{VAGRANT_ROOT}/vagrant/default.yml")
+if File.exist?("#{VAGRANT_ROOT}/vagrant/default.yml")
+  SETTINGS = YAML.load_file("#{VAGRANT_ROOT}/vagrant/default.yml")
+  puts "Settings loaded from #{VAGRANT_ROOT}/vagrant/default.yml file"
+  #puts SETTINGS.inspect
+else
+  puts "WARNING! Default settings file #{VAGRANT_ROOT}/vagrant/default.yml not exist!"
+  SETTINGS = {}
+end
 
-if File.exist?(VAGRANT_ROOT+"/vagrant/settings.yml")
+if File.exist?("#{VAGRANT_ROOT}/vagrant/settings.yml")
   USER_SETTINGS = YAML.load_file("#{VAGRANT_ROOT}/vagrant/settings.yml")
-
-  if (not SETTINGS.empty?) || (not USER_SETTINGS.empty?)
-    SETTINGS.deep_merge!(USER_SETTINGS)
-  end
+  puts "User settings loaded from #{VAGRANT_ROOT}/vagrant/settings.yml file"
+  #puts USER_SETTINGS.inspect
 else
   abort "WARNING! Before running the machine you should create copy of #{VAGRANT_ROOT}/vagrant/settings.example.yml  and put in #{VAGRANT_ROOT}/vagrant folder with settings.yml name."
+  USER_SETTINGS = {}
+end
+
+if (not SETTINGS.empty?) || (not USER_SETTINGS.empty?)
+    SETTINGS.deep_merge!(USER_SETTINGS)
+    puts "Default and user settings merged"
+    #puts SETTINGS.inspect
 end
 
 VAGRANTFILE_API_VERSION = "2"
