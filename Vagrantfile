@@ -18,8 +18,6 @@ else
   abort "WARNING! Before running the machine you should create copy of #{VAGRANT_ROOT}/vagrant/settings.example.yml  and put in #{VAGRANT_ROOT}/vagrant folder with settings.yml name."
 end
 
-abort SETTINGS['VAGRANT']['IP']
-
 VAGRANTFILE_API_VERSION = "2"
 
 OS_BOX = SETTINGS['VAGRANT']['BOX']
