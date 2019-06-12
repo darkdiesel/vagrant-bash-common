@@ -103,22 +103,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  if File.directory?(File.expand_path("./vagrant"))
-    config.vm.synced_folder "./vagrant", "/vagrant", type: "virtualbox"
+  if File.directory?(File.expand_path("#{VAGRANT_ROOT}/vagrant"))
+    config.vm.synced_folder "#{VAGRANT_ROOT}/vagrant", "/vagrant", type: "virtualbox"
   else
-      puts "WARNING! ./vagrant folder does not exist!"
+      puts "WARNING! #{VAGRANT_ROOT}/vagrant folder does not exist!"
   end
-  if File.directory?(File.expand_path("./data"))
-    config.vm.synced_folder "./data", "/vagrant_data", type: "virtualbox"
+  if File.directory?(File.expand_path("#{VAGRANT_ROOT}/data"))
+    config.vm.synced_folder "#{VAGRANT_ROOT}/data", "/vagrant_data", type: "virtualbox"
   else
-      puts "WARNING! ./data folder does not exist!"
+      puts "WARNING! #{VAGRANT_ROOT}/data folder does not exist!"
   end
 
-  if File.directory?(File.expand_path("./src"))
-      config.vm.synced_folder "./src", "/var/www/", type: "virtualbox",
+  if File.directory?(File.expand_path("#{VAGRANT_ROOT}/src"))
+      config.vm.synced_folder "#{VAGRANT_ROOT}/src", "/var/www/", type: "virtualbox",
         owner: "vagrant",
         group: "www-data",
-        mount_options: ["dmode=755,fmode=664"]
+        mount_options: ["dmode=777,fmode=777"]
   else
     puts "WARNING! ./src folder does not exist!"
   end
@@ -167,7 +167,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #   apt-get install -y apache2
   # SHELL
   
-  config.vm.provision "shell", path: "./vagrant/scripts/"+OS_NAME+"/_bootstrap.sh"
+  config.vm.provision "shell", path: "#{VAGRANT_ROOT}/vagrant/scripts/"+OS_NAME+"/_bootstrap.sh"
 
   # Start mailcatcher service when vagrant machine started
   # config.vm.provision "shell", inline: '/usr/bin/env mailcatcher --http-ip=0.0.0.0', privileged: false, run: "always"
