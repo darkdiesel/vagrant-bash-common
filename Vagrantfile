@@ -5,6 +5,7 @@ VAGRANT_ROOT = File.dirname(__FILE__)
 
 # Load settings from yml configs
 require 'yaml'
+require 'vagrant/util/deep_merge'
 
 if File.exist?("#{VAGRANT_ROOT}/vagrant/default.yml")
   SETTINGS = YAML.load_file("#{VAGRANT_ROOT}/vagrant/default.yml")
@@ -25,7 +26,7 @@ else
 end
 
 if (not SETTINGS.empty?) || (not USER_SETTINGS.empty?)
-    SETTINGS.deep_merge!(USER_SETTINGS)
+    SETTINGS = Vagrant::Util::DeepMerge.deep_merge(SETTINGS, USER_SETTINGS)
     puts "Default and user settings merged"
     #puts SETTINGS.inspect
 end
