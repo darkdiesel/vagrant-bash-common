@@ -85,9 +85,15 @@ Required plugins should be installed automatically. If not - run manually instal
 * Remove vagrant machine - `vagrant destroy --force`
 
 ## Supported OS
-* `ubuntu/trusty`
-* `ubuntu/bionic`
-* `debian/stretch`
+### Ubuntu:
+* `ubuntu/trusty` - 14.04
+* `ubuntu/xenial` - 16.04 (TODO)
+* `ubuntu/bionic` - 18.04
+### Debian:
+* `debian/stretch` - 9
+* `debian/buster` - 10 (TODO)
+
+Find more vagrant boxes [here](https://app.vagrantup.com/boxes/search)
 
 ## Avalable Packages Version
 * `php`: `5.6`, `7.0`, `7.1`, `7.2`
