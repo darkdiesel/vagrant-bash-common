@@ -8,26 +8,29 @@ require 'yaml'
 require 'vagrant/util/deep_merge'
 
 if File.exist?("#{VAGRANT_ROOT}/vagrant/default.yml")
-  SETTINGS = YAML.load_file("#{VAGRANT_ROOT}/vagrant/default.yml")
-  puts "Settings loaded from #{VAGRANT_ROOT}/vagrant/default.yml file"
-  #puts SETTINGS.inspect
+  DEFAULT_SETTINGS = YAML.load_file("#{VAGRANT_ROOT}/vagrant/default.yml")
+  puts "Default Settings file: #{VAGRANT_ROOT}/vagrant/default.yml"
+  #puts DEFAULT_SETTINGS.inspect
 else
   puts "WARNING! Default settings file #{VAGRANT_ROOT}/vagrant/default.yml not exist!"
-  SETTINGS = {}
+  DEFAULT_SETTINGS = {}
 end
 
 if File.exist?("#{VAGRANT_ROOT}/vagrant/settings.yml")
   USER_SETTINGS = YAML.load_file("#{VAGRANT_ROOT}/vagrant/settings.yml")
-  puts "User settings loaded from #{VAGRANT_ROOT}/vagrant/settings.yml file"
+  puts "User Settings file: #{VAGRANT_ROOT}/vagrant/settings.yml"
   #puts USER_SETTINGS.inspect
 else
   abort "WARNING! Before running the machine you should create copy of #{VAGRANT_ROOT}/vagrant/settings.example.yml  and put in #{VAGRANT_ROOT}/vagrant folder with settings.yml name."
   USER_SETTINGS = {}
 end
 
-if (not SETTINGS.empty?) || (not USER_SETTINGS.empty?)
-    SETTINGS = Vagrant::Util::DeepMerge.deep_merge(SETTINGS, USER_SETTINGS)
-    puts "Default and user settings merged"
+if (not USER_SETTINGS.empty?) && (not DEFAULT_SETTINGS.empty?)
+    SETTINGS = Vagrant::Util::DeepMerge.deep_merge(DEFAULT_SETTINGS, USER_SETTINGS)
+    puts "Default and User settings are merged"
+    #puts SETTINGS.inspect
+else
+    SETTINGS = DEFAULT_SETTINGS
     #puts SETTINGS.inspect
 end
 
@@ -117,7 +120,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   if File.directory?(File.expand_path("#{VAGRANT_ROOT}/src"))
       config.vm.synced_folder "#{VAGRANT_ROOT}/src", "/var/www/", type: "virtualbox",
-        owner: "vagrant",
+        owner: "www-data",
         group: "www-data",
         mount_options: ["dmode=777,fmode=777"]
   else
