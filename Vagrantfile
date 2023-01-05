@@ -9,7 +9,7 @@ require 'vagrant/util/deep_merge'
 
 if File.exist?("#{VAGRANT_ROOT}/vagrant/default.yml")
   DEFAULT_SETTINGS = YAML.load_file("#{VAGRANT_ROOT}/vagrant/default.yml")
-  puts "Default Settings file: #{VAGRANT_ROOT}/vagrant/default.yml"
+  #puts "Default Settings file: #{VAGRANT_ROOT}/vagrant/default.yml"
   #puts DEFAULT_SETTINGS.inspect
 else
   puts "WARNING! Default settings file #{VAGRANT_ROOT}/vagrant/default.yml not exist!"
@@ -18,7 +18,7 @@ end
 
 if File.exist?("#{VAGRANT_ROOT}/vagrant/settings.yml")
   USER_SETTINGS = YAML.load_file("#{VAGRANT_ROOT}/vagrant/settings.yml")
-  puts "User Settings file: #{VAGRANT_ROOT}/vagrant/settings.yml"
+  #puts "User Settings file: #{VAGRANT_ROOT}/vagrant/settings.yml"
   #puts USER_SETTINGS.inspect
 else
   abort "WARNING! Before running the machine you should create copy of #{VAGRANT_ROOT}/vagrant/settings.example.yml  and put in #{VAGRANT_ROOT}/vagrant folder with settings.yml name."
@@ -186,9 +186,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # build hosts array
     hosts_arr = ["www.#{MACHINE_HOSTNAME}"]
-
-    for i in 1..SETTINGS['SITES']['COUNT']
-      cur_site_domain = SETTINGS['SITES']["SITE_#{i}"]['DOMAIN']
+	
+    i = 1
+	
+	while !SETTINGS['SITES']["SITE_#{i}"].nil?
+	  cur_site_domain = SETTINGS['SITES']["SITE_#{i}"]['DOMAIN']
 
       bash_var = cur_site_domain.to_enum(:scan, /\W{2}\w+\W{1}/).map { Regexp.last_match }
 
@@ -207,6 +209,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           hosts_arr.push(cur_site_domain)
           hosts_arr.push("www.#{cur_site_domain}")
       end
+	  
+	  i = i + 1
     end
 
     if SETTINGS['PACKAGES']['PHPMYADMIN']
