@@ -30,24 +30,31 @@ Check [Vagrant settings](#vagrant-settings) section for more detail of each para
 
 ## Vagrant settings
 Detail list of vagrant configuration file. **settings.example.yml**:
-```yml
+```yaml
 VAGRANT:
-  BOX: ubuntu/trusty64
-  OS: ubuntu/trusty
-  IP: 192.168.56.2
-MAIN_SITE:
-  DOMAIN: vagrant-common.loc
-  DIR: ${MAIN_SITE_DOMAIN}
-  PATH: /var/www/${MAIN_SITE_DOMAIN}/
+  BOX: ubuntu/focal64
+  OS: ubuntu/focal
+  IP: 192.168.56.101
+  CPU: 1
+  MEMORY: 1024
+SITES:
+  COUNT: 1
+  BASE_DOMAIN: vagrant-common.loc
+  BASE_PATH: /var/www/
+  SITE_1:
+    DOMAIN: ${SITES__BASE_DOMAIN}
+    DIR: ${SITES__SITE_1__DOMAIN}
+    PATH: ${SITES__BASE_PATH}${SITES__SITE_1__DOMAIN}/
+    DRUPAL: NO
+    DB:
+      NAME: vagrant
+      USER: vagrant_usr
+      PASS: 123456q
+      PROVISION_RESET: YES
 DB:
   USER: root
   PASS: 123456q
-  MARIADB_VERSION: 10.2
-  MAIN:
-    NAME: vagrant
-    USER: vagrant_usr
-    PASS: 123456q
-    PROVISION_RESET: YES
+  PROVISION_RESET: YES
 PACKAGES:
   MC: YES
   HTOP: YES
@@ -55,40 +62,62 @@ PACKAGES:
   VIM: YES
   APACHE2: YES
   NGINX: YES
-  MARIADB: YES
-  PHP: YES
+  MARIADB:
+    INSTALL: YES
+    VERSION: 10.4
+  PHP:
+    INSTALL: YES
+    VERSION: 7.4
   COMPOSER: YES
+  REDIS: YES
+  NODEJS:
+    INSTALL: NO
+    VERSION: 10
+  HIGHCHARTS_EXPORT_SERVER:
+    INSTALL: NO
+    VERSION: latest
   SENDMAIL: YES
   PHPMYADMIN: YES
-  MAILCATCHER: YES
-  DRUSH: YES
+  MAILHOG: YES
+  MAILCATCHER: NO
+  DRUSH:
+    INSTALL: NO
+    VERSION: 9.x
+  WP_CLI: NO
 ```
 
-- **`VAGRANT`**: section for vagrant settings
-    - **`BOX`**: Vagrant box name. Visit [public catalog of Vagrant boxes](https://app.vagrantup.com/boxes/search) to find more boxes. Check [Supported OS](#supported-os) section for find supporting boxes.
-    - **`OS`**: Official operation system name. Format: *`<linux distribution name>/<release code name>`*.
-    - **`IP`**: Ip address of vagrant machine
-- **`MAIN_SITE`**: 
-    - **`DOMAIN`**: Main domain of project
+- `VAGRANT`: section for vagrant settings
+    - `BOX`: Vagrant box name. Visit [public catalog of Vagrant boxes](https://app.vagrantup.com/boxes/search) to find more boxes. Check [Supported OS](#supported-os) section for find supporting boxes.
+    - `OS`: Official operation system name. Format: *`<linux distribution name>/<release code name>`*.
+    - `IP`: Ip address of vagrant machine
+- `SITES`: 
+    - `COUNT`: Count of sites that you need to create
+    - `BASE_DOMAIN`: Host domain that will be available after setup. By default, used for site folder name
+    - `BASE_PATH`: Site location on virtual machine
 
 ## Vagrant plugins requirements
 Required plugins should be installed automatically. If not - run manually installation by command `vagrant plugin install <plugin name>` for each of next plugins:
  - [vagrant-hostmanager](https://github.com/devopsgroup-io/vagrant-hostmanager)
+ - [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest)
 
 ## Useful vagrant commands
-* Init new vagrant config -  `vagrant init`
-* Run vagrant machine -  `vagrant up`
-* Run vagrant machine with provision -  `vagrant up --provision`
-* Check box update - `vagrant box update`
-* Remove old version of vagrant boxes - `vagrant box prune`
-* Connect to vagrant machine via ssh - `vagrant ssh`
-* Remove vagrant machine - `vagrant destroy --force`
+* `vagrant init` - init new vagrant config  
+* `vagrant up` - run vagrant machine
+* `vagrant up --provision` - run vagrant machine with provision (run installation scripts)  
+* `vagrant reload` - reload virtual machine
+* `vagrant reload --provision` - reload virtual machine and run provision (run installation scripts)
+* `vagrant box update` - update box for current vagrant instance 
+* `vagrant box prune` - remove old version of vagrant boxes 
+* `vagrant ssh` - connect to vagrant machine via ssh 
+* `vagrant destroy` - remove vagrant machine
+* `vagrant destroy --force` - remove vagrant machine force flow
 
 ## Supported OS
 ### Ubuntu:
 * `ubuntu/trusty` - 14.04
 * `ubuntu/xenial` - 16.04 (TODO)
 * `ubuntu/bionic` - 18.04
+* `ubuntu/focal`  - 20.04 (progress, [example](#ubuntu-focal))
 ### Debian:
 * `debian/stretch` - 9
 * `debian/buster` - 10 (TODO)
@@ -105,3 +134,18 @@ Find more vagrant boxes [here](https://app.vagrantup.com/boxes/search)
 * `mailhog`: `git`, `golang-go`
 * `drush`: `composer`
 * `composer`: `php`
+
+## ubuntu focal
+
+Config:
+```yaml
+VAGRANT:
+  BOX: ubuntu/focal64
+  OS: ubuntu/focal
+```
+
+Soft:
+```text
+PHP: 7.4
+MARIADB: 10.4
+```
