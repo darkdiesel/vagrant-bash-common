@@ -43,13 +43,13 @@ fi
 
 # db
 if [ ${PACKAGES__MARIADB__INSTALL} == "YES" ]; then
-    source ${VAGRANT__OS_SCRIPTS_PATH}/mariadb.${PACKAGES__MARIADB__VERSION}.sh
+    source ${VAGRANT__OS_SCRIPTS_PATH}/mariadb.sh
     source ${VAGRANT__OS_SCRIPTS_PATH}/db-setup.sh
 fi
 
 # php and composer
 if [ ${PACKAGES__PHP__INSTALL} == "YES" ]; then
-    source ${VAGRANT__OS_SCRIPTS_PATH}/php7.4-fpm.sh
+    source ${VAGRANT__OS_SCRIPTS_PATH}/php-fpm.sh
 fi
 
 if [ ${PACKAGES__COMPOSER} == "YES" ]; then
@@ -57,7 +57,7 @@ if [ ${PACKAGES__COMPOSER} == "YES" ]; then
 fi
 
 if [ ${PACKAGES__REDIS} == "YES" ]; then
-    source ${VAGRANT__OS_SCRIPTS_PATH}/redis-server.sh
+    source ${VAGRANT__OS_SCRIPTS_PATH}/redis.sh
 fi
 
 if [ ${PACKAGES__NODEJS__INSTALL} == "YES" ]; then

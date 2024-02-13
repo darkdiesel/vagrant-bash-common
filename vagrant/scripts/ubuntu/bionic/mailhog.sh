@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-. /lib/lsb/init-functions
-
 source ${VAGRANT__OS_SCRIPTS_PATH}/golang-go.sh
 
 #wget https://github.com/mailhog/MailHog/releases/download/v1.0.0/MailHog_linux_amd64

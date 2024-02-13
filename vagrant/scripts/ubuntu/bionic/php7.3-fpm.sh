@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-. /lib/lsb/init-functions
-
-
 sudo add-apt-repository ppa:ondrej/php > /dev/null 2>&1
 sudo apt update > /dev/null 2>&1
 

@@ -4,6 +4,7 @@ VAGRANT:
   IP: 192.168.56.2
   CPU: 1
   MEMORY: 1024
+  GUI: true
 SITES:
   COUNT: 1
   BASE_DOMAIN: vagrant-common.loc

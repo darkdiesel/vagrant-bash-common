@@ -37,6 +37,7 @@ VAGRANT:
   IP: 192.168.56.101
   CPU: 1
   MEMORY: 1024
+  GUI: true
 SITES:
   COUNT: 1
   BASE_DOMAIN: vagrant-common.loc
@@ -90,6 +91,7 @@ PACKAGES:
     - `BOX`: Vagrant box name. Visit [public catalog of Vagrant boxes](https://app.vagrantup.com/boxes/search) to find more boxes. Check [Supported OS](#supported-os) section for find supporting boxes.
     - `OS`: Official operation system name. Format: *`<linux distribution name>/<release code name>`*.
     - `IP`: Ip address of vagrant machine
+    - `GUI`: Show virtual machine interface
 - `SITES`: 
     - `COUNT`: Count of sites that you need to create
     - `BASE_DOMAIN`: Host domain that will be available after setup. By default, used for site folder name
@@ -115,9 +117,10 @@ Required plugins should be installed automatically. If not - run manually instal
 ## Supported OS
 ### Ubuntu:
 * `ubuntu/trusty` - 14.04
-* `ubuntu/xenial` - 16.04 (TODO)
+* `ubuntu/xenial` - 16.04 [detail](#ubuntu-xenial)
 * `ubuntu/bionic` - 18.04
-* `ubuntu/focal`  - 20.04 (progress, [example](#ubuntu-focal))
+* `ubuntu/focal`  - 20.04 [detail](#ubuntu-focal)
+* `ubuntu/jammy`  - 22.04 [detail](#ubuntu-jammy)
 ### Debian:
 * `debian/stretch` - 9
 * `debian/buster` - 10 (TODO)
@@ -135,6 +138,24 @@ Find more vagrant boxes [here](https://app.vagrantup.com/boxes/search)
 * `drush`: `composer`
 * `composer`: `php`
 
+## ubuntu xenial
+
+Config:
+```yaml
+VAGRANT:
+  BOX: ubuntu/xeniall64
+  OS: ubuntu/xenial
+```
+
+Soft:
+```text
+PHP: 7.0
+MARIADB: 10.4
+XDEBUG: ~2.4.0
+NGINX: ~1.10.3
+NGINX: ~2.4.18
+```
+
 ## ubuntu focal
 
 Config:
@@ -142,6 +163,20 @@ Config:
 VAGRANT:
   BOX: ubuntu/focal64
   OS: ubuntu/focal
+```
+
+Soft:
+```text
+PHP: 7.4
+MARIADB: 10.4
+```
+## ubuntu jammy
+
+Config:
+```yaml
+VAGRANT:
+  BOX: ubuntu/jammy64
+  OS: ubuntu/jammy
 ```
 
 Soft:

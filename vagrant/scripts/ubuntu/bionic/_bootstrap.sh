@@ -44,7 +44,7 @@ if [ ${PACKAGES__COMPOSER} == "YES" ]; then
 fi
 
 if [ ${PACKAGES__REDIS} == "YES" ]; then
-    source ${VAGRANT__OS_SCRIPTS_PATH}/redis-server.sh
+    source ${VAGRANT__OS_SCRIPTS_PATH}/redis.sh
 fi
 
 if [ ${PACKAGES__NODEJS__INSTALL} == "YES" ]; then

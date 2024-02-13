@@ -44,6 +44,7 @@ OS_NAME =  SETTINGS['VAGRANT']['OS']
 MACHINE_IP = SETTINGS['VAGRANT']['IP']
 MACHINE_CPU = SETTINGS['VAGRANT']['CPU']
 MACHINE_MEMORY = SETTINGS['VAGRANT']['MEMORY']
+MACHINE_GUI = SETTINGS['VAGRANT']['GUI']
 
 MACHINE_HOSTNAME = SETTINGS['SITES']['BASE_DOMAIN']
 BASE_DOMAIN = "vagrant"
@@ -147,7 +148,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     machine.vm.provider "virtualbox" do |vb|
       # Display the VirtualBox GUI when booting the machine
-      vb.gui = true
+      vb.gui = MACHINE_GUI
 
       # Customize the count of cpus on the VM:
       vb.cpus = MACHINE_CPU
