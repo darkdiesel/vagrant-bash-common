@@ -181,6 +181,6 @@ VAGRANT:
 
 Soft:
 ```text
-PHP: 7.4
-MARIADB: 10.4
+PHP: 8.1
+MARIADB: 10.6
 ```
