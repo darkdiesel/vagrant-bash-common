@@ -23,6 +23,7 @@ if [ ! -f "/etc/nginx/nginx.conf.bak" ]; then
     sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
 fi
 
+#@TODO: Rewrite this part depends on nginx installed or not. Copy only files that needed
 log_action_msg "Copying nginx configs"
 sudo cp -R ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/* /etc/nginx/
 
@@ -57,7 +58,7 @@ do
 
         if [ ! -f "${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_bundle.crt" ]; then
             if [ ! -f "${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_private.key" ]; then
-                sudo openssl req -new -newkey rsa:1024 -nodes -keyout ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_private.key -x509 -days 500 -subj /C=RU/ST=Grodno/L=Grodno/O=Companyname/OU=User/CN=${VAGRANT_SITE_DOMAIN}/emailAddress=admin@${VAGRANT_SITE_DOMAIN} -out ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_bundle.crt > /dev/null 2>&1
+                sudo openssl req -new -newkey rsa:2048 -nodes -keyout ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_private.key -x509 -days 500 -subj /C=RU/ST=Grodno/L=Grodno/O=Companyname/OU=User/CN=${VAGRANT_SITE_DOMAIN}/emailAddress=admin@${VAGRANT_SITE_DOMAIN} -out ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_bundle.crt > /dev/null 2>&1
             fi
         fi
 
@@ -65,15 +66,10 @@ do
         sudo cp  ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/nginx/ssl/${VAGRANT_SITE_DOMAIN}_bundle.crt /etc/nginx/ssl/
 
         log_action_msg "Generated ssl nginx certs for ${VAGRANT_SITE_DOMAIN}"
+    else
+        log_warning_msg "Path ${VAGRANT_SITE_PATH} not exist and apache hosts not created!"
     fi
 done
-
-#if [ -d "$MAIN_SITE_PATH" ]; then
-#    sudo cp /etc/nginx/sites-available/vagrant-site-ssl.conf /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
-#    sudo sed -i "s,{SITE_DOMAIN},${MAIN_SITE_DOMAIN},g" /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
-#    sudo sed -i "s,{SITE_PATH},${MAIN_SITE_PATH},g" /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf
-#    sudo ln -s /etc/nginx/sites-available/${MAIN_SITE_DOMAIN}.conf /etc/nginx/sites-enabled/ > /dev/null
-#fi
 
 log_begin_msg "Update privileges for nginx logs"
 sudo chmod 777 -R /var/log/nginx/ > /dev/null

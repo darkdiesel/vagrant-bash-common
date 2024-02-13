@@ -3,10 +3,6 @@
 . /lib/lsb/init-functions
 
 
-sudo add-apt-repository ppa:ondrej/php > /dev/null 2>&1
-sudo apt update > /dev/null 2>&1
-
-
 if [ $(dpkg-query -W -f='${Status}' php-fpm 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     log_begin_msg "Installing php7.4-fpm and packages"
     sudo apt-get install -y php7.4-fpm php7.4-mbstring php7.4-gd php7.4-curl php7.4-cgi php7.4-intl php7.4-xml php7.4-mysql php7.4-zip php7.4-xdebug > /dev/null 2>&1

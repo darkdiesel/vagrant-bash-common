@@ -19,16 +19,14 @@ log_action_msg "Removing apache2 default hosts"
     sudo a2dissite 000-default.conf > /dev/null 2>&1
 #    sudo rm -rf /etc/apache2/sites-enabled/* > /dev/null 2>&1
 
-
 log_action_msg "Backup apache2 config"
 if [ ! -f "/etc/apache2/ports.conf.bak" ]; then
     sudo cp /etc/apache2/ports.conf /etc/apache2/ports.conf.bak > /dev/null
 fi
 
-
+#@TODO: Rewrite this part depends on nginx installed or not. Copy only files that needed
 log_action_msg "Copying apache2 configs"
 sudo cp -R ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/apache2/* /etc/apache2/ > /dev/null 2>&1
-
 
 log_action_msg "Creating links for apache2 hosts"
 for i in `seq 1 ${SITES__COUNT}`;
@@ -44,9 +42,10 @@ do
         sudo a2ensite ${VAGRANT_SITE_DOMAIN}.conf > /dev/null 2>&1
 
         log_action_msg "Add apache2 host for ${VAGRANT_SITE_DOMAIN}"
+    else
+        log_warning_msg "Path ${VAGRANT_SITE_PATH} not exist and apache hosts not created!"
     fi
 done
-
 
 log_begin_msg "Enable apache mods"
 sudo a2enmod rewrite > /dev/null 2>&1

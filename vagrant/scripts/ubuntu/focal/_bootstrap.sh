@@ -20,13 +20,26 @@ if [ ${PACKAGES__MC} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/mc.sh
 fi
 
+if [ ${PACKAGES__HTOP} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/htop.sh
+fi
+
 if [ ${PACKAGES__GIT} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/git.sh
 fi
 
+if [ ${PACKAGES__VIM} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/vim.sh
+fi
+
 # web servers
-source ${VAGRANT__OS_SCRIPTS_PATH}/apache2.sh
-source ${VAGRANT__OS_SCRIPTS_PATH}/nginx.sh
+if [ ${PACKAGES__APACHE2} == "YES" ]; then
+  source ${VAGRANT__OS_SCRIPTS_PATH}/apache2.sh
+fi
+
+if [ ${PACKAGES__NGINX} == "YES" ]; then
+  source ${VAGRANT__OS_SCRIPTS_PATH}/nginx.sh
+fi
 
 # db
 if [ ${PACKAGES__MARIADB__INSTALL} == "YES" ]; then
@@ -36,7 +49,7 @@ fi
 
 # php and composer
 if [ ${PACKAGES__PHP__INSTALL} == "YES" ]; then
-    source ${VAGRANT__OS_SCRIPTS_PATH}/php7.2-fpm.sh
+    source ${VAGRANT__OS_SCRIPTS_PATH}/php7.4-fpm.sh
 fi
 
 if [ ${PACKAGES__COMPOSER} == "YES" ]; then

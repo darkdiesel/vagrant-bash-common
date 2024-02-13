@@ -6,7 +6,7 @@
 if [ $(dpkg-query -W -f='${Status}' php-fpm 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     log_begin_msg "Installing php7.2-fpm and packages"
     sudo apt-get install -y php7.2-fpm php7.2-mbstring php7.2-gd php7.2-curl php7.2-cgi php7.2-intl php7.2-xml php7.2-mysql php7.2-zip php-xdebug > /dev/null 2>&1
-    #TODO add installation for php7.2-mcrypt
+    #@TODO: add installation for php7.2-mcrypt
 
     if [[ $? > 0 ]]; then
         log_end_msg 1
