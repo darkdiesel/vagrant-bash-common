@@ -6,8 +6,10 @@ if [ $(dpkg-query -W -f='${Status}' phpmyadmin 2>/dev/null | grep -c "ok install
     sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true"
     sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-user string $DB__USER"
     sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm password $DB__PASS"
+    sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/password-confirm password $DB__PASS"
     sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password $DB__PASS"
     sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $DB__PASS"
+    sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/authplugin select default"
     sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2"
 
 #    sudo echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
@@ -39,7 +41,6 @@ if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed"
 
     log_end_msg 0
 fi
-
 
 if [ $(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
     log_begin_msg "Enable pma nginx host"

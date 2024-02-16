@@ -75,11 +75,20 @@ else
     log_end_msg 0
 fi
 
-DEBIAN_SYS_MAINT_USER=$(grep 'user' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
-DEBIAN_SYS_MAINT_PASS=$(grep 'password' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
+sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sudo mysql_secure_installation
+      # current root password (emtpy after installation)
+      # current root password (emtpy after installation)
+    y # Set root password?
+    ${DB__PASS} # new root password
+    ${DB__PASS} # new root password
+    y # Remove anonymous users?
+    y # Disallow root login remotely?
+    y # Remove test database and access to it?
+    y # Reload privilege tables now?
+EOF
 
-DEBIAN_SYS_MAINT_USER=$DB__USER
-DEBIAN_SYS_MAINT_PASS=$DB__PASS
-
-sudo mysql -u$DB__USER -p$DB__PASS -e 'GRANT ALL PRIVILEGES ON *.* TO "'$DEBIAN_SYS_MAINT_USER'"@"localhost" IDENTIFIED BY "'$DEBIAN_SYS_MAINT_PASS'";'
-sudo mysql -u$DB__USER -p$DB__PASS -e "FLUSH PRIVILEGES;"
+#DEBIAN_SYS_MAINT_USER=$(grep 'user' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
+#DEBIAN_SYS_MAINT_PASS=$(grep 'password' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
+#
+#sudo mysql -u$DB__USER -p$DB__PASS -e 'GRANT ALL PRIVILEGES ON *.* TO "'$DEBIAN_SYS_MAINT_USER'"@"localhost" IDENTIFIED BY "'$DEBIAN_SYS_MAINT_PASS'";'
+#sudo mysql -u$DB__USER -p$DB__PASS -e "FLUSH PRIVILEGES;"

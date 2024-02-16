@@ -68,7 +68,7 @@ if [ ${PACKAGES__HIGHCHARTS_EXPORT_SERVER__INSTALL} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/highcharts-export-server.sh
 fi
 
-if [ ${PACKAGES__PM2__INSTALL} == "YES" ]; then
+if [ ${PACKAGES__PM2} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/pm2.sh
 fi
 

@@ -85,7 +85,7 @@ if [ -f $MAILHOG_PHP_MOD_PATH ]; then
 fi
 
 if [ -f $VAGRANT_MAILHOG_CONFIG ]; then
-    sudo cp -R $VAGRANT_MAILHOG_CONFIG $MARIADB_APT_SOURCE_LIST > /dev/null 2>&1
+    sudo cp -R $VAGRANT_MAILHOG_CONFIG $MAILHOG_PHP_MOD_PATH > /dev/null 2>&1
 else
   sudo touch $MAILHOG_PHP_MOD_PATH
   sudo chmod 777 $MAILHOG_PHP_MOD_PATH

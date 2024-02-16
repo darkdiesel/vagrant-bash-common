@@ -153,7 +153,7 @@ PHP: 7.0
 MARIADB: 10.4
 XDEBUG: ~2.4.0
 NGINX: ~1.10.3
-NGINX: ~2.4.18
+APACHE2: ~2.4.18
 ```
 
 ## ubuntu focal
@@ -183,4 +183,7 @@ Soft:
 ```text
 PHP: 8.1
 MARIADB: 10.6
+XDEBUG: ~3.1.2
+NGINX: ~1.18.0
+APACHE2: ~2.4.52
 ```

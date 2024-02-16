@@ -2,7 +2,7 @@
 
 source ${VAGRANT__OS_SCRIPTS_PATH}/golang-go.sh
 
-#wget https://github.com/mailhog/MailHog/releases/download/v1.0.0/MailHog_linux_amd64
+#wget https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64
 #sudo cp MailHog_linux_amd64 /usr/local/bin/mailhog
 
 #wget https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64
@@ -10,11 +10,19 @@ source ${VAGRANT__OS_SCRIPTS_PATH}/golang-go.sh
 
 log_begin_msg "Installing Mailhog and mhsendmail"
 
+#@TODO: check go version and rin diff installation
 GO_VERSION=`go version | { read _ _ v _; echo ${v#go}; }`
 
-go install github.com/mailhog/MailHog@v1.0.1
-go install github.com/mailhog/mhsendmail@v0.2.0
+go env -w GOPROXY=https://goproxy.io,direct
+#go env -w GOPROXY=direct
+#go env -w GOSUMDB=off
+
+go install github.com/mailhog/MailHog@latest > /dev/null 2>&1
+go install github.com/mailhog/mhsendmail@latest > /dev/null 2>&1
 log_end_msg 0
+
+#go install github.com/mailhog/MailHog@v1.0.1
+#go install github.com/mailhog/mhsendmail@v0.2.0
 
 log_begin_msg "Create mail links"
 if [ ! -f "/usr/local/bin/mhsendmail" ]; then
@@ -45,7 +53,6 @@ if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed"
 
     log_end_msg 0
 fi
-
 
 if [ $(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
     log_begin_msg "Enable mailhog nginx host"
@@ -85,10 +92,11 @@ log_action_msg "Remove old config"
 
 if [ -f $MAILHOG_PHP_MOD_PATH ]; then
     sudo rm -rf $MAILHOG_PHP_MOD_PATH
+    log_progress_msg "done"
 fi
 
 if [ -f $VAGRANT_MAILHOG_CONFIG ]; then
-    sudo cp -R $VAGRANT_MAILHOG_CONFIG $MARIADB_APT_SOURCE_LIST > /dev/null 2>&1
+    sudo cp -R $VAGRANT_MAILHOG_CONFIG $MAILHOG_PHP_MOD_PATH > /dev/null 2>&1
 else
   sudo touch $MAILHOG_PHP_MOD_PATH
   sudo chmod 777 $MAILHOG_PHP_MOD_PATH
