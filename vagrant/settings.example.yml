@@ -14,6 +14,8 @@ SITES:
     DIR: ${SITES__SITE_1__DOMAIN}
     PATH: ${SITES__BASE_PATH}${SITES__SITE_1__DOMAIN}/
     DRUPAL: NO
+    NPM: NO
+    PORT: 3000
     DB:
       NAME: vagrant
       USER: vagrant_usr
