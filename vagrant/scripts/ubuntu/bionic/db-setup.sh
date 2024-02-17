@@ -85,10 +85,10 @@ do
     log_action_msg "Run db scripts"
 
     if [ -d "$VAGRANT_SITE_PATH" ] && [ "$VAGRANT_DB_EXIST" == "NO" ]; then
-        if [ -f "${VAGRANT__DATA_FOLDER}/db-backups/${VAGRANT_DB_NAME}.sql" ]; then
+        if [ -f "${VAGRANT__DATA_FOLDER}/dumps/${VAGRANT_DB_NAME}.sql" ]; then
             log_action_msg "Running script for $VAGRANT_DB_NAME"
 
-            sudo mysql -u$DB__USER -p$DB__PASS $VAGRANT_DB_NAME < ${VAGRANT__DATA_FOLDER}/db-backups/${VAGRANT_DB_NAME}.sql
+            sudo mysql -u$DB__USER -p$DB__PASS $VAGRANT_DB_NAME < ${VAGRANT__DATA_FOLDER}/dumps/${VAGRANT_DB_NAME}.sql
 
             log_success_msg "Script executed for DB $VAGRANT_DB_NAME"
         else

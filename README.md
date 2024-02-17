@@ -1,35 +1,30 @@
-# Vagrant common configuration
+# Vagrant machine builder
+
+Create you virtual machine on ubuntu or debian with soft that you need for you project. Check [suported os](#supported-os) section for mo details. 
 
 ## Table of content
-- [Setup](#setup)
 - [Install](#install)
-- [Vagrant Settings](#vagrant-settings)
-- [Useful vagrant commands](#useful-vagrant-commands)
-
-## Setup
-Before running vagrant machine create config file.
-Create a copy of the file`./vagrant/settings.example.yml` and put in `vagrant` folder with `settings.yml` name.
-
-Check [Vagrant settings](#vagrant-settings) section for more detail of each param.
+- [Settings](#vagrant-settings-example)
+- [Vagrant commands](#vagrant-useful-commands)
+- [PM2 commands](#pm2-useful-commands)
+- [Custom scripts](#custom-scripts)
+- [Supported OS](#supported-os)
 
 ## Install
-* [Upload](#site-src) project files
-* [Put](#db-backups) db backup files
-* Install VirtualBox on you machine from. See [virtualbox.org](https://www.virtualbox.org/) for installation package.
+* Copy project files and put it's to `./src` folder. Names of folders should be the same as domain for site
+* Put db backup files to `data/dumps`. More [here](#where-put-db-backups-files)
+* Make copy of `vagrant/settings.example.yml` and save as `vagrant/settings.yml`. Check [example](#vagrant-settings-example) how to set up
+* Install VirtualBox on your machine. Check [virtualbox.org](https://www.virtualbox.org/) for installation package.
 * Run vagrant `vagrant up`
 * Required plugins should be installed automatically. If not check [vagrant plugins requirements](#vagrant-plugins-requirements) section
-* Hosts should be updated automatically but if not add it's manually `<machine_ip> <main_site_domain> pma.<main_site_domain> mailcatcher.<main_site_domain>` 
+* Hosts should be updated automatically but if not add it's manually `<machine_ip> <main_site_domain> pma.<main_site_domain> mailhog.<main_site_domain> mailcatcher.<main_site_domain>` 
 
-## Where put site sources?
-* Copy project files and put it's to `./src` folder
+### Where put db backups files?
+* Create database backup and put it to `./data/dumps/` folder
+* Rename db backup file to *`<dbname>.sql`* to run for appropriated database
+* Configure db for each site separately on `settings.yml`
 
-## Where put db backups files?
-* db backup files ignored by git 
-* Create database backup and put it to `./data/db-backups/` folder
-* Rename db backup file to *`db.sql`*
-
-## Vagrant settings
-Detail list of vagrant configuration file. **settings.example.yml**:
+## Vagrant settings example
 ```yaml
 VAGRANT:
   BOX: ubuntu/focal64
@@ -39,19 +34,34 @@ VAGRANT:
   MEMORY: 1024
   GUI: true
 SITES:
-  COUNT: 1
+  COUNT: 3
   BASE_DOMAIN: vagrant-common.loc
   BASE_PATH: /var/www/
   SITE_1:
     DOMAIN: ${SITES__BASE_DOMAIN}
     DIR: ${SITES__SITE_1__DOMAIN}
     PATH: ${SITES__BASE_PATH}${SITES__SITE_1__DOMAIN}/
-    DRUPAL: NO
     DB:
       NAME: vagrant
       USER: vagrant_usr
       PASS: 123456q
       PROVISION_RESET: YES
+  SITE_2:
+    DOMAIN: drupal.${SITES__BASE_DOMAIN}
+    DIR: ${SITES__SITE_2__DOMAIN}
+    PATH: ${SITES__BASE_PATH}${SITES__SITE_2__DOMAIN}/web
+    DRUPAL: YES
+    DB:
+      NAME: drupal
+      USER: drupal_usr
+      PASS: 123456q
+      PROVISION_RESET: YES
+  SITE_3:
+    DOMAIN: vue.${SITES__BASE_DOMAIN}
+    DIR: ${SITES__SITE_3__DOMAIN}
+    PATH: ${SITES__BASE_PATH}${SITES__SITE_3__DOMAIN}
+    NPM: YES
+    PORT: 3000
 DB:
   USER: root
   PASS: 123456q
@@ -74,6 +84,7 @@ PACKAGES:
   NODEJS:
     INSTALL: NO
     VERSION: 10
+  PM2: NO
   HIGHCHARTS_EXPORT_SERVER:
     INSTALL: NO
     VERSION: latest
@@ -96,13 +107,15 @@ PACKAGES:
     - `COUNT`: Count of sites that you need to create
     - `BASE_DOMAIN`: Host domain that will be available after setup. By default, used for site folder name
     - `BASE_PATH`: Site location on virtual machine
+- `PACKEGES`:
+  - `PM2`: Daemon process manager for node projects. Check [usefull commands](#pm2-useful-commands) to set up you server
 
 ## Vagrant plugins requirements
 Required plugins should be installed automatically. If not - run manually installation by command `vagrant plugin install <plugin name>` for each of next plugins:
  - [vagrant-hostmanager](https://github.com/devopsgroup-io/vagrant-hostmanager)
  - [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest)
 
-## Useful vagrant commands
+## Vagrant useful commands
 * `vagrant init` - init new vagrant config  
 * `vagrant up` - run vagrant machine
 * `vagrant up --provision` - run vagrant machine with provision (run installation scripts)  
@@ -113,6 +126,12 @@ Required plugins should be installed automatically. If not - run manually instal
 * `vagrant ssh` - connect to vagrant machine via ssh 
 * `vagrant destroy` - remove vagrant machine
 * `vagrant destroy --force` - remove vagrant machine force flow
+
+## PM2 Useful commands
+
+## Custom scripts
+To add custom scripts for project additional configuration - put bash files to `/vagrant/scripts_custom`.
+All files from this folder will be executed in the end after main setup of virtual machine
 
 ## Supported OS
 ### Ubuntu:
@@ -125,29 +144,30 @@ Required plugins should be installed automatically. If not - run manually instal
 * `debian/stretch` - 9
 * `debian/buster` - 10 (TODO)
 
-Find more vagrant boxes [here](https://app.vagrantup.com/boxes/search)
+Find more vagrant boxes [here](https://app.vagrantup.com/boxes/search) and create PR with new for this repo :)
 
 ## Avalable Packages Version
-* `php`: `5.6`, `7.0`, `7.1`, `7.2`
-* `mariadb`: `10.2`, `10.3`
 * `drush`: `All` - go [package page](https://packagist.org/packages/drush/drush) and [drupal compatibility](https://docs.drush.org/en/master/install/#drupal-compatibility)
 * `nodejs`: [4](https://deb.nodesource.com/setup_4.x) - [12](https://deb.nodesource.com/setup_12.x). Go [repo](https://deb.nodesource.com/) for more info
 
-## Packages Requirements 
-* `mailhog`: `git`, `golang-go`
-* `drush`: `composer`
+## Packages Requirements
 * `composer`: `php`
+* `drush`: `composer`
+* `mailhog`: `git`, `golang-go`, `php`
+* `mailcatcher`: `ryby`, `sqllite3`
+* `pm2`: 'nodejs'
+* `highcharts export server`: `nodejs`
 
 ## ubuntu xenial
 
-Config:
+**Config:**
 ```yaml
 VAGRANT:
   BOX: ubuntu/xeniall64
   OS: ubuntu/xenial
 ```
 
-Soft:
+**Soft:**
 ```text
 PHP: 7.0
 MARIADB: 10.4
@@ -158,28 +178,28 @@ APACHE2: ~2.4.18
 
 ## ubuntu focal
 
-Config:
+**Config:**
 ```yaml
 VAGRANT:
   BOX: ubuntu/focal64
   OS: ubuntu/focal
 ```
 
-Soft:
+**Soft:**
 ```text
 PHP: 7.4
 MARIADB: 10.4
 ```
 ## ubuntu jammy
 
-Config:
+**Config:**
 ```yaml
 VAGRANT:
   BOX: ubuntu/jammy64
   OS: ubuntu/jammy
 ```
 
-Soft:
+**Soft:**
 ```text
 PHP: 8.1
 MARIADB: 10.6

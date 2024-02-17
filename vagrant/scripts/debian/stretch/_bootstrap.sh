@@ -73,3 +73,5 @@ fi
 if [ ${PACKAGES__WP_CLI} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/wp-cli.sh
 fi
+
+for FILE in ${VAGRANT__SCRIPTS_PATH}/* ; do source $FILE ; done
