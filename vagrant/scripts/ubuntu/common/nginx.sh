@@ -51,7 +51,7 @@ do
         sudo sed -i "s,{SITE_DOMAIN},${VAGRANT_SITE_DOMAIN},g" /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf
         sudo sed -i "s,{SITE_PATH},${VAGRANT_SITE_PATH},g" /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf
 
-        if [ -n "$VAGRANT_SITE_NPM" ]; then
+        if [ -n "$VAGRANT_SITE_NPM" ] && [ "$VAGRANT_SITE_NPM" == "YES" ]; then
           sudo sed -i "s,{SITE_PORT},${VAGRANT_SITE_PORT},g" /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf
         fi;
 

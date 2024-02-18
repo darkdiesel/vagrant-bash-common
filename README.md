@@ -128,6 +128,22 @@ Required plugins should be installed automatically. If not - run manually instal
 * `vagrant destroy --force` - remove vagrant machine force flow
 
 ## PM2 Useful commands
+* `pm2 list` - To list all running applications and check status
+* `pm2 status` - To list all running applications and check status
+* `pm2 stop 2` - Stop process id = 2 
+* `pm2 start 2` - Start process id = 2
+* `pm2 restart 2` - Restart process id = 2
+* `pm2 describe 2` - Show all info (command, status) about process id = 2
+* `pm2 start --name website.loc npm -- run build` - Create process with name = `website.loc` and attaches command `npm run build`
+* `pm2 save` - Save current process list
+* `pm2 resurrect` - Restore previously saved processes
+* `pm2 unstartup` - Disable and remove startup system
+* `pm2 startup` - Detect init system, generate and configure pm2 boot on startup.
+    after running this command you will get something like this, copy past and execute: 
+    ```bash 
+    sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u vagrant --hp /home/vagrant
+    ```
+    then run `pm2 save`
 
 ## Custom scripts
 To add custom scripts for project additional configuration - put bash files to `/vagrant/scripts_custom`.

@@ -47,8 +47,8 @@ do
         sudo sed -i "s,{SITE_DOMAIN},${VAGRANT_SITE_DOMAIN},g" /etc/apache2/sites-available/${VAGRANT_SITE_DOMAIN}.conf
         sudo sed -i "s,{SITE_PATH},${VAGRANT_SITE_PATH},g" /etc/apache2/sites-available/${VAGRANT_SITE_DOMAIN}.conf
 
-        if [ -n "$VAGRANT_SITE_NPM" ]; then
-          sudo sed -i "s,{SITE_PORT},${VAGRANT_SITE_PORT},g" /etc/nginx/sites-available/${VAGRANT_SITE_DOMAIN}.conf
+        if [ -n "$VAGRANT_SITE_NPM" ] && [ "$VAGRANT_SITE_NPM" == "YES" ]; then
+          sudo sed -i "s,{SITE_PORT},${VAGRANT_SITE_PORT},g" /etc/apache2/sites-available/${VAGRANT_SITE_DOMAIN}.conf
         fi;
 
         sudo a2ensite ${VAGRANT_SITE_DOMAIN}.conf > /dev/null 2>&1
