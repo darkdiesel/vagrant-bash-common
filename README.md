@@ -156,6 +156,7 @@ All files from this folder will be executed in the end after main setup of virtu
 * `ubuntu/bionic` - 18.04
 * `ubuntu/focal`  - 20.04 [detail](#ubuntu-focal)
 * `ubuntu/jammy`  - 22.04 [detail](#ubuntu-jammy)
+* `ubuntu/mantic` - 23.10 [detail](#ubuntu-mantic)
 ### Debian:
 * `debian/stretch` - 9
 * `debian/buster` - 10 (TODO)
@@ -219,6 +220,24 @@ VAGRANT:
 ```text
 PHP: 8.1
 MARIADB: 10.6
+XDEBUG: ~3.1.2
+NGINX: ~1.18.0
+APACHE2: ~2.4.52
+```
+
+## ubuntu mantic
+
+**Config:**
+```yaml
+VAGRANT:
+  BOX: ubuntu/mantic64
+  OS: ubuntu/mantic
+```
+
+**Soft:**
+```text
+PHP: 8.2
+MARIADB: 11.3
 XDEBUG: ~3.1.2
 NGINX: ~1.18.0
 APACHE2: ~2.4.52
