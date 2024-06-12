@@ -5,6 +5,7 @@ VAGRANT:
   CPU: 1
   MEMORY: 1024
   GUI: true
+  FS_NOTIFY: true
 SITES:
   COUNT: 1
   BASE_DOMAIN: vagrant-common.loc

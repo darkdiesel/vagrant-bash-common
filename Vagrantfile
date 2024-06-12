@@ -26,12 +26,12 @@ else
 end
 
 if (not USER_SETTINGS.empty?) && (not DEFAULT_SETTINGS.empty?)
-    SETTINGS = Vagrant::Util::DeepMerge.deep_merge(DEFAULT_SETTINGS, USER_SETTINGS)
-    puts "Default and User settings are merged"
-    #puts SETTINGS.inspect
+  SETTINGS = Vagrant::Util::DeepMerge.deep_merge(DEFAULT_SETTINGS, USER_SETTINGS)
+  puts "Default and User settings are merged"
+  #puts SETTINGS.inspect
 else
-    SETTINGS = DEFAULT_SETTINGS
-    #puts SETTINGS.inspect
+  SETTINGS = DEFAULT_SETTINGS
+  #puts SETTINGS.inspect
 end
 
 VAGRANTFILE_API_VERSION = "2"
@@ -45,6 +45,7 @@ MACHINE_IP = SETTINGS['VAGRANT']['IP']
 MACHINE_CPU = SETTINGS['VAGRANT']['CPU']
 MACHINE_MEMORY = SETTINGS['VAGRANT']['MEMORY']
 MACHINE_GUI = SETTINGS['VAGRANT']['GUI']
+FS_NOTIFY = SETTINGS['VAGRANT']['FS_NOTIFY']
 
 MACHINE_HOSTNAME = SETTINGS['SITES']['BASE_DOMAIN']
 BASE_DOMAIN = "vagrant"
@@ -54,13 +55,24 @@ required_plugins = %w( vagrant-hostmanager vagrant-vbguest )
 plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
 if not plugins_to_install.empty?
   puts "Installing plugins: #{plugins_to_install.join(' ')}"
-    if system "vagrant plugin install #{plugins_to_install.join(' ')}"
+
+  if system "vagrant plugin install #{plugins_to_install.join(' ')}"
+    exec "vagrant #{ARGV.join(' ')}"
+  else
+    abort "ERROR! Installation of one or more plugins has failed. Aborting."
+  end
+end
+
+if FS_NOTIFY
+  if not Vagrant.has_plugin? 'vagrant-fsnotify'
+    puts "Installing plugin: vagrant-fsnotify"
+    if system "vagrant plugin install vagrant-fsnotify"
       exec "vagrant #{ARGV.join(' ')}"
     else
       abort "ERROR! Installation of one or more plugins has failed. Aborting."
     end
+  end
 end
-
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -116,14 +128,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if File.directory?(File.expand_path("#{VAGRANT_ROOT}/data"))
     config.vm.synced_folder "#{VAGRANT_ROOT}/data", "/vagrant_data", type: "virtualbox"
   else
-      puts "WARNING! #{VAGRANT_ROOT}/data folder does not exist!"
+    puts "WARNING! #{VAGRANT_ROOT}/data folder does not exist!"
   end
 
   if File.directory?(File.expand_path("#{VAGRANT_ROOT}/src"))
-      config.vm.synced_folder "#{VAGRANT_ROOT}/src", "/var/www/", type: "virtualbox",
-        owner: "www-data",
-        group: "www-data",
-        mount_options: ["dmode=777,fmode=777"]
+    config.vm.synced_folder "#{VAGRANT_ROOT}/src", "/var/www/", type: "virtualbox",
+      fsnotify: true,
+      exclude: ["vendor", "node_modules", ".git", ".next", ".husky", ".idea", ".vscode", "dist"],
+      owner: "www-data",
+      group: "www-data",
+      mount_options: ["dmode=777,fmode=777"]
   else
     puts "WARNING! ./src folder does not exist!"
   end
@@ -187,11 +201,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # build hosts array
     hosts_arr = ["www.#{MACHINE_HOSTNAME}"]
-	
+
     i = 1
-	
-	while !SETTINGS['SITES']["SITE_#{i}"].nil?
-	  cur_site_domain = SETTINGS['SITES']["SITE_#{i}"]['DOMAIN']
+
+    while !SETTINGS['SITES']["SITE_#{i}"].nil?
+      cur_site_domain = SETTINGS['SITES']["SITE_#{i}"]['DOMAIN']
 
       bash_var = cur_site_domain.to_enum(:scan, /\W{2}\w+\W{1}/).map { Regexp.last_match }
 
@@ -207,11 +221,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
 
       if cur_site_domain != MACHINE_HOSTNAME
-          hosts_arr.push(cur_site_domain)
-          hosts_arr.push("www.#{cur_site_domain}")
+        hosts_arr.push(cur_site_domain)
+        hosts_arr.push("www.#{cur_site_domain}")
       end
-	  
-	  i = i + 1
+
+      i = i + 1
     end
 
     if SETTINGS['PACKAGES']['PHPMYADMIN']
@@ -229,5 +243,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostmanager.aliases = hosts_arr
   else
     abort "ERROR! Vagrant plugin vagrant-hostmanager is not installed!"
+  end
+
+  if FS_NOTIFY
+    if Vagrant.has_plugin?("vagrant-fsnotify")
+      config.trigger.after [:up, :reload] do |trigger|
+        trigger.info = "Running fs-notify!"
+        trigger.name = "vagrant-fsnotify"
+        trigger.run = { inline: "vagrant fsnotify" }
+      end
+    else
+      abort "ERROR! Vagrant plugin vagrant-fsnotify is not installed!"
+    end
   end
 end

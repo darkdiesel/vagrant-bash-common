@@ -33,6 +33,7 @@ VAGRANT:
   CPU: 1
   MEMORY: 1024
   GUI: true
+  FS_NOTIFY: false
 SITES:
   COUNT: 3
   BASE_DOMAIN: vagrant-common.loc
@@ -103,6 +104,7 @@ PACKAGES:
     - `OS`: Official operation system name. Format: *`<linux distribution name>/<release code name>`*.
     - `IP`: Ip address of vagrant machine
     - `GUI`: Show virtual machine interface
+    - `FS_NOTIFY`: If you working with builders in watch mode and you need restart build every time when file changed you need activate this option to notify file system on virtual machine. 
 - `SITES`: 
     - `COUNT`: Count of sites that you need to create
     - `BASE_DOMAIN`: Host domain that will be available after setup. By default, used for site folder name
