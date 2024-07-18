@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-sudo add-apt-repository ppa:ondrej/php > /dev/null 2>&1
+log_action_msg "Installing additional required packages"
+source ${VAGRANT__OS_SCRIPTS_PATH}/software-properties-common.sh
+
+log_action_msg "Add ondrej/php repositiry"
+sudo add-apt-repository -y ppa:ondrej/php > /dev/null 2>&1
+
 sudo apt update > /dev/null 2>&1
 
 if [ $(dpkg-query -W -f='${Status}' php-fpm 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
