@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+function execute_query () {
+     echo "$1"
+     sudo /usr/bin/mariadb -u$DB__USER -p$DB__PASS -e "$1"
+}
+
 for i in `seq 1 ${SITES__COUNT}`;
 do
     eval VAGRANT_SITE_DOMAIN='$'SITES__SITE_"$i"__DOMAIN
@@ -26,12 +31,12 @@ do
 
     if [ "$VAGRANT_DB_PROVISION_RESET" == "YES" ]; then
         log_action_msg "Removing DB on provision if exist"
-        sudo mysql -u$DB__USER -p$DB__PASS -e 'DROP DATABASE IF EXISTS `'.$VAGRANT_DB_NAME.'`;'
+        execute_query "DROP DATABASE IF EXISTS \`${VAGRANT_DB_NAME}\`;"
         log_success_msg "DB $VAGRANT_DB_NAME dropped"
 
         if [ -n "$VAGRANT_DB_USER" ]; then
             log_action_msg "Removing ${VAGRANT_DB_USER} on provision if exist"
-            sudo mysql -u$DB__USER -p$DB__PASS -e 'DROP USER IF EXISTS "'.$VAGRANT_DB_USER.'"@"localhost";'
+            execute_query "DROP USER IF EXISTS '${VAGRANT_DB_USER}'@'localhost';"
             log_success_msg "User $VAGRANT_DB_USER dropped"
         fi
     fi
@@ -51,10 +56,10 @@ do
     log_action_msg  "Creating DB $VAGRANT_DB_NAME"
 
     if [ -d "$VAGRANT_SITE_PATH" ] && [ "$VAGRANT_DB_EXIST" == "NO" ]; then
-        sudo mysql -u$DB__USER -p$DB__PASS -e 'CREATE DATABASE `'$VAGRANT_DB_NAME'` CHARACTER SET utf8 COLLATE utf8_general_ci;'
-        log_success_msg "DB $VAGRANT_DB_NAME created"
+        execute_query "CREATE DATABASE \`${VAGRANT_DB_NAME}\` CHARACTER SET utf8 COLLATE utf8_general_ci;"
+        log_success_msg "DB ${VAGRANT_DB_NAME} created"
     else
-        log_failure_msg "DB $VAGRANT_DB_NAME not created"
+        log_failure_msg "DB ${VAGRANT_DB_NAME} not created"
         log_warning_msg "DB ${VAGRANT_DB_NAME} already exist or site folder ${VAGRANT_SITE_PATH} not founded"
     fi
 
@@ -63,8 +68,8 @@ do
             log_action_msg "Create DB USER ${VAGRANT_DB_USER}"
 
             if [ -d "$VAGRANT_SITE_PATH" ] && [ "$VAGRANT_DB_EXIST" == "NO" ]; then
-                sudo mysql -u$DB__USER -p$DB__PASS -e 'CREATE USER "'$VAGRANT_DB_USER'"@"localhost" IDENTIFIED BY "'$VAGRANT_DB_PASS'";'
-                sudo mysql -u$DB__USER -p$DB__PASS -e 'GRANT ALL PRIVILEGES ON `'$VAGRANT_DB_NAME'`.* TO "'$VAGRANT_DB_USER'"@"localhost";'
+                execute_query "CREATE USER '${VAGRANT_DB_USER}'@'localhost' IDENTIFIED BY '${VAGRANT_DB_PASS}';"
+                execute_query "GRANT ALL PRIVILEGES ON \`${VAGRANT_DB_NAME}\`.* TO '${VAGRANT_DB_USER}'@'localhost';"
 
                 log_success_msg "User ${VAGRANT_DB_USER} for DB ${VAGRANT_DB_NAME} created"
             else
@@ -79,7 +84,7 @@ do
     fi
 
     log_begin_msg "Flush mysql privileges"
-    sudo mysql -u$DB__USER -p$DB__PASS -e "FLUSH PRIVILEGES;"
+    execute_query "FLUSH PRIVILEGES;"
     log_end_msg 0
 
     log_action_msg "Run db scripts"
@@ -88,7 +93,7 @@ do
         if [ -f "${VAGRANT__DATA_FOLDER}/dumps/${VAGRANT_DB_NAME}.sql" ]; then
             log_action_msg "Running script for $VAGRANT_DB_NAME"
 
-            sudo mysql -u$DB__USER -p$DB__PASS $VAGRANT_DB_NAME < ${VAGRANT__DATA_FOLDER}/dumps/${VAGRANT_DB_NAME}.sql
+            sudo /usr/bin/mariadb -u$DB__USER -p$DB__PASS $VAGRANT_DB_NAME < ${VAGRANT__DATA_FOLDER}/dumps/${VAGRANT_DB_NAME}.sql
 
             log_success_msg "Script executed for DB $VAGRANT_DB_NAME"
         else
