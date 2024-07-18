@@ -49,6 +49,8 @@ else
     log_end_msg 0
 fi
 
+#sudo apt install php8.3-sqlite3
+
 log_action_msg "Starting php8.3-fpm"
 sudo service php8.3-fpm start  > /dev/null 2>&1
 
