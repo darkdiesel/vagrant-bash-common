@@ -115,6 +115,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # your network.
   # config.vm.network "public_network"
 
+  #config.ssh.username = "vagrant"
+  #config.ssh.password = "vagrant"
+
+  #config.ssh.insert_key = false
+  #config.ssh.private_key_path = File.expand_path('~/.vagrant.d/insecure_private_keys/vagrant.key.rsa')
+
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
