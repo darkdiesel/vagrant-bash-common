@@ -27,6 +27,7 @@ Create you virtual machine on ubuntu or debian with soft that you need for you p
 ## Vagrant settings example
 ```yaml
 VAGRANT:
+  HOSTNAME: site.loc
   BOX: ubuntu/focal64
   OS: ubuntu/focal
   IP: 192.168.56.101
@@ -34,7 +35,6 @@ VAGRANT:
   MEMORY: 1024
   GUI: true
   FS_NOTIFY: false
-  HOSTNAME: site.loc
 SITES:
   COUNT: 3
   BASE_PATH: /var/www/
@@ -85,6 +85,8 @@ PACKAGES:
   NODEJS:
     INSTALL: NO
     VERSION: 10
+  NPM:
+    INSTALL: NO
   PM2: NO
   HIGHCHARTS_EXPORT_SERVER:
     INSTALL: NO
