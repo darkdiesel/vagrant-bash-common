@@ -34,23 +34,21 @@ VAGRANT:
   MEMORY: 1024
   GUI: true
   FS_NOTIFY: false
+  HOSTNAME: site.loc
 SITES:
   COUNT: 3
-  BASE_DOMAIN: vagrant-common.loc
   BASE_PATH: /var/www/
   SITE_1:
-    DOMAIN: ${SITES__BASE_DOMAIN}
-    DIR: ${SITES__SITE_1__DOMAIN}
-    PATH: ${SITES__BASE_PATH}${SITES__SITE_1__DOMAIN}/
+    DOMAIN: site.loc
+    ROOT: /
     DB:
       NAME: vagrant
       USER: vagrant_usr
       PASS: 123456q
       PROVISION_RESET: YES
   SITE_2:
-    DOMAIN: drupal.${SITES__BASE_DOMAIN}
-    DIR: ${SITES__SITE_2__DOMAIN}
-    PATH: ${SITES__BASE_PATH}${SITES__SITE_2__DOMAIN}/web
+    DOMAIN: drupal.site.loc}
+    ROOT: /web
     DRUPAL: YES
     DB:
       NAME: drupal
@@ -58,9 +56,8 @@ SITES:
       PASS: 123456q
       PROVISION_RESET: YES
   SITE_3:
-    DOMAIN: vue.${SITES__BASE_DOMAIN}
-    DIR: ${SITES__SITE_3__DOMAIN}
-    PATH: ${SITES__BASE_PATH}${SITES__SITE_3__DOMAIN}
+    DOMAIN: vue.site.loc
+    ROOT: /
     NPM: YES
     PORT: 3000
 DB:
@@ -77,6 +74,9 @@ PACKAGES:
   MARIADB:
     INSTALL: YES
     VERSION: 10.4
+  MYSQL:
+    INSTALL: NO
+    VERSION: 8.0
   PHP:
     INSTALL: YES
     VERSION: 7.4
@@ -238,8 +238,9 @@ VAGRANT:
 
 **Soft:**
 ```text
-PHP: 8.2
+PHP: 8.2 | 8.3
 MARIADB: 11.3
+MYSQL: 8.0
 XDEBUG: ~3.1.2
 NGINX: ~1.18.0
 APACHE2: ~2.4.52

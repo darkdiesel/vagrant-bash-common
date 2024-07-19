@@ -84,8 +84,8 @@ sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sudo mysql_secure_installation
     y # Reload privilege tables now?
 EOF
 
-#DEBIAN_SYS_MAINT_USER=$(grep 'user' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
-#DEBIAN_SYS_MAINT_PASS=$(grep 'password' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
+#DEBIAN_SYS_MAIN_USER=$(grep 'user' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
+#DEBIAN_SYS_MAIN_PASS=$(grep 'password' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
 
-#sudo mysql -u$DB__USER -p$DB__PASS -e 'GRANT ALL PRIVILEGES ON *.* TO "'$DEBIAN_SYS_MAINT_USER'"@"localhost" IDENTIFIED BY "'$DEBIAN_SYS_MAINT_PASS'";'
+#sudo mysql -u$DB__USER -p$DB__PASS -e 'GRANT ALL PRIVILEGES ON *.* TO "'$DEBIAN_SYS_MAIN_USER'"@"localhost" IDENTIFIED BY "'$DEBIAN_SYS_MAIN_PASS'";'
 #sudo mysql -u$DB__USER -p$DB__PASS -e "FLUSH PRIVILEGES;"

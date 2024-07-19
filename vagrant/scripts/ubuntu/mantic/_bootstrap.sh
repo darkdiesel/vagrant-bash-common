@@ -45,6 +45,9 @@ fi
 if [ ${PACKAGES__MARIADB__INSTALL} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/mariadb.sh
     source ${VAGRANT__OS_SCRIPTS_PATH}/db-setup.sh
+elif [ ${PACKAGES__MYSQL__INSTALL} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/mysql.sh
+    source ${VAGRANT__OS_SCRIPTS_PATH}/db-setup.sh
 fi
 
 # php and composer

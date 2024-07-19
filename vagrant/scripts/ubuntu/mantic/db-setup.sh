@@ -1,23 +1,16 @@
 #!/usr/bin/env bash
 
-function execute_query () {
-     echo "$1"
-     sudo /usr/bin/mariadb -u$DB__USER -p$DB__PASS -e "$1"
-}
-
 for i in `seq 1 ${SITES__COUNT}`;
 do
     eval VAGRANT_SITE_DOMAIN='$'SITES__SITE_"$i"__DOMAIN
-    eval VAGRANT_SITE_DIR='$'SITES__SITE_"$i"__DIR
-    eval VAGRANT_SITE_PATH='$'SITES__SITE_"$i"__PATH
-
+    eval VAGRANT_SITE_PATH=$SITES__BASE_PATH'/'$VAGRANT_SITE_DOMAIN'$'SITES__SITE_"$i"__ROOT
     eval VAGRANT_DB_NAME='$'SITES__SITE_"$i"__DB__NAME
     eval VAGRANT_DB_USER='$'SITES__SITE_"$i"__DB__USER
     eval VAGRANT_DB_PASS='$'SITES__SITE_"$i"__DB__PASS
     eval VAGRANT_DB_PROVISION_RESET='$'SITES__SITE_"$i"__DB__PROVISION_RESET
 
     if [ ! -n "$VAGRANT_DB_NAME" ]; then
-        log_warning_msg "DB__NAME not setupped for site ${VAGRANT_SITE_DOMAIN}"
+        log_warning_msg "DB__NAME not configured for the site ${VAGRANT_SITE_DOMAIN}"
         continue
     fi
 
@@ -93,7 +86,7 @@ do
         if [ -f "${VAGRANT__DATA_FOLDER}/dumps/${VAGRANT_DB_NAME}.sql" ]; then
             log_action_msg "Running script for $VAGRANT_DB_NAME"
 
-            sudo /usr/bin/mariadb -u$DB__USER -p$DB__PASS $VAGRANT_DB_NAME < ${VAGRANT__DATA_FOLDER}/dumps/${VAGRANT_DB_NAME}.sql
+            execute_query_file $VAGRANT_DB_NAME ${VAGRANT__DATA_FOLDER}/dumps/${VAGRANT_DB_NAME}.sql
 
             log_success_msg "Script executed for DB $VAGRANT_DB_NAME"
         else

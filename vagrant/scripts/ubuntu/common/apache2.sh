@@ -11,8 +11,7 @@ if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed"
         log_end_msg 0
     fi
 else
-    log_begin_msg "apache2 installed"
-    log_end_msg 0
+    log_progress_msg "apache2 already installed"
 fi
 
 log_action_msg "Removing apache2 default hosts"
@@ -32,8 +31,7 @@ log_action_msg "Creating links for apache2 hosts"
 for i in `seq 1 ${SITES__COUNT}`;
 do
     eval VAGRANT_SITE_DOMAIN='$'SITES__SITE_"$i"__DOMAIN
-    eval VAGRANT_SITE_DIR='$'SITES__SITE_"$i"__DIR
-    eval VAGRANT_SITE_PATH='$'SITES__SITE_"$i"__PATH
+    eval VAGRANT_SITE_PATH=$SITES__BASE_PATH'/'$VAGRANT_SITE_DOMAIN'$'SITES__SITE_"$i"__ROOT
     eval VAGRANT_SITE_NPM='$'SITES__SITE_"$i"__NPM
     eval VAGRANT_SITE_PORT='$'SITES__SITE_"$i"__PORT
 

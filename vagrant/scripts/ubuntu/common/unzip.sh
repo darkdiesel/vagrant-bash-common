@@ -10,6 +10,5 @@ if [ $(dpkg-query -W -f='${Status}' unzip 2>/dev/null | grep -c "ok installed") 
         log_end_msg 0
     fi
 else
-    log_begin_msg "unzip installed"
-    log_end_msg 0
+    log_progress_msg "unzip already installed"
 fi

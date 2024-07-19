@@ -11,6 +11,5 @@ if [ $(dpkg-query -W -f='${Status}' software-properties-common 2>/dev/null | gre
         log_end_msg 0
     fi
 else
-    log_begin_msg "software-properties-common installed"
-    log_end_msg 0
+    log_progress_msg "software-properties-common already installed"
 fi

@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 
-# before installation highcharts-export-server you need to install nodejs
-source ${VAGRANT__OS_SCRIPTS_PATH}/nodejs.sh
+source ${VAGRANT__OS_SCRIPTS_PATH}/npm.sh
 
-
-if [ $(npm list -g pm2 2>/dev/null | grep -c "pm2") -eq 1 ]; then
+if [ $(npm list -g pm2 2>/dev/null | grep -c "pm2") -eq 0 ]; then
     log_begin_msg "Installing pm2"
-    npm install pm2 -g > /dev/null 2>&1
-    log_end_msg 0
+    sudo npm install pm2 -g > /dev/null 2>&1
+
+    if [[ $? > 0 ]]; then
+        log_end_msg 1
+    else
+        log_end_msg 0
+    fi
 else
-    log_begin_msg "pm2 installed"
-    log_end_msg 0
+    log_progress_msg "pm2 already installed"
 fi
 

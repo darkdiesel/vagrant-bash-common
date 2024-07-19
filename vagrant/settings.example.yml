@@ -1,50 +1,63 @@
 VAGRANT:
-  BOX: ubuntu/trusty64
-  OS: ubuntu/trusty
-  IP: 192.168.56.2
+  BOX: ubuntu/focal64
+  OS: ubuntu/focal
+  IP: 192.168.56.101
   CPU: 1
   MEMORY: 1024
   GUI: true
-  FS_NOTIFY: true
+  FS_NOTIFY: false
+  HOSTNAME: site.loc
 SITES:
-  COUNT: 1
-  BASE_DOMAIN: vagrant-common.loc
+  COUNT: 3
   BASE_PATH: /var/www/
   SITE_1:
-    DOMAIN: ${SITES__BASE_DOMAIN}
-    DIR: ${SITES__SITE_1__DOMAIN}
-    PATH: ${SITES__BASE_PATH}${SITES__SITE_1__DOMAIN}/
-    DRUPAL: NO
-    NPM: NO
-    PORT: 3000
+    DOMAIN: site.loc
+    ROOT: /
     DB:
       NAME: vagrant
       USER: vagrant_usr
       PASS: 123456q
       PROVISION_RESET: YES
+  SITE_2:
+    DOMAIN: drupal.site.loc}
+    ROOT: /web
+    DRUPAL: YES
+    DB:
+      NAME: drupal
+      USER: drupal_usr
+      PASS: 123456q
+      PROVISION_RESET: YES
+  SITE_3:
+    DOMAIN: vue.site.loc
+    ROOT: /
+    NPM: YES
+    PORT: 3000
 DB:
   USER: root
   PASS: 123456q
   PROVISION_RESET: YES
 PACKAGES:
-  MC: NO
-  HTOP: NO
+  MC: YES
+  HTOP: YES
   GIT: YES
-  VIM: NO
+  VIM: YES
   APACHE2: YES
   NGINX: YES
   MARIADB:
     INSTALL: YES
-    VERSION: 10.2
+    VERSION: 10.4
+  MYSQL:
+    INSTALL: NO
+    VERSION: 8.0
   PHP:
     INSTALL: YES
-    VERSION: 7.2
-  COMPOSER: NO
-  REDIS: NO
+    VERSION: 7.4
+  COMPOSER: YES
+  REDIS: YES
   NODEJS:
     INSTALL: NO
     VERSION: 10
-  PM2: YES
+  PM2: NO
   HIGHCHARTS_EXPORT_SERVER:
     INSTALL: NO
     VERSION: latest

@@ -11,6 +11,5 @@ if [ $(dpkg-query -W -f='${Status}' dirmngr 2>/dev/null | grep -c "ok installed"
         log_end_msg 0
     fi
 else
-    log_begin_msg "dirmngr installed"
-    log_end_msg 0
+    log_progress_msg "dirmngr already installed"
 fi

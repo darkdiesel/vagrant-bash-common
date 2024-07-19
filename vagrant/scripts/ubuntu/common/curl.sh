@@ -10,6 +10,5 @@ if [ $(dpkg-query -W -f='${Status}' curl 2>/dev/null | grep -c "ok installed") -
         log_end_msg 0
     fi
 else
-    log_begin_msg "curl installed"
-    log_end_msg 0
+    log_progress_msg "curl already installed"
 fi

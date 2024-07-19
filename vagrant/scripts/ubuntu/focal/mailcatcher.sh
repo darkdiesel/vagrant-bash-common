@@ -18,10 +18,10 @@ log_end_msg 0
 if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
     log_begin_msg "Enable mailcatcher apache2 host"
 
-    sudo cp /etc/apache2/sites-available/mailcatcher-default.conf /etc/apache2/sites-available/mailcatcher.${SITES__BASE_DOMAIN}.conf
-    sudo sed -i "s,{SITE_DOMAIN},${SITES__BASE_DOMAIN},g" /etc/apache2/sites-available/mailcatcher.${SITES__BASE_DOMAIN}.conf
+    sudo cp /etc/apache2/sites-available/mailcatcher-default.conf /etc/apache2/sites-available/mailcatcher.${VAGRANT__HOSTNAME}.conf
+    sudo sed -i "s,{SITE_DOMAIN},${VAGRANT__HOSTNAME},g" /etc/apache2/sites-available/mailcatcher.${VAGRANT__HOSTNAME}.conf
 
-    sudo a2ensite mailcatcher.${SITES__BASE_DOMAIN}.conf > /dev/null 2>&1
+    sudo a2ensite mailcatcher.${VAGRANT__HOSTNAME}.conf > /dev/null 2>&1
     sudo service apache2 restart > /dev/null 2>&1
 
     log_end_msg 0
@@ -31,10 +31,10 @@ fi
 if [ $(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
     log_begin_msg "Enable mailcatcher nginx host"
 
-    sudo cp /etc/nginx/sites-available/mailcatcher-default.conf /etc/nginx/sites-available/mailcatcher.${SITES__BASE_DOMAIN}.conf
-    sudo sed -i "s,{SITE_DOMAIN},${SITES__BASE_DOMAIN},g" /etc/nginx/sites-available/mailcatcher.${SITES__BASE_DOMAIN}.conf
+    sudo cp /etc/nginx/sites-available/mailcatcher-default.conf /etc/nginx/sites-available/mailcatcher.${VAGRANT__HOSTNAME}.conf
+    sudo sed -i "s,{SITE_DOMAIN},${VAGRANT__HOSTNAME},g" /etc/nginx/sites-available/mailcatcher.${VAGRANT__HOSTNAME}.conf
 
-    sudo ln -s /etc/nginx/sites-available/mailcatcher.${SITES__BASE_DOMAIN}.conf /etc/nginx/sites-enabled/ > /dev/null 2>&1
+    sudo ln -s /etc/nginx/sites-available/mailcatcher.${VAGRANT__HOSTNAME}.conf /etc/nginx/sites-enabled/ > /dev/null 2>&1
     sudo service nginx restart > /dev/null 2>&1
 
     log_end_msg 0
@@ -54,7 +54,7 @@ log_begin_msg "Make php use mailcatcher to send mail"
 # older ubuntus
 #sudo touch /etc/php5/mods-available/mailcatcher.ini
 #sudo chmod 777 /etc/php5/mods-available/mailcatcher.ini
-#sudo echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'mailcatcher@${SITES__BASE_DOMAIN}'" >> /etc/php5/mods-available/mailcatcher.ini
+#sudo echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'mailcatcher@${VAGRANT__HOSTNAME}'" >> /etc/php5/mods-available/mailcatcher.ini
 #sudo chmod 644 /etc/php5/mods-available/mailcatcher.ini
 
 MAILCATCHER_MOD="mailcatcher.ini"
@@ -64,7 +64,7 @@ VAGRANT_MAILCATCHER_CONFIG=${VAGRANT__OS_CONFIGS_PATH}"/etc/php/"${PACKAGES__PHP
 # xenial
 sudo touch MAILCATCHER_PHP_MOD_PATH
 sudo chmod 777 MAILCATCHER_PHP_MOD_PATH
-sudo echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'mailcatcher@${SITES__BASE_DOMAIN}'" >> MAILCATCHER_PHP_MOD_PATH
+sudo echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'mailcatcher@${VAGRANT__HOSTNAME}'" >> MAILCATCHER_PHP_MOD_PATH
 sudo chmod 644 MAILCATCHER_PHP_MOD_PATH
 log_end_msg 0
 

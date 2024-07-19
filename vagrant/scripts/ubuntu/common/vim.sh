@@ -1,3 +1,14 @@
 #!/usr/bin/env bash
 
-source ${VAGRANT__UBUNTU_COMMON_SCRIPTS_PATH}/vim.sh
+if [ $(dpkg-query -W -f='${Status}' vim 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+    log_begin_msg "Installing vim"
+    sudo apt-get install -y vim > /dev/null 2>&1
+
+    if [[ $? > 0 ]]; then
+        log_end_msg 1
+    else
+        log_end_msg 0
+    fi
+else
+    log_progress_msg "vim already installed"
+fi

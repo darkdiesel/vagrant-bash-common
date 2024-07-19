@@ -10,6 +10,5 @@ if [ $(dpkg-query -W -f='${Status}' mc 2>/dev/null | grep -c "ok installed") -eq
         log_end_msg 0
     fi
 else
-    log_begin_msg "mc installed"
-    log_end_msg 0
+    log_progress_msg "mc already installed"
 fi
