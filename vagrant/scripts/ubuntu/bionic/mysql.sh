@@ -16,8 +16,7 @@ if [ $(dpkg-query -W -f='${Status}' mysql-server 2>/dev/null | grep -c "ok insta
         log_end_msg 0
     fi
 else
-    log_begin_msg "mysql-server installed"
-    log_end_msg 0
+    log_progress_msg "mysql-server already installed"
 fi
 
 if [ $(dpkg-query -W -f='${Status}' mysql-client 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
@@ -31,8 +30,7 @@ if [ $(dpkg-query -W -f='${Status}' mysql-client 2>/dev/null | grep -c "ok insta
         log_end_msg 0
     fi
 else
-    log_begin_msg "mysql-client installed"
-    log_end_msg 0
+    log_progress_msg "mysql-client already installed"
 fi
 
 DEBIAN_SYS_MAIN_USER=$(grep 'user' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')

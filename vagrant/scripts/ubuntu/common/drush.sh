@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+source ${VAGRANT__OS_SCRIPTS_PATH}/composer.sh
 source ${VAGRANT__OS_SCRIPTS_PATH}/zip.sh
 source ${VAGRANT__OS_SCRIPTS_PATH}/unzip.sh
 
@@ -14,4 +15,4 @@ sudo echo '#path for Drush' >> /home/vagrant/.bashrc
 sudo echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> /home/vagrant/.bashrc
 log_end_msg 0
 
-source .bashrc > /dev/null 2>&1
+source ~/.bashrc > /dev/null 2>&1

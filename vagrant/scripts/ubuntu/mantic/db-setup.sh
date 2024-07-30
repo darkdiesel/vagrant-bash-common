@@ -38,6 +38,8 @@ do
 
     VAGRANT_DB_EXIST="NO"
 
+    #@TODO: Rewrite logic to checking existing of DB
+
     if [ -d "/var/lib/mysql/$VAGRANT_DB_NAME" ] ; then
         VAGRANT_DB_EXIST="YES"
         log_warning_msg "DB ${VAGRANT_DB_NAME} already exist!"
@@ -46,13 +48,12 @@ do
         log_success_msg "DB ${VAGRANT_DB_NAME} not exist!"
     fi
 
-    log_action_msg  "Creating DB $VAGRANT_DB_NAME"
+    log_action_msg  "Creating $VAGRANT_DB_NAME DB ..."
 
     if [ -d "$VAGRANT_SITE_PATH" ] && [ "$VAGRANT_DB_EXIST" == "NO" ]; then
         execute_query "CREATE DATABASE \`${VAGRANT_DB_NAME}\` CHARACTER SET utf8 COLLATE utf8_general_ci;"
         log_success_msg "DB ${VAGRANT_DB_NAME} created"
     else
-        log_failure_msg "DB ${VAGRANT_DB_NAME} not created"
         log_warning_msg "DB ${VAGRANT_DB_NAME} already exist or site folder ${VAGRANT_SITE_PATH} not founded"
     fi
 
@@ -76,24 +77,23 @@ do
         log_warning_msg "DB_USER not setupped in DB: ${VAGRANT_DB_NAME}. USER NOT CREATED"
     fi
 
-    log_begin_msg "Flush mysql privileges"
+    log_progress_msg "Flush mysql privileges"
     execute_query "FLUSH PRIVILEGES;"
-    log_end_msg 0
 
-    log_action_msg "Run db scripts"
+    log_progress_msg "Check and run dumps for databases:"
 
     if [ -d "$VAGRANT_SITE_PATH" ] && [ "$VAGRANT_DB_EXIST" == "NO" ]; then
         if [ -f "${VAGRANT__DATA_FOLDER}/dumps/${VAGRANT_DB_NAME}.sql" ]; then
-            log_action_msg "Running script for $VAGRANT_DB_NAME"
+            log_action_msg "Running dump for $VAGRANT_DB_NAME DB"
 
             execute_query_file $VAGRANT_DB_NAME ${VAGRANT__DATA_FOLDER}/dumps/${VAGRANT_DB_NAME}.sql
 
-            log_success_msg "Script executed for DB $VAGRANT_DB_NAME"
+            log_success_msg "Dump applied for $VAGRANT_DB_NAME DB"
         else
-            log_failure_msg "Script not founded for DB $VAGRANT_DB_NAME "
+            log_failure_msg "Dump not founded for $VAGRANT_DB_NAME DB"
         fi
     else
-        log_failure_msg "Script not executed for DB $VAGRANT_DB_NAME"
+        log_failure_msg "Dump not executed for DB $VAGRANT_DB_NAME"
         log_warning_msg "DB ${VAGRANT_DB_NAME} already exist or site folder ${VAGRANT_SITE_PATH} not founded"
     fi
 done

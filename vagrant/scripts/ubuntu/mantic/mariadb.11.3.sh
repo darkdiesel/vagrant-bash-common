@@ -53,8 +53,7 @@ if [ $(dpkg-query -W -f='${Status}' mariadb-server 2>/dev/null | grep -c "ok ins
         log_end_msg 0
     fi
 else
-    log_begin_msg "mariadb-server installed"
-    log_end_msg 0
+    log_progress_msg "mariadb-server already installed"
 fi
 
 if [ $(dpkg-query -W -f='${Status}' mariadb-client 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
@@ -68,8 +67,7 @@ if [ $(dpkg-query -W -f='${Status}' mariadb-client 2>/dev/null | grep -c "ok ins
         log_end_msg 0
     fi
 else
-    log_begin_msg "mariadb-client installed"
-    log_end_msg 0
+    log_progress_msg "mariadb-client already installed"
 fi
 
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sudo mysql_secure_installation

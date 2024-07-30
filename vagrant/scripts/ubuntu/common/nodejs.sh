@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+
+if [ $(nvm --help 2>/dev/null | grep -c "Node Version Manager") -eq 0 ]; then
+    log_progress_msg "nvm not installed"
+else
+    log_progress_msg "nvm already installed"
+fi
+
+
 if [ $(dpkg-query -W -f='${Status}' nodejs 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     if [ -n "$PACKAGES__NODEJS__VERSION" ]; then
         eval NODEJS_VERSION='$PACKAGES__NODEJS__VERSION';

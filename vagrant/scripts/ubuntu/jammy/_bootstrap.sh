@@ -56,7 +56,7 @@ if [ ${PACKAGES__COMPOSER} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/composer.sh
 fi
 
-if [ ${PACKAGES__REDIS} == "YES" ]; then
+if [ ${PACKAGES__REDIS__INSTALL} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/redis.sh
 fi
 
@@ -64,12 +64,16 @@ if [ ${PACKAGES__NODEJS__INSTALL} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/nodejs.sh
 fi
 
-if [ ${PACKAGES__HIGHCHARTS_EXPORT_SERVER__INSTALL} == "YES" ]; then
-    source ${VAGRANT__OS_SCRIPTS_PATH}/highcharts-export-server.sh
+if [ ${PACKAGES__NPM__INSTALL} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/npm.sh
 fi
 
-if [ ${PACKAGES__PM2} == "YES" ]; then
+if [ ${PACKAGES__PM2__INSTALL} == "YES" ]; then
     source ${VAGRANT__OS_SCRIPTS_PATH}/pm2.sh
+fi
+
+if [ ${PACKAGES__HIGHCHARTS_EXPORT_SERVER__INSTALL} == "YES" ]; then
+    source ${VAGRANT__OS_SCRIPTS_PATH}/highcharts-export-server.sh
 fi
 
 if [ ${PACKAGES__SENDMAIL} == "YES" ]; then

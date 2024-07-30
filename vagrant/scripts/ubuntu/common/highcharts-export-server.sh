@@ -2,6 +2,7 @@
 
 # before installation highcharts-export-server you need to install nodejs
 source ${VAGRANT__OS_SCRIPTS_PATH}/nodejs.sh
+source ${VAGRANT__OS_SCRIPTS_PATH}/npm.sh
 
 log_begin_msg "Installing node-export-server"
 git clone https://github.com/highcharts/node-export-server > /dev/null 2>&1

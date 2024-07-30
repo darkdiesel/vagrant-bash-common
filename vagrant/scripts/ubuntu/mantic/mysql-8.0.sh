@@ -16,8 +16,7 @@ if [ $(dpkg-query -W -f='${Status}' mysql-server-8.0 2>/dev/null | grep -c "ok i
         log_end_msg 0
     fi
 else
-    log_begin_msg "mysql-server-8.0 installed"
-    log_end_msg 0
+  log_progress_msg "mysql-server-8.0 already installed"
 fi
 
 if [ $(dpkg-query -W -f='${Status}' mysql-client 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
@@ -31,8 +30,7 @@ if [ $(dpkg-query -W -f='${Status}' mysql-client 2>/dev/null | grep -c "ok insta
         log_end_msg 0
     fi
 else
-    log_begin_msg "mysql-client-8.0 installed"
-    log_end_msg 0
+    log_progress_msg "mysql-client-8.0 already installed"
 fi
 
 execute_query "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${DB__PASS}';"

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source ${VAGRANT__OS_SCRIPTS_PATH}/curl.sh
+
 log_begin_msg "Installing composer"
 sudo curl -sS https://getcomposer.org/installer | php > /dev/null 2>&1
 sudo mv composer.phar /usr/local/bin/composer > /dev/null 2>&1

@@ -6,13 +6,12 @@ fi
 
 # Execute sql script
 function execute_query () {
-     echo "$1"
-     sudo $DB_EXECUTE_USER -u$DB__USER -p$DB__PASS -e "$1"
+     sudo $DB_EXECUTE_USER -u$DB__USER -p$DB__PASS -e "$1" > /dev/null 2>&1
 }
 
 # Execute sql file for db
 function execute_query_file () {
-    sudo $DB_EXECUTE_USER -u$DB__USER -p$DB__PASS $1 < $2
+    sudo $DB_EXECUTE_USER -u$DB__USER -p$DB__PASS $1 < $2  > /dev/null 2>&1
 }
 
 function db_installed () {

@@ -1,5 +1,4 @@
 VAGRANT:
-  HOSTNAME: site.loc
   BOX: ubuntu/focal64
   OS: ubuntu/focal
   IP: 192.168.56.101
@@ -7,6 +6,7 @@ VAGRANT:
   MEMORY: 1024
   GUI: true
   FS_NOTIFY: false
+  HOSTNAME: site.loc
 SITES:
   COUNT: 3
   BASE_PATH: /var/www/
@@ -53,13 +53,18 @@ PACKAGES:
     INSTALL: YES
     VERSION: 7.4
   COMPOSER: YES
-  REDIS: YES
+  REDIS:
+    INSTALL: YES
+  NVM:
+    INSTALL: YES
+    VERSION: 0.39.0
   NODEJS:
     INSTALL: NO
     VERSION: 10
   NPM:
     INSTALL: NO
-  PM2: NO
+  PM2:
+    INSTALL: NO
   HIGHCHARTS_EXPORT_SERVER:
     INSTALL: NO
     VERSION: latest
