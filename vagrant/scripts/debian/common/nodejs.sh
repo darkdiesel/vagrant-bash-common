@@ -4,7 +4,7 @@ if [ $(dpkg-query -W -f='${Status}' nodejs 2>/dev/null | grep -c "ok installed")
     if [ -n "$PACKAGES__NODEJS__VERSION" ]; then
         eval NODEJS_VERSION='$PACKAGES__NODEJS__VERSION';
     else
-        NODEJS_VERSION='10'
+        NODEJS_VERSION='20'
     fi;
 
     log_begin_msg "Installing nodejs"
