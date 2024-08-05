@@ -19,7 +19,7 @@ SITES:
       PASS: 123456q
       PROVISION_RESET: YES
   SITE_2:
-    DOMAIN: drupal.site.loc}
+    DOMAIN: drupal.site.loc
     ROOT: /web
     DRUPAL: YES
     DB:
