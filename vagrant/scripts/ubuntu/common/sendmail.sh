@@ -15,5 +15,5 @@ if [ $(dpkg-query -W -f='${Status}' sendmail 2>/dev/null | grep -c "ok installed
     sudo sendmailconfig -y > /dev/null 2>&1
     log_end_msg 0
 else
-    log_progress_msg "software-properties-common already installed"
+    log_action_msg "software-properties-common already installed"
 fi

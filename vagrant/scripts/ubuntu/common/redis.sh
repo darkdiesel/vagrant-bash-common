@@ -10,5 +10,5 @@ if [ $(dpkg-query -W -f='${Status}' redis 2>/dev/null | grep -c "ok installed") 
         log_end_msg 0
     fi
 else
-    log_progress_msg "redis already installed"
+    log_action_msg "redis already installed"
 fi

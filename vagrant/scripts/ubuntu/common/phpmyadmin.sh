@@ -34,7 +34,7 @@ if [ $(dpkg-query -W -f='${Status}' phpmyadmin 2>/dev/null | grep -c "ok install
     fi
 
 else
-    log_progress_msg "phpmyadmin already installed"
+    log_action_msg "phpmyadmin already installed"
 fi
 
 if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed") -eq 1 ]; then

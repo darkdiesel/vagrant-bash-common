@@ -10,5 +10,5 @@ if [ $(dpkg-query -W -f='${Status}' build-essential 2>/dev/null | grep -c "ok in
         log_end_msg 0
     fi
 else
-    log_progress_msg "build-essential already installed"
+    log_action_msg "build-essential already installed"
 fi

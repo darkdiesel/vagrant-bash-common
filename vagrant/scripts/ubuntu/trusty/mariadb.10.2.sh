@@ -52,5 +52,5 @@ if [ $(dpkg-query -W -f='${Status}' mariadb-server 2>/dev/null | grep -c "ok ins
         log_end_msg 0
     fi
 else
-    log_progress_msg "mariadb-server already installed"
+    log_action_msg "mariadb-server already installed"
 fi

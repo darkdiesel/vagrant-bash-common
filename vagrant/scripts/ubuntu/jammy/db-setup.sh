@@ -77,10 +77,10 @@ do
         log_warning_msg "DB_USER not setupped in DB: ${VAGRANT_DB_NAME}. USER NOT CREATED"
     fi
 
-    log_progress_msg "Flush mysql privileges"
+    log_action_msg "Flush mysql privileges"
     execute_query "FLUSH PRIVILEGES;"
 
-    log_progress_msg "Check and run dumps for databases:"
+    log_action_msg "Check and run dumps for databases:"
 
     if [ -d "$VAGRANT_SITE_PATH" ] && [ "$VAGRANT_DB_EXIST" == "NO" ]; then
         if [ -f "${VAGRANT__DATA_FOLDER}/dumps/${VAGRANT_DB_NAME}.sql" ]; then

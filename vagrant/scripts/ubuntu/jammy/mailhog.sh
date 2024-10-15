@@ -92,7 +92,7 @@ log_action_msg "Remove old config"
 
 if [ -f $MAILHOG_PHP_MOD_PATH ]; then
     sudo rm -rf $MAILHOG_PHP_MOD_PATH
-    log_progress_msg "done"
+    log_action_msg "done"
 fi
 
 if [ -f $VAGRANT_MAILHOG_CONFIG ]; then

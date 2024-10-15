@@ -164,6 +164,7 @@ All files from this folder will be executed in the end after main setup of virtu
 * `ubuntu/focal`  - 20.04 [detail](#ubuntu-focal)
 * `ubuntu/jammy`  - 22.04 [detail](#ubuntu-jammy)
 * `ubuntu/mantic` - 23.10 [detail](#ubuntu-mantic)
+* `ubuntu/noble` - 24.04 [detail](#ubuntu-noble)
 ### Debian:
 * `debian/stretch` - 9
 * `debian/buster` - 10 (TODO)
@@ -245,6 +246,27 @@ VAGRANT:
 ```text
 PHP: 8.2 | 8.3
 MARIADB: 11.3
+MYSQL: 8.0
+XDEBUG: ~3.1.2
+NGINX: ~1.18.0
+APACHE2: ~2.4.52
+```
+
+## ubuntu noble
+
+**Note:** This box is not supported by vagrant, you need to use [alvistack/ubuntu-24.04](https://app.vagrantup.com/alvistack/boxes/ubuntu-24.04) box
+
+**Config:**
+```yaml
+VAGRANT:
+  BOX: alvistack/ubuntu-24.04
+  OS: ubuntu/noble
+```
+
+**Soft:**
+```text
+PHP: 8.2 | 8.3 | 8.4
+MARIADB: 11.4
 MYSQL: 8.0
 XDEBUG: ~3.1.2
 NGINX: ~1.18.0

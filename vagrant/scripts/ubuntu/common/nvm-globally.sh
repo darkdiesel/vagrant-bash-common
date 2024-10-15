@@ -6,7 +6,7 @@ if [ $(nvm --help 2>/dev/null | grep -c "Node Version Manager") -eq 0 ]; then
     if [ -n "$PACKAGES__NVM__VERSION" ]; then
         eval NVM_VERSION='$PACKAGES__NVM__VERSION';
     else
-        NVM_VERSION='0.39.7'
+        NVM_VERSION='0.40.1'
     fi;
 
     log_begin_msg "Installing nvm"
@@ -31,5 +31,5 @@ if [ $(nvm --help 2>/dev/null | grep -c "Node Version Manager") -eq 0 ]; then
         log_end_msg 0
     fi
 else
-    log_progress_msg "nvm already installed"
+    log_action_msg "nvm already installed"
 fi

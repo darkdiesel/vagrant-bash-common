@@ -15,5 +15,5 @@ if [ $(dpkg-query -W -f='${Status}' golang-go 2>/dev/null | grep -c "ok installe
         log_end_msg 0
     fi
 else
-    log_progress_msg "golang-go already installed"
+    log_action_msg "golang-go already installed"
 fi

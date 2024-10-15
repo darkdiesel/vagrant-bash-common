@@ -2,7 +2,7 @@
 
 MARIADB_LIST="mariadb.sources"
 MARIADB_APT_SOURCE_LIST="/etc/apt/sources.list.d/"${MARIADB_LIST}
-VAGRANT_APT_SOURCE=${VAGRANT__OS_CONFIGS_PATH}"/etc/apt/sources.list.d/mariadb.11.3.sources"
+VAGRANT_APT_SOURCE=${VAGRANT__OS_CONFIGS_PATH}"/etc/apt/sources.list.d/mariadb.11.4.sources"
 
 log_begin_msg "Adding mariadb sources list"
 if [ -f $MARIADB_APT_SOURCE_LIST ]; then
@@ -16,8 +16,8 @@ else
 
     sudo chmod 777 $MARIADB_APT_SOURCE_LIST
 
-    sudo echo "deb [signed-by=/etc/apt/keyrings/mariadb-keyring.pgp] http://mirror.aarnet.edu.au/pub/MariaDB/repo/11.3/ubuntu mantic main" >> $MARIADB_APT_SOURCE_LIST
-    sudo echo "deb-src [signed-by=/etc/apt/keyrings/mariadb-keyring.pgp] http://mirror.aarnet.edu.au/pub/MariaDB/repo/11.3/ubuntu mantic main" >> $MARIADB_APT_SOURCE_LIST
+    sudo echo "deb [signed-by=/etc/apt/keyrings/mariadb-keyring.pgp] https://mirror.docker.ru/mariadb/repo/11.4/ubuntu noble main" >> $MARIADB_APT_SOURCE_LIST
+    sudo echo "deb-src [signed-by=/etc/apt/keyrings/mariadb-keyring.pgp] https://mirror.docker.ru/mariadb/repo/11.4/ubuntu noble main" >> $MARIADB_APT_SOURCE_LIST
 
     sudo chmod 755 $MARIADB_APT_SOURCE_LIST
 fi
@@ -53,7 +53,7 @@ if [ $(dpkg-query -W -f='${Status}' mariadb-server 2>/dev/null | grep -c "ok ins
         log_end_msg 0
     fi
 else
-    log_progress_msg "mariadb-server already installed"
+    log_action_msg "mariadb-server already installed"
 fi
 
 if [ $(dpkg-query -W -f='${Status}' mariadb-client 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
@@ -67,23 +67,47 @@ if [ $(dpkg-query -W -f='${Status}' mariadb-client 2>/dev/null | grep -c "ok ins
         log_end_msg 0
     fi
 else
-    log_progress_msg "mariadb-client already installed"
+    log_action_msg "mariadb-client already installed"
 fi
 
-sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sudo mysql_secure_installation
-      # current root password (emtpy after installation)
-      # current root password (emtpy after installation)
-    y # Set root password?
-    ${DB__PASS} # new root password
-    ${DB__PASS} # new root password
-    y # Remove anonymous users?
-    y # Disallow root login remotely?
-    y # Remove test database and access to it?
-    y # Reload privilege tables now?
-EOF
+execute_query "SET PASSWORD FOR root@localhost = '${DB__PASS}';"
+execute_query "FLUSH PRIVILEGES;"
 
-#DEBIAN_SYS_MAIN_USER=$(grep 'user' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
-#DEBIAN_SYS_MAIN_PASS=$(grep 'password' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
+source ${VAGRANT__OS_SCRIPTS_PATH}/expect.sh
 
-#sudo mysql -u$DB__USER -p$DB__PASS -e 'GRANT ALL PRIVILEGES ON *.* TO "'$DEBIAN_SYS_MAIN_USER'"@"localhost" IDENTIFIED BY "'$DEBIAN_SYS_MAIN_PASS'";'
-#sudo mysql -u$DB__USER -p$DB__PASS -e "FLUSH PRIVILEGES;"
+SECURE_MYSQL=$(expect -c "
+
+set timeout 3
+spawn mariadb-secure-installation
+
+expect \"Enter current password for root (enter for none):\"
+send \"\r\"
+
+expect \"Switch to unix_socket authentication\"
+send \"y\r\"
+
+expect \"root password?\"
+send \"y\r\"
+
+expect \"New password:\"
+send \"$DB__PASS\r\"
+
+expect \"Re-enter new password:\"
+send \"$DB__PASS\r\"
+
+expect \"Remove anonymous users?\"
+send \"y\r\"
+
+expect \"Disallow root login remotely?\"
+send \"y\r\"
+
+expect \"Remove test database and access to it?\"
+send \"y\r\"
+
+expect \"Reload privilege tables now?\"
+send \"y\r\"
+
+expect eof
+")
+
+echo "${SECURE_MYSQL}"

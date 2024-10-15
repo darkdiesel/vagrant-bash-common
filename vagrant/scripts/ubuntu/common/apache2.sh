@@ -11,7 +11,7 @@ if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed"
         log_end_msg 0
     fi
 else
-    log_progress_msg "apache2 already installed"
+    log_action_msg "apache2 already installed"
 fi
 
 log_action_msg "Removing apache2 default hosts"

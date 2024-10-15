@@ -2,7 +2,11 @@
 
 source ${VAGRANT__OS_SCRIPTS_PATH}/nodejs.sh
 
-#!/usr/bin/env bash
+if [ $(nvm --help 2>/dev/null | grep -c "Node Version Manager") -eq 0 ]; then
+    log_action_msg "nvm not installed"
+else
+    log_action_msg "nvm already installed"
+fi
 
 if [ $(dpkg-query -W -f='${Status}' npm 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     log_begin_msg "Installing npm"
@@ -14,5 +18,5 @@ if [ $(dpkg-query -W -f='${Status}' npm 2>/dev/null | grep -c "ok installed") -e
         log_end_msg 0
     fi
 else
-    log_progress_msg "npm installed"
+    log_action_msg "npm installed"
 fi

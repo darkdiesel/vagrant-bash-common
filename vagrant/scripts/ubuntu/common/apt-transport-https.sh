@@ -11,5 +11,5 @@ if [ $(dpkg-query -W -f='${Status}' apt-transport-https 2>/dev/null | grep -c "o
         log_end_msg 0
     fi
 else
-    log_progress_msg "apt-transport-https already installed"
+    log_action_msg "apt-transport-https already installed"
 fi

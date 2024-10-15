@@ -12,6 +12,6 @@ if [ $(npm list -g pm2 2>/dev/null | grep -c "pm2") -eq 0 ]; then
         log_end_msg 0
     fi
 else
-    log_progress_msg "pm2 already installed"
+    log_action_msg "pm2 already installed"
 fi
 
