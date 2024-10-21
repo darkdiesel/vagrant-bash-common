@@ -167,7 +167,7 @@ All files from this folder will be executed in the end after main setup of virtu
 * `ubuntu/noble` - 24.04 [detail](#ubuntu-noble)
 ### Debian:
 * `debian/stretch` - 9 [detail](#debian-stretch)
-* `debian/buster` - 10 (TODO)
+* `debian/buster` - 10  [detail](#debian-buser)
 
 Find more vagrant boxes [here](https://app.vagrantup.com/boxes/search) and create PR with new for this repo :)
 
@@ -185,7 +185,7 @@ Find more vagrant boxes [here](https://app.vagrantup.com/boxes/search) and creat
 
 ## debian stretch
 
-**Note:**archive.dev 
+**Note:**
  - Used deprecated version of debian from [archive.debian.org](https://archive.debian.org/debian/)
  - 10.2 and 10.3 versions of maria db taken from [archive.mariadb.org](https://archive.mariadb.org/)
 
@@ -204,6 +204,29 @@ XDEBUG: ~2.5.0
 NGINX: ~1.10.3
 APACHE2: ~2.4.25
 ```
+
+## debian buster
+
+**Note:**
+- Used deprecated version of debian from [archive.debian.org](https://archive.debian.org/debian/)
+- 10.2 and 10.3 versions of maria db taken from [archive.mariadb.org](https://archive.mariadb.org/)
+
+**Config:**
+```yaml
+VAGRANT:
+  BOX: generic-x64/debian10
+  OS: debian/stretch
+```
+
+**Soft:**
+```text
+PHP: 7.0
+MARIADB: 10.2 | 10.3 | 10.4 | 10.5 | 10.6 | 11.1 | 11.2  | 11.4 | 11.5 | 11.6
+XDEBUG: ~2.5.0
+NGINX: ~1.10.3
+APACHE2: ~2.4.25
+```
+
 
 ## ubuntu xenial
 

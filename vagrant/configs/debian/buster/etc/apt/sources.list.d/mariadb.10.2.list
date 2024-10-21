@@ -1,0 +1,4 @@
+# MariaDB 10.2 repository list - created 2019-04-09 08:50 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+deb [arch=amd64,i386,ppc64el] https://archive.mariadb.org/mariadb-10.2/repo/debian buster main
+deb-src  https://archive.mariadb.org/mariadb-10.2/repo/debian buster main

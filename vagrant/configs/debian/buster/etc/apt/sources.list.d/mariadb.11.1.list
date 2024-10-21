@@ -1,0 +1,4 @@
+# MariaDB 11.1 repository list - created 2019-04-09 09:24 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+deb [arch=amd64,i386,ppc64el] http://mirror.hosting90.cz/mariadb/repo/11.1/debian buster main
+deb-src http://mirror.hosting90.cz/mariadb/repo/11.1/debian buster main
