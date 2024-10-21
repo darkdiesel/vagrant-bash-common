@@ -2,7 +2,7 @@
 
 MARIADB_LIST="mariadb.list"
 MARIADB_APT_SOURCE_LIST="/etc/apt/sources.list.d/"${MARIADB_LIST}
-VAGRANT_APT_SOURCE=${VAGRANT__OS_CONFIGS_PATH}"/etc/apt/sources.list.d/mariadb.10.3.list"
+VAGRANT_APT_SOURCE=${VAGRANT__OS_CONFIGS_PATH}"/etc/apt/sources.list.d/mariadb.10.6.list"
 
 log_begin_msg "Adding mariadb sources list"
 if [ -f $MARIADB_APT_SOURCE_LIST ]; then
@@ -16,8 +16,8 @@ else
 
     sudo chmod 777 $MARIADB_APT_SOURCE_LIST
 
-    sudo echo "deb [arch=amd64,i386,ppc64el] https://archive.mariadb.org/mariadb-10.3/repo/debian stretch main" >> $MARIADB_APT_SOURCE_LIST
-    sudo echo "deb-src https://archive.mariadb.org/mariadb-10.3/repo/debian stretch main" >> $MARIADB_APT_SOURCE_LIST
+    sudo echo "deb [arch=amd64,i386,ppc64el] http://mirror.hosting90.cz/mariadb/repo/10.6/debian stretch main" >> $MARIADB_APT_SOURCE_LIST
+    sudo echo "deb-src http://mirror.hosting90.cz/mariadb/repo/10.6/debian stretch main" >> $MARIADB_APT_SOURCE_LIST
 
     sudo chmod 755 $MARIADB_APT_SOURCE_LIST
 fi

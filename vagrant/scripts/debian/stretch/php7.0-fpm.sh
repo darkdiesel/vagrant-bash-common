@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ $(dpkg-query -W -f='${Status}' php-fpm 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-    log_begin_msg "Installing php7.2-fpm and packages"
+    log_begin_msg "Installing php7.0-fpm and packages"
     sudo apt-get install -y php7.0-fpm php7.0-cli php7.0-common php7.0-mbstring php7.0-gd php7.0-curl php7.0-cgi php7.0-intl php7.0-xml hp7.0-zip php-xdebug > /dev/null 2>&1
     #TODO add installation for php7.2-mcrypt
 

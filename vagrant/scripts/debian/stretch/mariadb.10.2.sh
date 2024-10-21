@@ -16,8 +16,8 @@ else
 
     sudo chmod 777 $MARIADB_APT_SOURCE_LIST
 
-    sudo echo "deb [arch=amd64,i386,ppc64el] http://mirror.hosting90.cz/mariadb/repo/10.2/debian stretch main" >> $MARIADB_APT_SOURCE_LIST
-    sudo echo "deb-src http://mirror.hosting90.cz/mariadb/repo/10.2/debian stretch main" >> $MARIADB_APT_SOURCE_LIST
+    sudo echo "deb [arch=amd64,i386,ppc64el] https://archive.mariadb.org/mariadb-10.2/repo/debian stretch main" >> $MARIADB_APT_SOURCE_LIST
+    sudo echo "deb-src https://archive.mariadb.org/mariadb-10.2/repo/debian stretch main" >> $MARIADB_APT_SOURCE_LIST
 
     sudo chmod 755 $MARIADB_APT_SOURCE_LIST
 fi
