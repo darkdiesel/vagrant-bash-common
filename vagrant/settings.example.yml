@@ -1,12 +1,13 @@
 VAGRANT:
+  HOSTNAME: site.loc
   BOX: ubuntu/focal64
+  BOX_VERSION: 
   OS: ubuntu/focal
   IP: 192.168.56.101
   CPU: 1
   MEMORY: 1024
   GUI: true
   FS_NOTIFY: false
-  HOSTNAME: site.loc
 SITES:
   COUNT: 3
   BASE_PATH: /var/www/

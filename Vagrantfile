@@ -27,7 +27,7 @@ end
 
 if (not USER_SETTINGS.empty?) && (not DEFAULT_SETTINGS.empty?)
   SETTINGS = Vagrant::Util::DeepMerge.deep_merge(DEFAULT_SETTINGS, USER_SETTINGS)
-  puts "Default and User settings are merged"
+  puts "Settings are merged"
   #puts SETTINGS.inspect
 else
   SETTINGS = DEFAULT_SETTINGS
@@ -37,6 +37,12 @@ end
 VAGRANTFILE_API_VERSION = "2"
 
 OS_BOX = SETTINGS['VAGRANT']['BOX']
+OS_BOX_VERSION = SETTINGS['VAGRANT']['BOX_VERSION']
+
+# Check box version
+if OS_BOX_VERSION.nil? || OS_BOX_VERSION.empty?
+  puts "BOX_VERSION is not set. Using default version"
+end
 
 # Official OS name. used for locate correspond scripts for operation system
 OS_NAME =  SETTINGS['VAGRANT']['OS']
@@ -79,6 +85,15 @@ end
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vagrant.plugins = {
+    'vagrant-vbguest' => {
+      'sources' =>[
+        'vagrant-vbguest-0.32.1.gem',
+        'https://rubygems.org/', # needed but not used
+      ],
+    }
+  }
+
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
@@ -86,6 +101,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = OS_BOX
+
+  if !OS_BOX_VERSION.nil? && !OS_BOX_VERSION.empty?
+    config.vm.box_version  = OS_BOX_VERSION
+  end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
