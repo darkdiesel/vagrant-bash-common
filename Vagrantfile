@@ -27,7 +27,6 @@ end
 
 if (not USER_SETTINGS.empty?) && (not DEFAULT_SETTINGS.empty?)
   SETTINGS = Vagrant::Util::DeepMerge.deep_merge(DEFAULT_SETTINGS, USER_SETTINGS)
-  puts "Settings are merged"
   #puts SETTINGS.inspect
 else
   SETTINGS = DEFAULT_SETTINGS
@@ -38,11 +37,6 @@ VAGRANTFILE_API_VERSION = "2"
 
 OS_BOX = SETTINGS['VAGRANT']['BOX']
 OS_BOX_VERSION = SETTINGS['VAGRANT']['BOX_VERSION']
-
-# Check box version
-if OS_BOX_VERSION.nil? || OS_BOX_VERSION.empty?
-  puts "BOX_VERSION is not set. Using default version"
-end
 
 # Official OS name. used for locate correspond scripts for operation system
 OS_NAME =  SETTINGS['VAGRANT']['OS']

@@ -240,6 +240,12 @@ VAGRANT:
   OS: debian/buster
 ```
 
+```yaml
+VAGRANT:
+  BOX: igorpeshkov/debian-10-buster-amd64
+  OS: debian/buster
+```
+
 **Soft:**
 
 ```text
@@ -249,6 +255,8 @@ XDEBUG: ~2.5.0
 NGINX: ~1.10.3
 APACHE2: ~2.4.25
 ```
+
+MARIADB 10.2 broken repo.
 
 ## ubuntu xenial
 
