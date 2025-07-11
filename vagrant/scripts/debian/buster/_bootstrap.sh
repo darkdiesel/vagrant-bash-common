@@ -35,7 +35,7 @@ if [ ${PACKAGES__MARIADB__INSTALL} == "YES" ]; then
 fi
 
 if [ ${PACKAGES__PHP__INSTALL} == "YES" ]; then
-    source ${VAGRANT__OS_SCRIPTS_PATH}/php7.0-fpm.sh
+    source ${VAGRANT__OS_SCRIPTS_PATH}/php-fpm.sh
 fi
 
 if [ ${PACKAGES__COMPOSER} == "YES" ]; then

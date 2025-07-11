@@ -11,7 +11,7 @@ if [ $(dpkg-query -W -f='${Status}' sendmail 2>/dev/null | grep -c "ok installed
         log_end_msg 0
     fi
 
-    log_begin_msg "SendMail Config"
+    log_begin_msg "SendMail config"
     sudo sendmailconfig -y > /dev/null 2>&1
     log_end_msg 0
 else

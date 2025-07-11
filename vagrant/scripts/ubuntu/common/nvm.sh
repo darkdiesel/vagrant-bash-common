@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Check new versions on https://github.com/nvm-sh/nvm/releases
+
 source "${VAGRANT__OS_SCRIPTS_PATH}"/curl.sh
 
 if [ $(nvm --help 2>/dev/null | grep -c "Node Version Manager") -eq 0 ]; then

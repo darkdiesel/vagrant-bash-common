@@ -73,14 +73,12 @@ sudo systemctl start mailhog > /dev/null 2>&1
 sudo systemctl enable mailhog > /dev/null 2>&1
 log_end_msg 0
 
-
 #log_begin_msg "Make mailhog start on boot"
 #sudo chmod 777 /etc/crontab > /dev/null 2>&1
 #echo "@reboot root $(which mailhog) -api-bind-addr='127.0.0.1:8025' -ui-bind-addr='127.0.0.1:8025' -smtp-bind-addr='127.0.0.1:1025'" >> /etc/crontab
 #sudo chmod 644 /etc/crontab > /dev/null 2>&1
 #sudo update-rc.d cron defaults > /dev/null
 #log_end_msg 0
-
 
 MAILHOG_MOD="mailhog.ini"
 MAILHOG_PHP_MOD_PATH="/etc/php/"${PACKAGES__PHP__VERSION}"/mods-available/"${MAILHOG_MOD}

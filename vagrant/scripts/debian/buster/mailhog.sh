@@ -63,7 +63,6 @@ sudo systemctl start mailhog > /dev/null 2>&1
 sudo systemctl enable mailhog > /dev/null 2>&1
 log_end_msg 0
 
-
 #log_begin_msg "Make mailhog start on boot"
 #sudo chmod 777 /etc/crontab > /dev/null 2>&1
 #echo "@reboot root $(which mailhog) -api-bind-addr='127.0.0.1:8025' -ui-bind-addr='127.0.0.1:8025' -smtp-bind-addr='127.0.0.1:1025'" >> /etc/crontab
@@ -71,15 +70,28 @@ log_end_msg 0
 #sudo update-rc.d cron defaults > /dev/null
 #log_end_msg 0
 
+MAILHOG_MOD="mailhog.ini"
+MAILHOG_PHP_MOD_PATH="/etc/php/"${PACKAGES__PHP__VERSION}"/mods-available/"${MAILHOG_MOD}
+VAGRANT_MAILHOG_CONFIG=${VAGRANT__OS_CONFIGS_PATH}"/etc/php/"${PACKAGES__PHP__VERSION}"/mods-available/"${MAILHOG_MOD}
+
 log_begin_msg "Make php use mailhog to send mail"
-if [ -f "/etc/php/7.0/mods-available/mailhog.ini" ]; then
-    sudo rm /etc/php/7.0/mods-available/mailhog.ini > /dev/null
+
+log_action_msg "Remove old config"
+
+if [ -f $MAILHOG_PHP_MOD_PATH ]; then
+    sudo rm -rf $MAILHOG_PHP_MOD_PATH
+    log_action_msg "done"
 fi
 
-sudo touch /etc/php/7.0/mods-available/mailhog.ini
-sudo chmod 777 /etc/php/7.0/mods-available/mailhog.ini
-sudo echo "sendmail_path = /usr/local/bin/mhsendmail" >> /etc/php/7.0/mods-available/mailhog.ini
-sudo chmod 644 /etc/php/7.0/mods-available/mailhog.ini
+if [ -f $VAGRANT_MAILHOG_CONFIG ]; then
+    sudo cp -R $VAGRANT_MAILHOG_CONFIG $MAILHOG_PHP_MOD_PATH > /dev/null 2>&1
+else
+  sudo touch $MAILHOG_PHP_MOD_PATH
+  sudo chmod 777 $MAILHOG_PHP_MOD_PATH
+  sudo echo "sendmail_path = /usr/local/bin/mhsendmail" >> $MAILHOG_PHP_MOD_PATH
+  sudo chmod 644 $MAILHOG_PHP_MOD_PATH
+fi
+
 log_end_msg 0
 
 log_begin_msg "Enable mailhog mod for php"
@@ -87,5 +99,5 @@ sudo phpenmod mailhog
 log_end_msg 0
 
 #log_begin_msg "Starting mailhog"
-#$(which mailhog) -api-bind-addr="127.0.0.1:8025" -ui-bind-addr="127.0.0.1:8025" -smtp-bind-addr="127.0.0.1:2025" > /dev/null 2>&1
+#$(which mailhog) -api-bind-addr="127.0.0.1:8025" -ui-bind-addr="127.0.0.1:8025" -smtp-bind-addr="127.0.0.1:1025" > /dev/null 2>&1
 #log_end_msg 0

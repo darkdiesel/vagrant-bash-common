@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
+r#!/usr/bin/env bash
 
 source ${VAGRANT__OS_SCRIPTS_PATH}/build-essential.sh
+source ${VAGRANT__OS_SCRIPTS_PATH}/software-properties-common.sh
 source ${VAGRANT__OS_SCRIPTS_PATH}/ruby-dev.sh
 source ${VAGRANT__OS_SCRIPTS_PATH}/sqlite3.sh
 source ${VAGRANT__OS_SCRIPTS_PATH}/libsqlite3-dev.sh
@@ -8,9 +9,9 @@ source ${VAGRANT__OS_SCRIPTS_PATH}/libsqlite3-dev.sh
 log_begin_msg "Installing mailcatcher and gems for ruby"
 
 sudo gem install bundler > /dev/null 2>&1
-sudo gem install eventmachine -v 1.0.3 > /dev/null 2>&1
-sudo gem install mime-types -v 2.99.1 > /dev/null 2>&1
-sudo gem install mailcatcher -v 0.5.12 > /dev/null 2>&1
+sudo gem install sqlite3 -v 1.6.9 > /dev/null 2>&1
+sudo gem install net-imap -v 0.3.7 > /dev/null 2>&1
+sudo gem install mailcatcher -v 0.9.0 > /dev/null 2>&1
 
 log_end_msg 0
 
@@ -56,11 +57,15 @@ log_begin_msg "Make php use mailcatcher to send mail"
 #sudo echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'mailcatcher@${VAGRANT__HOSTNAME}'" >> /etc/php5/mods-available/mailcatcher.ini
 #sudo chmod 644 /etc/php5/mods-available/mailcatcher.ini
 
+MAILCATCHER_MOD="mailcatcher.ini"
+MAILCATCHER_PHP_MOD_PATH="/etc/php/"${PACKAGES__PHP__VERSION}"/mods-available/"${MAILCATCHER_MOD}
+VAGRANT_MAILCATCHER_CONFIG=${VAGRANT__OS_CONFIGS_PATH}"/etc/php/"${PACKAGES__PHP__VERSION}"/mods-available/"${MAILCATCHER_MOD}
+
 # xenial
-sudo touch /etc/php/7.2/mods-available/mailcatcher.ini
-sudo chmod 777 /etc/php/7.2/mods-available/mailcatcher.ini
-sudo echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'mailcatcher@${VAGRANT__HOSTNAME}'" >> /etc/php/7.2/mods-available/mailcatcher.ini
-sudo chmod 644 /etc/php/7.2/mods-available/mailcatcher.ini
+sudo touch MAILCATCHER_PHP_MOD_PATH
+sudo chmod 777 MAILCATCHER_PHP_MOD_PATH
+sudo echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'mailcatcher@${VAGRANT__HOSTNAME}'" >> MAILCATCHER_PHP_MOD_PATH
+sudo chmod 644 MAILCATCHER_PHP_MOD_PATH
 log_end_msg 0
 
 # older ubuntus
