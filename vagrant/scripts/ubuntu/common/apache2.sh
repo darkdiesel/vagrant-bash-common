@@ -23,7 +23,7 @@ if [ ! -f "/etc/apache2/ports.conf.bak" ]; then
     sudo cp /etc/apache2/ports.conf /etc/apache2/ports.conf.bak > /dev/null
 fi
 
-#@TODO: Rewrite this part depends on nginx installed or not. Copy only files that needed
+#@TODO: Rewrite this part depends on nginx installation. Copy only files that needed
 log_action_msg "Copying apache2 configs"
 sudo cp -R ${VAGRANT__UBUNTU_COMMON_CONFIGS_PATH}/etc/apache2/* /etc/apache2/ > /dev/null 2>&1
 
