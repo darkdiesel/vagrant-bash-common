@@ -55,7 +55,7 @@ if [ ${PACKAGES__SENDMAIL} == "YES" ]; then
 fi
 
 if [ ${PACKAGES__PHPMYADMIN} == "YES" ]; then
-    source ${VAGRANT__OS_SCRIPTS_PATH}/phpmyadmin.sh
+    source ${VAGRANT__OS_SCRIPTS_PATH}/phpmyadmin-composer.sh
 fi
 
 if [ ${PACKAGES__MAILHOG} == "YES" ]; then
