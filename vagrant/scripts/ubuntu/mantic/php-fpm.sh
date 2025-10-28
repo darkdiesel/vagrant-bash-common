@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-source ${VAGRANT__OS_SCRIPTS_PATH}/php${PACKAGES__PHP__VERSION}-fpm.sh
+source ${VAGRANT__UBUNTU_COMMON_SCRIPTS_PATH}/php-fpm.sh

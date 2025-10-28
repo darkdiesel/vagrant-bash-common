@@ -72,6 +72,7 @@ log_end_msg 0
 #log_end_msg 0
 
 log_begin_msg "Make php use mailhog to send mail"
+
 if [ -f "/etc/php/7.0/mods-available/mailhog.ini" ]; then
     sudo rm /etc/php/7.0/mods-available/mailhog.ini > /dev/null
 fi
@@ -80,6 +81,7 @@ sudo touch /etc/php/7.0/mods-available/mailhog.ini
 sudo chmod 777 /etc/php/7.0/mods-available/mailhog.ini
 sudo echo "sendmail_path = /usr/local/bin/mhsendmail" >> /etc/php/7.0/mods-available/mailhog.ini
 sudo chmod 644 /etc/php/7.0/mods-available/mailhog.ini
+
 log_end_msg 0
 
 log_begin_msg "Enable mailhog mod for php"

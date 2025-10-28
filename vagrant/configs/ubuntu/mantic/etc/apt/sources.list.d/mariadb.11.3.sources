@@ -7,4 +7,4 @@ Types: deb
 URIs: https://mirror.docker.ru/mariadb/repo/11.4/ubuntu
 Suites: noble
 Components: main main/debug
-Signed-By: /etc/apt/keyrings/mariadb-keyring.pgp
+Signed-By: /usr/share/keyrings/mariadb-keyring.pgp

@@ -88,6 +88,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
   }
 
+  if Vagrant.has_plugin? "vagrant-vbguest"
+    config.vbguest.no_install  = true
+  end
+
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.

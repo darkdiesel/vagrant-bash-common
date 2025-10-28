@@ -76,8 +76,6 @@ VAGRANT_MAILHOG_CONFIG=${VAGRANT__OS_CONFIGS_PATH}"/etc/php/"${PACKAGES__PHP__VE
 
 log_begin_msg "Make php use mailhog to send mail"
 
-log_action_msg "Remove old config"
-
 if [ -f $MAILHOG_PHP_MOD_PATH ]; then
     sudo rm -rf $MAILHOG_PHP_MOD_PATH
     log_action_msg "done"
@@ -88,7 +86,7 @@ if [ -f $VAGRANT_MAILHOG_CONFIG ]; then
 else
   sudo touch $MAILHOG_PHP_MOD_PATH
   sudo chmod 777 $MAILHOG_PHP_MOD_PATH
-  sudo echo "sendmail_path = /usr/local/bin/mhsendmail" >> $MAILHOG_PHP_MOD_PATH
+  echo "sendmail_path = /usr/local/bin/mhsendmail" | sudo tee -a $MAILHOG_PHP_MOD_PATH > /dev/null 2>&1
   sudo chmod 644 $MAILHOG_PHP_MOD_PATH
 fi
 

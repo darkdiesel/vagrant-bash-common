@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-MARIADB_LIST="mariadb.sources"
+MARIADB_LIST="mariadb.list"
 MARIADB_APT_SOURCE_LIST="/etc/apt/sources.list.d/"${MARIADB_LIST}
-VAGRANT_APT_SOURCE=${VAGRANT__OS_CONFIGS_PATH}"/etc/apt/sources.list.d/mariadb.11.3.sources"
+VAGRANT_APT_SOURCE=${VAGRANT__OS_CONFIGS_PATH}"/etc/apt/sources.list.d/mariadb.11.4.list"
 
 log_begin_msg "Adding mariadb sources list"
 if [ -f $MARIADB_APT_SOURCE_LIST ]; then
@@ -16,8 +16,8 @@ else
 
     sudo chmod 777 $MARIADB_APT_SOURCE_LIST
 
-    sudo echo "deb [signed-by=/etc/apt/keyrings/mariadb-keyring.pgp] http://mirror.aarnet.edu.au/pub/MariaDB/repo/11.3/ubuntu mantic main" >> $MARIADB_APT_SOURCE_LIST
-    sudo echo "deb-src [signed-by=/etc/apt/keyrings/mariadb-keyring.pgp] http://mirror.aarnet.edu.au/pub/MariaDB/repo/11.3/ubuntu mantic main" >> $MARIADB_APT_SOURCE_LIST
+    sudo echo "deb [signed-by=/usr/share/keyrings/mariadb-keyring.pgp] https://deb.mariadb.org/11.4/debian bullseye main" >> $MARIADB_APT_SOURCE_LIST
+    sudo echo "deb-src [signed-by=/usr/share/keyrings/mariadb-keyring.pgp] https://mirrors.ircam.fr/pub/mariadb/repo/11.4/debian bullseye main" >> $MARIADB_APT_SOURCE_LIST
 
     sudo chmod 755 $MARIADB_APT_SOURCE_LIST
 fi
@@ -30,7 +30,7 @@ source ${VAGRANT__OS_SCRIPTS_PATH}/apt-transport-https.sh
 
 log_begin_msg "Adding mariadb key"
 sudo mkdir -p /etc/apt/keyrings
-sudo curl -o /etc/apt/keyrings/mariadb-keyring.pgp 'https://mariadb.org/mariadb_release_signing_key.pgp' > /dev/null 2>&1
+sudo curl -o /usr/share/keyrings/mariadb-keyring.pgp 'https://mariadb.org/mariadb_release_signing_key.pgp' > /dev/null 2>&1
 log_end_msg 0
 
 log_begin_msg "Update packages list"
@@ -70,9 +70,11 @@ else
     log_action_msg "mariadb-client already installed"
 fi
 
-sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sudo mysql_secure_installation
-      # current root password (emtpy after installation)
-      # current root password (emtpy after installation)
+if [ $(dpkg-query -W -f='${Status}' mariadb-server 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
+
+sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sudo mariadb-secure-installation
+      # current root password (empty after installation)
+    n # Switch to unix_socket authentication
     y # Set root password?
     ${DB__PASS} # new root password
     ${DB__PASS} # new root password
@@ -81,6 +83,8 @@ sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sudo mysql_secure_installation
     y # Remove test database and access to it?
     y # Reload privilege tables now?
 EOF
+
+fi
 
 #DEBIAN_SYS_MAIN_USER=$(grep 'user' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')
 #DEBIAN_SYS_MAIN_PASS=$(grep 'password' /etc/mysql/debian.cnf | head -1 | awk '{print $3}')

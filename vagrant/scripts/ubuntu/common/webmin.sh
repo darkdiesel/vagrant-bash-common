@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+curl -o webmin-setup-repo.sh https://raw.githubusercontent.com/webmin/webmin/master/webmin-setup-repo.sh
+sudo sh webmin-setup-repo.sh
+
+
+sudo apt-get install webmin usermin --install-recommends

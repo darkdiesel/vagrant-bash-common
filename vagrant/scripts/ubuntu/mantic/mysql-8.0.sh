@@ -37,8 +37,8 @@ execute_query "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_passwo
 execute_query "ALTER USER 'root'@'localhost' IDENTIFIED WITH auth_socket;"
 
 #sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sudo mysql_secure_installation
-#      # current root password (emtpy after installation)
-#      # current root password (emtpy after installation)
+#      # current root password (empty after installation)
+#      # current root password (empty after installation)
 #    y # Set root password?
 #    ${DB__PASS} # new root password
 #    ${DB__PASS} # new root password

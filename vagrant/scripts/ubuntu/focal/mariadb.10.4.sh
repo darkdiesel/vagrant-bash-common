@@ -74,8 +74,8 @@ else
 fi
 
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sudo mysql_secure_installation
-      # current root password (emtpy after installation)
-      # current root password (emtpy after installation)
+      # current root password (empty after installation)
+      # current root password (empty after installation)
     y # Set root password?
     ${DB__PASS} # new root password
     ${DB__PASS} # new root password

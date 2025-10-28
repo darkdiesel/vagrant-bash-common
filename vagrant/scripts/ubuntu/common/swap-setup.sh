@@ -10,6 +10,6 @@ sudo /sbin/swapon /swapfile > /dev/null 2>&1
 SWAP_PERMANENT="/swapfile   none    swap    sw    0   0"
 
 if grep -vq "${SWAP_PERMANENT}" /etc/fstab; then
-    echo "${SWAP_PERMANENT}" | sudo tee -a /etc/fstab
+    echo "${SWAP_PERMANENT}" | sudo tee -a /etc/fstab > /dev/null 2>&1
 fi
 log_end_msg 0

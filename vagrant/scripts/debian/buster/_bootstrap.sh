@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source /vagrant/scripts/ubuntu/common/_bootstrap.sh
+source /vagrant/scripts/debian/common/_bootstrap.sh
 
 log_begin_msg "Update packages"
 sudo apt-get update > /dev/null 2>&1

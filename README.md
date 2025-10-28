@@ -135,6 +135,7 @@ Required plugins should be installed automatically. If not - run manually instal
 - `vagrant up --provision` - run vagrant machine with provision (run installation scripts)  
 - `vagrant reload` - reload virtual machine
 - `vagrant reload --provision` - reload virtual machine and run provision (run installation scripts)
+- `vagrant box list` - list of available boxes
 - `vagrant box update` - update box for current vagrant instance
 - `vagrant box prune` - remove old version of vagrant boxes
 - `vagrant ssh` - connect to vagrant machine via ssh
@@ -183,6 +184,7 @@ All files from this folder will be executed in the end after main setup of virtu
 
 - `debian/stretch` - 9 [detail](#debian-stretch)
 - `debian/buster` - 10 [detail](#debian-buster)
+- `debian/bullseye` - 11 [detail](#debian-bullseye)
 
 Find more vagrant boxes - [search box](https://app.vagrantup.com/boxes/search) and create PR with new for this repo :)
 
@@ -215,6 +217,12 @@ VAGRANT:
   OS: debian/stretch
 ```
 
+```yaml
+VAGRANT:
+  BOX: igorpeshkov/debian-9-stretch-amd64
+  OS: debian/stretch
+```
+
 **Soft:**
 
 ```text
@@ -231,6 +239,7 @@ APACHE2: ~2.4.25
 
 - Used deprecated version of debian from [archive.debian.org](https://archive.debian.org/debian/)
 - 10.2 and 10.3 versions of maria db taken from [archive.mariadb.org](https://archive.mariadb.org/)
+- MARIADB 10.2 broken repo.
 
 **Config:**
 
@@ -249,14 +258,39 @@ VAGRANT:
 **Soft:**
 
 ```text
-PHP: 7.0
+PHP: 7.4
 MARIADB: 10.2 | 10.3 | 10.4 | 10.5 | 10.6 | 11.1 | 11.2  | 11.4 | 11.5 | 11.6
 XDEBUG: ~2.5.0
 NGINX: ~1.10.3
 APACHE2: ~2.4.25
 ```
 
-MARIADB 10.2 broken repo.
+## debian bullseye
+
+**Config:**
+
+```yaml
+VAGRANT:
+  BOX: generic-x64/debian11
+  OS: debian/bullseye
+```
+
+```yaml
+VAGRANT:
+  BOX: igorpeshkov/debian-11-bullseye-amd64
+  OS: debian/bullseye
+```
+
+**Soft:**
+
+```text
+PHP: 7.4 | 8.3 | 8.4
+MARIADB: 11.4, 12.1
+MYSQL: 8.0
+XDEBUG: ~3.0.2
+NGINX: ~1.18.0
+APACHE2: ~2.4.65
+```
 
 ## ubuntu xenial
 
@@ -264,7 +298,7 @@ MARIADB 10.2 broken repo.
 
 ```yaml
 VAGRANT:
-  BOX: ubuntu/xeniall64
+  BOX: ubuntu/xenial64
   OS: ubuntu/xenial
 ```
 
