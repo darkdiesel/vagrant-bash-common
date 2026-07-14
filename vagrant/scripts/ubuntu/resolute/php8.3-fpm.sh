@@ -8,12 +8,12 @@ source ${VAGRANT__OS_SCRIPTS_PATH}/software-properties-common.sh
 log_action_msg "Add ondrej/php repositiry"
 sudo add-apt-repository -y ppa:ondrej/php > /dev/null 2>&1
 
-sudo sed -i -e 's/mantic/jammy/g' /etc/apt/sources.list.d/ondrej-ubuntu-php-mantic.sources 
+sudo sed -i -e 's/resolute/jammy/g' /etc/apt/sources.list.d/ondrej-ubuntu-php-resolute.sources 
 
 sudo apt update > /dev/null 2>&1
 
 sudo echo "Package: libgd3" >> $APT_PREFERENCES_ONDREJ
-sudo echo "Pin: release n=mantic" >> $APT_PREFERENCES_ONDREJ
+sudo echo "Pin: release n=resolute" >> $APT_PREFERENCES_ONDREJ
 sudo echo "Pin-Priority: 900" >> $APT_PREFERENCES_ONDREJ
 
 

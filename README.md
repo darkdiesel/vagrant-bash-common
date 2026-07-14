@@ -177,8 +177,8 @@ All files from this folder will be executed in the end after main setup of virtu
 - `ubuntu/bionic` - 18.04
 - `ubuntu/focal`  - 20.04 [detail](#ubuntu-focal)
 - `ubuntu/jammy`  - 22.04 [detail](#ubuntu-jammy)
-- `ubuntu/mantic` - 23.10 [detail](#ubuntu-mantic)
 - `ubuntu/noble` - 24.04 [detail](#ubuntu-noble)
+- - `ubuntu/resolute` - 26.04 [detail](#ubuntu-mantic)
 
 ### Debian
 
